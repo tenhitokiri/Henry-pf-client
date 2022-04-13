@@ -1,0 +1,29 @@
+.conteiner {
+    
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.div {
+    display: flex;
+    justify-content: center;
+}
+
+.span {
+    font-size: 14px;
+    color: #666666;
+}
+
+.span2 {
+    font-size: 14px;
+    padding-top: 5px;
+    color: #666666;
+}
+
+.img {
+    width: 100px;
+}
