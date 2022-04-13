@@ -12,9 +12,6 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-<<<<<<< HEAD
-}
-=======
 }
 
 .App {
@@ -51,8 +48,8 @@ code {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
->>>>>>> ea48ad5f91379872e826570432cf9a7c42e0f0ed
