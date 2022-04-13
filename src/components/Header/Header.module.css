@@ -1,11 +1,13 @@
 .container {
-    width: 78%;
+    width: 100%;
+    max-width: 1300px;
     height: auto;
-    padding: 20px 11% 0 11%;
+    padding-top: 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin: 0 auto;
 }
 .logo {
     float: left;
