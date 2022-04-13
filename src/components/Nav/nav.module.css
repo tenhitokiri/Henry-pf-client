@@ -1,0 +1,20 @@
+.background {
+    display: flex;
+    justify-content: center;
+    background-color: #F9C801;
+}
+
+.conteiner {
+    width: 100%;
+    max-width: 1300px;
+    display: flex;
+    height: 41px;
+    align-items: center;
+}
+
+.link {
+    color: #02354A;
+    margin-left: 1vw;
+    text-decoration: none;
+    cursor: pointer;
+}
