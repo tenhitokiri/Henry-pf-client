@@ -1,10 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap');
 
+
 :root {
   --background: #F9C801;
   --fontPrimary: #02354A;
   --fontSeccondary: #666666;
+  --primary-color: #0d47a1;
+  --secondary-color: #f50057;
+  --tertiary-color: #ff6f00;
 }
+
+
 
 body {
   margin: 0;
