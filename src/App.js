@@ -8,11 +8,13 @@ import ProductForm from './components/Products/ProductForm';
 import ProductDetail from './components/Products/ProductDetail';
 import ProductSearch from './components/Products/ProductSearch';
 import Route404 from './components/NotFound/Route404';
+import Nav from './components/Nav/Nav';
 
 function App() {
   return (
     <div className="App">
       <Header />
+      <Nav />
       <Routes>
         <Route exact path='/' element={<Home />} />
         <Route path='/products' element={<ProductList />} />
