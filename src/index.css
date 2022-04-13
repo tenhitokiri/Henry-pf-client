@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap');
 
+:root {
+  --background: #F9C801;
+  --fontPrimary: #02354A;
+  --fontSeccondary: #666666;
+}
+
 body {
   margin: 0;
   padding: 0;
