@@ -1,0 +1,88 @@
+.container {
+    width: 78%;
+    height: auto;
+    padding: 20px 11% 0 11%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    float: left;
+    width: 225px;
+    height: fit-content;
+}
+.logoContainer {
+    width: fit-content;
+}
+.searchBar {
+    float: left;
+}
+.iconsContainer, .icons {
+    float: left;
+}
+.icon {
+    color: black;
+    margin: 0 10px;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+.icon:hover {
+    color: #F9C801;
+}
+.login {
+    float: left; 
+}
+.loginLink {
+    color: #02354A;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+.loginLink:hover {
+    color: #8C8C8C;
+}
+.registerLink {
+    color: #8C8C8C;
+    cursor: pointer;
+}
+.registerLink:hover {
+    color: #02354A;
+}
+
+@media screen and (max-width: 1000px) {
+    .container {
+        display: block;
+    }
+    .iconsContainer {
+        position: absolute;
+        right: 11%;
+    }
+    .searchBar {
+        margin-top: 15px;
+        width: 100%;
+    }
+    .iconsContainer {
+        margin-top: 10px;
+    }
+}
+@media screen and (max-width: 650px) {
+    .logoContainer {
+        width: 100%;
+        float: left;
+        text-align: center;
+    }
+    .logo {
+        float: none;
+    }
+    .logo {
+        width: 195px;
+    }
+    .icon {
+        margin: 0 5px;
+    }
+    .iconsContainer {
+        display: none;
+    }
+}
