@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
-import recipeReducer from './recipe/recipeReducers'
-//import dietReducer from './diet/dietReducers'
+import productReducer from './Products/productReducer'
+import CartReducer from './Cart/CartReducer'
 
 const allReducers = combineReducers({
-    recipe: recipeReducer,
-    //    diet: dietReducer
+    products: productReducer,
+    cart: CartReducer
 })
 
 export default allReducers

@@ -1,8 +1,23 @@
 import React from 'react'
+//redux
 
-const ProductList = () => {
+const ProductList = ({ productList }) => {
+
+    const productMarkup = productList.length ? (
+        productList.map(product => (
+            <div key={product.id}>
+                <h3>{product.name}</h3>
+                <p>{product.description}</p>
+            </div>
+        ))
+    ) : (
+        <div>No products found</div>
+    )
+
     return (
-        <div>ProductList</div>
+        <div>ProductList
+            {productMarkup}
+        </div>
     )
 }
 

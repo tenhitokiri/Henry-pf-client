@@ -3,7 +3,9 @@ import CART_ACTIONS from './cartTypes'
 const initCartState = {
   cartItems: [],
   numberOfItems: 0,
-  totalPrice: 0.0
+  totalPrice: 0.0,
+  discountCoupon: '',
+  discountAmount: 0.0
 }
 
 const cartReducer = (state = initCartState, action) => {
@@ -24,7 +26,7 @@ const cartReducer = (state = initCartState, action) => {
         let oldQty = 0
         let oldPrice = 0.0
         let newPrice = parseFloat(payload.variantPrice) * parseFloat(payload.itemsToBuy)
-        const updatedcartItems = state.cartItems.map(product => {
+        const updatedCartItems = state.cartItems.map(product => {
           const {
             handle, title,
             variantInventoryQty,
@@ -48,14 +50,14 @@ const cartReducer = (state = initCartState, action) => {
         if (oldQty === 0) {
           return {
             ...state,
-            cartItems: [...updatedcartItems, payload],
+            cartItems: [...updatedCartItems, payload],
             numberOfItems: newQuantity,
             totalPrice: newTotal
           }
         }
         return {
           ...state,
-          cartItems: updatedcartItems,
+          cartItems: updatedCartItems,
           numberOfItems: newQuantity,
           totalPrice: newTotal
         }
@@ -65,7 +67,7 @@ const cartReducer = (state = initCartState, action) => {
         let oldQty = 0
         let oldPrice = 0.0
         let newPrice = parseFloat(payload.variantPrice) * parseFloat(payload.itemsToBuy)
-        const updatedcartItems = state.cartItems.map(product => {
+        const updatedCartItems = state.cartItems.map(product => {
           const {
             handle, title,
             variantInventoryQty,
@@ -89,14 +91,14 @@ const cartReducer = (state = initCartState, action) => {
         if (oldQty === 0) {
           return {
             ...state,
-            cartItems: [...updatedcartItems, payload],
+            cartItems: [...updatedCartItems, payload],
             numberOfItems: newQuantity,
             totalPrice: newTotal
           }
         }
         return {
           ...state,
-          cartItems: updatedcartItems,
+          cartItems: updatedCartItems,
           numberOfItems: newQuantity,
           totalPrice: newTotal
         }
@@ -108,13 +110,13 @@ const cartReducer = (state = initCartState, action) => {
         const { itemsToBuy, variantPrice } = productToRemove
 
         const newTotal = parseFloat(state.totalPrice) - parseFloat(itemsToBuy) * parseFloat(variantPrice)
-        const updatedcartItems = state.cartItems.filter(product => product.handle !== payload.handle)
+        const updatedCartItems = state.cartItems.filter(product => product.handle !== payload.handle)
         const newQuantity = parseInt(state.numberOfItems) - parseInt(itemsToBuy)
 
         return {
           ...state,
           numberOfItems: newQuantity,
-          cartItems: updatedcartItems,
+          cartItems: updatedCartItems,
           totalPrice: newTotal
         }
       }
