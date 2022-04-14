@@ -1,10 +1,51 @@
+.carrousels {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 100%;
+}
+
+.titleContein {
+    display: flex;
+    justify-content: space-around;
+}
+
+.ftTitle {
+    margin: 0 0 8px 0;
+    font-size: 1.2em;
+}
+
+.ft {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-evenly;
+    margin-right: 1vw;
+}
+
+.ltTitle {
+    margin: 0 0 8px 0;
+    font-size: 1.2em;
+}
+
+.lt {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-evenly;
+    margin-left: 1vw;
+}
+
 .iconsContainer {
-    margin: 90px auto 50px;
+    margin: 10px auto 10px;
     width: 1000px;
     display: flex;
     justify-content: space-around;
     flex-direction: row;
 }
+
 .iconText {
     float: left;
     padding-right: 50px;
@@ -13,22 +54,27 @@
     border-right: 2px solid #666;
     width: fit-content;
 }
+
 .icon {
     margin-right: 20px;
 }
+
 .iconText div {
     padding: 5px 0;
 }
+
 .textGrey {
     font-size: 0.85rem;
     color: #666666;
 }
+
 @media screen and (max-width: 1000px) {
     .iconText {
         flex-direction: column;
         padding-right: 0;
         border-right: 0;
     }
+
     .iconsContainer {
         width: 80%;
         padding-left: 5px;

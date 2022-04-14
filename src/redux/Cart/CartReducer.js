@@ -9,7 +9,6 @@ const initCartState = {
 }
 
 const cartReducer = (state = initCartState, action) => {
-  console.log(action)
   const { type, payload } = action
   switch (type) {
     case CART_ACTIONS.ADD_TO_CART:
