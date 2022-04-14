@@ -52,24 +52,10 @@
 .registerLink:hover {
     color: #02354A;
 }
-
-@media screen and (max-width: 1000px) {
-    .container {
-        display: block;
-    }
-    .iconsContainer {
-        position: absolute;
-        right: 11%;
-    }
-    .searchBar {
-        margin-top: 15px;
-        width: 100%;
-    }
-    .iconsContainer {
-        margin-top: 10px;
-    }
-}
 @media screen and (max-width: 650px) {
+    .container {
+        flex-direction: column;
+    }
     .logoContainer {
         width: 100%;
         float: left;
