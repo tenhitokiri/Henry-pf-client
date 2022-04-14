@@ -1,11 +1,13 @@
 .container {
-    width: 78%;
+    width: 100%;
+    max-width: 1300px;
     height: auto;
-    padding: 20px 11% 0 11%;
+    padding-top: 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin: 0 auto;
 }
 
 .logo {
@@ -62,28 +64,10 @@
 .registerLink:hover {
     color: #02354A;
 }
-
-@media screen and (max-width: 1000px) {
-    .container {
-        display: block;
-    }
-
-    .iconsContainer {
-        position: absolute;
-        right: 11%;
-    }
-
-    .searchBar {
-        margin-top: 15px;
-        width: 100%;
-    }
-
-    .iconsContainer {
-        margin-top: 10px;
-    }
-}
-
 @media screen and (max-width: 650px) {
+    .container {
+        flex-direction: column;
+    }
     .logoContainer {
         width: 100%;
         float: left;
