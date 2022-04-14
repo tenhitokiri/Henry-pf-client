@@ -15,9 +15,7 @@ const ProductListAll = ({ fetchProducts, productList, loading, error }) => {
     ) : error ? (
         <div>{error}</div>
     ) : (
-        productList.map(product => (
-            <ProductList productList={productList} />
-        ))
+        <ProductList productList={productList} />
     )
 
 

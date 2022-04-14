@@ -4,7 +4,7 @@
     background-color: var(--background);
 }
 
-.container {
+.listContainer {
     margin: 0 auto;
     width: 100%;
     max-width: 1300px;
@@ -36,7 +36,7 @@
     border-radius: 10px;
 }
 
-.card {
+.cardItem {
     margin: 0.5rem auto;
     width: 15vw;
     height: 30vh;
@@ -70,13 +70,13 @@
 
 }
 .cardFooter {
-    width: 14vw;
+    width: 15vw;
     display: flex;
     flex-direction: row;
     height: 3vh;
     align-items: center;
     justify-content: flex-end;
-    padding: 0.5rem;
+    padding: 0 0.5rem;
     border: 1px solid var(--background); 
 }
 
@@ -84,12 +84,13 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    width: 100%;
+    align-items: center;
+    padding: 0.5rem;
 }
 
 
 .ButtonSuccess {
-    background-color: green;
+    background-color: var(--primary-color);
     color: var(--fontPrimary);
 }
 
@@ -121,9 +122,8 @@
 .Badge {
     color: var(--background);
     border-radius: 5px;
-    padding: 5px;
     margin: 5px;
-    width: 100%;
+    width: 3rem;
 }
 
 .Badge:hover {
@@ -170,7 +170,7 @@
     top: -5rem;
 }
 
-.pic {
+.img {
     width:100%;
     max-width: calc(100%);
     max-height: 10rem;
@@ -189,8 +189,6 @@
     padding: 0.5rem;
     margin: 0.5rem;
     overflow: auto;
-    scroll-bar: thin;
-    scroll-color: var(--background) "transparent";
     border-radius: 10px;
 }
 
@@ -199,6 +197,10 @@
         position: relative;
         top: 3px;
         width: 100%;
+    }
+    .title {
+        font-size: 0.5rem;
+
     }
 }
 
