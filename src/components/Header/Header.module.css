@@ -9,20 +9,26 @@
     align-items: center;
     margin: 0 auto;
 }
+
 .logo {
     float: left;
     width: 225px;
     height: fit-content;
 }
+
 .logoContainer {
     width: fit-content;
 }
+
 .searchBar {
     float: left;
 }
-.iconsContainer, .icons {
+
+.iconsContainer,
+.icons {
     float: left;
 }
+
 .icon {
     color: black;
     margin: 0 10px;
@@ -30,25 +36,31 @@
 
     transition: 0.2s;
 }
+
 .icon:hover {
     color: #F9C801;
 }
+
 .login {
-    float: left; 
+    float: left;
 }
+
 .loginLink {
     color: #02354A;
     cursor: pointer;
 
     transition: 0.2s;
 }
+
 .loginLink:hover {
     color: #8C8C8C;
 }
+
 .registerLink {
     color: #8C8C8C;
     cursor: pointer;
 }
+
 .registerLink:hover {
     color: #02354A;
 }
@@ -61,15 +73,19 @@
         float: left;
         text-align: center;
     }
+
     .logo {
         float: none;
     }
+
     .logo {
         width: 195px;
     }
+
     .icon {
         margin: 0 5px;
     }
+
     .iconsContainer {
         display: none;
     }

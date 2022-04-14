@@ -1,11 +1,11 @@
 .background {
     display: flex;
     margin-top: 20px;
-    justify-content: center;
-    background-color: #F9C801;
+    background-color: var(--background);
 }
 
 .conteiner {
+    margin: 0 auto;
     width: 100%;
     max-width: 1300px;
     display: flex;
@@ -14,8 +14,49 @@
 }
 
 .link {
-    color: #02354A;
+    position: relative;
+    color: var(--fontSeccondary);
     margin-left: 1vw;
     text-decoration: none;
     cursor: pointer;
+}
+
+.link:before {
+    content: "";
+    height: 3px;
+    width: 0%;
+    background: var(--fontPrimary);
+    position: absolute;
+    bottom: 140%;
+    transition: 0.4s ease-out;
+}
+
+.link:hover::before {
+    width: 100%;
+}
+
+.link:hover {
+    color: var(--fontPrimary);
+    transition: 0.16s ease-out;
+}
+
+
+@media screen and (max-width: 1000px) {
+    .background {
+        position: relative;
+        top: 3px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .background {
+        position: relative;
+        top: 3px;
+        width: 100%;
+    }
+
+    .conteiner {
+        justify-content: center;
+    }
 }
