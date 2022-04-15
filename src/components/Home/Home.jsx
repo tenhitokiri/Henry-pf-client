@@ -60,7 +60,7 @@ const Home = () => {
     })
 
     return (
-        <div>
+        <div className={styles.background}>
             <Slider />
             <div className={styles.iconsContainer}>
                 <div className={styles.iconText}>
