@@ -5,14 +5,25 @@ import { connect } from 'react-redux'
 import CartProduct from './CartProduct'
 import { FormatMoney } from 'format-money-js';
 
+/* 
+const initCartState = {
+    cartItems: [],
+    numberOfItems: 0,
+    totalPrice: 0.0,
+    discountCoupon: '',
+    discountAmount: 0.0
+  }
+ */
+export const Cart = ({ cartItems,
+    numberOfItems,
+    totalPrice,
+    discountCoupon,
+    discountAmount }) => {
 
-export const Cart = (props) => {
-
-    const { items, products, totalToPay } = props
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
-    const prodPrice = formatMoney.from(parseInt(totalToPay)) || totalToPay
+    const prodPrice = formatMoney.from(parseFloat(totalPrice)) || totalPrice
 
-    const listMarkup = products.length > 0 ? (products.map(product => (
+    const listMarkup = cartItems.length > 0 ? (cartItems.map(product => (
         <CartProduct key={product.id} product={product} />
     )))
         : (<div className="container">No Hay productos</div>)
@@ -21,15 +32,15 @@ export const Cart = (props) => {
         <div className="ModuleContainer">
             <div className="Title">
                 {
-                    items === 0 ? <h1>Carrito de Compras Vacio</h1> :
-                        items > 1 ? <h1>Carrito de Compras ({items} items)</h1> : <h1>Carrito de Compras ({items} item)</h1>
+                    numberOfItems === 0 ? <h1>Carrito de Compras Vacio</h1> :
+                        numberOfItems > 1 ? <h1>Carrito de Compras ({numberOfItems} items)</h1> : <h1>Carrito de Compras ({numberOfItems} item)</h1>
                 }
             </div>
             <div className="ProductList">
                 {listMarkup}
             </div>
             {
-                totalToPay > 0 ?
+                totalPrice > 0 ?
                     <div className="Total">
                         <h1>Total: {prodPrice}</h1>
                     </div>
@@ -42,9 +53,11 @@ export const Cart = (props) => {
 
 const mapStateToProps = state => {
     return {
-        items: state.cart.numberOfItems,
-        products: state.cart.cartItems,
-        totalToPay: state.cart.totalPrice
+        cartItems: state.cart.cartItems,
+        numberOfItems: state.cart.numberOfItems,
+        totalPrice: state.cart.totalPrice,
+        discountCoupon: state.cart.discountCoupon,
+        discountAmount: state.cart.discountAmount,
     }
 }
 /* 

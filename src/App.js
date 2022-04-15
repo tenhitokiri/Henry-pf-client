@@ -11,6 +11,7 @@ import Route404 from './components/NotFound/Route404';
 import Nav from './components/Nav/Nav';
 import { fetchProducts } from './redux/Products/productActions'
 import { useDispatch } from 'react-redux'
+import Cart from './components/Cart/Cart';
 
 function App() {
 
@@ -18,7 +19,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchProducts())
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className="App">
       <Header />
@@ -29,6 +30,7 @@ function App() {
         <Route path='/product/:id' element={<ProductDetail />} />
         <Route path='/add-product' element={<ProductForm />} />
         <Route path='/find-product' element={<ProductSearch />} />
+        <Route path='/cart' element={<Cart />} />
         <Route path="*" element={<Route404 />} />
       </Routes>
       <Footer />
