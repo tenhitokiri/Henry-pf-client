@@ -13,31 +13,37 @@ const cartReducer = (state = initCartState, action) => {
   switch (type) {
     case CART_ACTIONS.ADD_TO_CART:
       {
-        if (payload.itemsToBuy === 0) return state
+        const {
+          price,
+          itemsToBuy
+        } = payload;
+        console.log("add to cart")
+        console.log(payload)
+
+        if (itemsToBuy === 0) return state
         if (state.cartItems.length === 0) {
           return {
             ...state,
             cartItems: [payload],
-            numberOfItems: parseInt(payload.itemsToBuy),
-            totalPrice: parseFloat(payload.variantPrice) * parseInt(payload.itemsToBuy)
+            numberOfItems: parseInt(itemsToBuy),
+            totalPrice: parseFloat(price) * parseInt(itemsToBuy)
           }
         }
         let oldQty = 0
         let oldPrice = 0.0
-        let newPrice = parseFloat(payload.variantPrice) * parseFloat(payload.itemsToBuy)
+        let newPrice = parseFloat(price) * parseFloat(itemsToBuy)
         const updatedCartItems = state.cartItems.map(product => {
           const {
-            handle, title,
-            variantInventoryQty,
-            variantPrice, imageSrc, itemsToBuy
+            id, title,
+            price, image, itemsToBuy
           } = product
-          if (handle === payload.handle) {
+          if (id === payload.id) {
             oldQty = parseInt(itemsToBuy)
-            oldPrice = parseFloat(variantPrice) * parseFloat(oldQty)
+            oldPrice = parseFloat(price) * parseFloat(oldQty)
             const updatedProd = {
-              handle, title,
-              variantInventoryQty,
-              variantPrice, imageSrc, itemsToBuy: payload.itemsToBuy
+              id, title,
+              inventoryQty: payload.inventoryQty,
+              price, image, itemsToBuy: payload.itemsToBuy
             }
             return updatedProd
           }
@@ -65,20 +71,20 @@ const cartReducer = (state = initCartState, action) => {
       {
         let oldQty = 0
         let oldPrice = 0.0
-        let newPrice = parseFloat(payload.variantPrice) * parseFloat(payload.itemsToBuy)
+        let newPrice = parseFloat(payload.price) * parseFloat(payload.itemsToBuy)
         const updatedCartItems = state.cartItems.map(product => {
           const {
-            handle, title,
-            variantInventoryQty,
-            variantPrice, imageSrc, itemsToBuy
+            id, title,
+            inventoryQty,
+            price, image, itemsToBuy
           } = product
-          if (handle === payload.handle) {
+          if (id === payload.id) {
             oldQty = parseInt(itemsToBuy)
-            oldPrice = parseFloat(variantPrice) * parseFloat(oldQty)
+            oldPrice = parseFloat(price) * parseFloat(oldQty)
             const updatedProd = {
-              handle, title,
-              variantInventoryQty,
-              variantPrice, imageSrc, itemsToBuy: payload.itemsToBuy
+              id, title,
+              inventoryQty,
+              price, image, itemsToBuy: payload.itemsToBuy
             }
             return updatedProd
           }
@@ -105,11 +111,11 @@ const cartReducer = (state = initCartState, action) => {
 
     case CART_ACTIONS.REMOVE_FROM_CART:
       {
-        const productToRemove = state.cartItems.find(product => product.handle === payload.handle)
-        const { itemsToBuy, variantPrice } = productToRemove
+        const productToRemove = state.cartItems.find(product => product.id === payload.id)
+        const { itemsToBuy, price } = productToRemove
 
-        const newTotal = parseFloat(state.totalPrice) - parseFloat(itemsToBuy) * parseFloat(variantPrice)
-        const updatedCartItems = state.cartItems.filter(product => product.handle !== payload.handle)
+        const newTotal = parseFloat(state.totalPrice) - parseFloat(itemsToBuy) * parseFloat(price)
+        const updatedCartItems = state.cartItems.filter(product => product.id !== payload.id)
         const newQuantity = parseInt(state.numberOfItems) - parseInt(itemsToBuy)
 
         return {
