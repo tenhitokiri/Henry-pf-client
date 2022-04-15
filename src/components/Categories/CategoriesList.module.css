@@ -1,0 +1,18 @@
+.container {
+    width: 210px;
+    height: auto;
+    padding: 15px 35px;
+    background-color: #EDF1F2;
+    text-align: left;
+}
+.container h2 {
+    text-transform: uppercase;
+    font-weight: 100;
+}
+.container ul {
+    padding-left: 0;
+}
+.container li {
+    list-style: none;
+    padding: 5px 0;
+}
