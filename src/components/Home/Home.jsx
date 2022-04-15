@@ -4,11 +4,13 @@ import styles from '../Home/Home.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRocket, faRotate } from '@fortawesome/free-solid-svg-icons'
 import { faCreditCard } from '@fortawesome/free-regular-svg-icons'
+import CategoriesList from '../Categories/CategoriesList'
 
 const Home = () => {
     return (
         <div>
             <Slider />
+            <CategoriesList />
             <div className={styles.iconsContainer}>
                 <div className={styles.iconText}>
                     <FontAwesomeIcon className={styles.icon} icon={faRocket} size="3x" />
