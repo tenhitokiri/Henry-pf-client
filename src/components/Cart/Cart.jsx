@@ -14,11 +14,7 @@ const initCartState = {
     discountAmount: 0.0
   }
  */
-export const Cart = ({ cartItems,
-    numberOfItems,
-    totalPrice,
-    discountCoupon,
-    discountAmount }) => {
+export const Cart = ({ cartItems, numberOfItems, totalPrice, discountCoupon, discountAmount }) => {
 
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(totalPrice)) || totalPrice

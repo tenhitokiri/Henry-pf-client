@@ -7,7 +7,7 @@ import styles from '../Categories/CategoriesList.module.css'
 const CategoriesList = ({ fetchCategories, categoryList, loading, error }) => {
     useEffect(() => {
         fetchCategories()
-    }, [])
+    }, []) //eslint-disable-line
 
     const categoryMarkup = loading ? (
         <div>Loading...</div>
