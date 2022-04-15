@@ -1,9 +1,43 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+//redux
+import { connect } from 'react-redux'
+import { fetchCategories } from '../../redux'
+import styles from '../Categories/CategoriesList.module.css'
 
-const CategoriesList = () => {
+const CategoriesList = ({ fetchCategories, categoryList, loading, error }) => {
+    useEffect(() => {
+        fetchCategories()
+    }, [])
+
+    const categoryMarkup = loading ? (
+        <div>Loading...</div>
+    ) : error ? (
+        <div>{error}</div>
+    ) : (
+        categoryList.map(category => (
+            <li>{category}</li>
+        ))
+    )
+
     return (
-        <div>CategoriesList</div>
+        <div className={styles.container}>
+            <h2>Categories</h2>
+            <ul>
+                {categoryMarkup}
+            </ul>
+        </div>
     )
 }
 
-export default CategoriesList
+const mapStateToProps = state => ({
+    categoryList: state.categories.categories,
+    loading: state.categories.loading,
+    error: state.categories.error,
+})
+
+const mapDispatchToProps = dispatch => ({
+    fetchCategories: () => dispatch(fetchCategories())
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoriesList)

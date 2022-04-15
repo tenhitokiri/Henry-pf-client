@@ -62,6 +62,7 @@ const Home = () => {
     return (
         <div>
             <Slider />
+            <CategoriesList />
             <div className={styles.iconsContainer}>
                 <div className={styles.iconText}>
                     <FontAwesomeIcon className={styles.icon} icon={faRocket} size="3x" />
