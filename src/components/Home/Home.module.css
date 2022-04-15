@@ -1,8 +1,11 @@
+.background {
+    width: 100%
+}
+
 .carrousels {
     display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    width: 100%;
+    margin: 0 auto;
+    max-width: 1300px;
 }
 
 .titleContein {
@@ -19,9 +22,31 @@
     display: flex;
     width: 100%;
     flex-wrap: wrap;
-    align-items: stretch;
     justify-content: space-evenly;
     margin-right: 1vw;
+    animation-name: slide;
+    animation-duration: 3060ms;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+}
+
+@keyframes slide {
+    0% {
+        opacity: 0%;
+
+    }
+
+    10% {
+        opacity: 100%;
+    }
+
+    85% {
+        opacity: 100%;
+    }
+
+    100% {
+        opacity: 0%;
+    }
 }
 
 .ltTitle {
@@ -33,10 +58,14 @@
     display: flex;
     width: 100%;
     flex-wrap: wrap;
-    align-items: stretch;
     justify-content: space-evenly;
     margin-left: 1vw;
+    animation-name: slide;
+    animation-duration: 3060ms;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
 }
+
 
 .iconsContainer {
     margin: 10px auto 10px;
@@ -79,5 +108,25 @@
         width: 80%;
         padding-left: 5px;
         padding-right: 5px;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .carrousels {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ft {
+        display: flex;
+        width: 100%;
+        position: relative;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        margin-right: 1vw;
+    }
+
+    .lt {
+        position: relative;
     }
 }
