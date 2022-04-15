@@ -24,9 +24,14 @@
     float: left;
 }
 
-.iconsContainer,
-.icons {
+.iconsContainer {
     float: left;
+}
+
+.icons { 
+    float: left;
+    display: flex;
+    flex-direction: row;
 }
 
 .icon {
@@ -64,6 +69,23 @@
 .registerLink:hover {
     color: #02354A;
 }
+.cart {
+    position: relative;
+    width: fit-content;
+}
+.cart span {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    bottom: -5px;
+    right: 2px;
+    text-align: center;
+    background-color: #F9C801;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    line-height: 20px;
+    font-weight: 500;
+}
 @media screen and (max-width: 650px) {
     .container {
         flex-direction: column;
@@ -73,19 +95,13 @@
         float: left;
         text-align: center;
     }
-
     .logo {
         float: none;
-    }
-
-    .logo {
         width: 195px;
     }
-
     .icon {
         margin: 0 5px;
     }
-
     .iconsContainer {
         display: none;
     }
