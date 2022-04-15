@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header'
 import Home from './components/Home/Home';
@@ -9,8 +9,16 @@ import ProductDetail from './components/Products/ProductDetail';
 import ProductSearch from './components/Products/ProductSearch';
 import Route404 from './components/NotFound/Route404';
 import Nav from './components/Nav/Nav';
+import { fetchProducts } from './redux/Products/productActions'
+import { useDispatch } from 'react-redux'
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts())
+  }, [])
   return (
     <div className="App">
       <Header />
