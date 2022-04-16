@@ -44,13 +44,13 @@ const ProductCard = ({ product }) => {
             itemsToBuy = 0
         }
         return (
-            <div className={styles.ButtonGroup}>
-                <button className={`${styles.Button}, ${styles.ButtonRegular}`} onClick={add} ><FontAwesomeIcon icon={faCirclePlus} /></button>
-                <div className={styles.ButtonGroup}>
-                    <span className={styles.Badge} >{count}</span>
-                </div>
-                <button className={`${styles.Button}, ${styles.ButtonRegular}`} onClick={remove} ><FontAwesomeIcon icon={faCircleMinus} /></button>
-                <button className={`${styles.Button}, ${styles.ButtonReset}`} onClick={resetCount} ><FontAwesomeIcon icon={faCircleXmark} /></button>
+            <div className={styles.buttonGroup}>
+                <div className={styles.buttonsStock}>
+                    <button className={`${styles.buttonRemove}`} onClick={remove} ><FontAwesomeIcon icon={faCircleMinus} /></button>
+                    <span className={styles.badge} >{count}</span>
+                    <button className={`${styles.buttonAdd}`} onClick={add} ><FontAwesomeIcon icon={faCirclePlus} /></button>
+                </div >
+                <button className={`${styles.buttonReset}`} onClick={resetCount} ><FontAwesomeIcon icon={faCircleXmark} /></button>
             </div >
         )
     }
@@ -62,26 +62,27 @@ const ProductCard = ({ product }) => {
             </div>
             <div className={styles.cardBody}>
                 <div className={styles.title}>{title.length > 40 ? (title.substring(0, 40) + "...") : title} </div>
-                <div className={styles.cardPrice}>{prodPrice} ({inventoryQty} available)</div>
                 <div className={styles.rate}>
                     {
                         [...Array(star)].map((e, index) => {
-                            return <FontAwesomeIcon key={index} icon={faStar} />
+                            return <FontAwesomeIcon className={styles.stars} key={index} icon={faStar} />
                         })
                     }
                     {
                         [...Array(5 - star)].map((e, index) => {
-                            return <FontAwesomeIcon key={index.toString() + 'b'} icon={starReg} />
+                            return <FontAwesomeIcon className={styles.stars} key={index.toString() + 'b'} icon={starReg} />
                         })
                     }
                 </div>
+                <FontAwesomeIcon className={styles.iconHearth} icon={faHeart} />
+                <div className={styles.priceContainer}>
+                    <span className={styles.price}>{prodPrice}</span> 
+                    <span className={styles.available}>({inventoryQty} available)</span></div>
             </div>
             <div className={styles.cardFooter}>
-                <FontAwesomeIcon className={styles.icon} icon={faHeart} />
-
-                <div className={styles.ButtonGroup}>
-                    <button className={`${styles.Button}, ${styles.ButtonSuccess}`} onClick={addCart}> <FontAwesomeIcon className={styles.icon} icon={faCartArrowDown} /></button>
+                <div>
                     <Buttons initialCount={0} value={1} max={inventoryQty} itemsToBuy={itemsToBuy} />
+                    <button className={`${styles.buttonSuccess}`} onClick={addCart}>Add to cart</button>
                 </div>
             </div>
         </div>
