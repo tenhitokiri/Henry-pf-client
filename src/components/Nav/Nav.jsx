@@ -7,7 +7,7 @@ const Nav = () => {
         <div className={styles.background}>
             <div className={styles.conteiner} >
                 <NavLink className={styles.link} to={'/'}>Home</NavLink>
-                <NavLink className={styles.link} to={''}>Featured Products</NavLink>
+                <NavLink className={styles.link} to={'/products'}>Featured Products</NavLink>
                 <div className={styles.link}>Dropdown</div>
                 <NavLink className={styles.link} to={''}>Sell</NavLink>
             </div>

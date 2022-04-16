@@ -1,21 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
-/* import { addToCart } from '../../redux'
- */
+import { addToCart } from '../../redux'
 import CartProduct from './CartProduct'
 import { FormatMoney } from 'format-money-js';
+//import useLocalStorage from '../../hooks/UseLocalStorage';
 
 /* 
 const initCartState = {
-    cartItems: [],
+    cart: [],
     numberOfItems: 0,
     totalPrice: 0.0,
     discountCoupon: '',
     discountAmount: 0.0
   }
  */
-export const Cart = ({ cartItems, numberOfItems, totalPrice, discountCoupon, discountAmount }) => {
-
+export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount, addToCart, cartItems }) => {
+    //const [cart, setCart] = useLocalStorage('cart', '');
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(totalPrice)) || totalPrice
 
@@ -56,13 +56,11 @@ const mapStateToProps = state => {
         discountAmount: state.cart.discountAmount,
     }
 }
-/* 
 const mapDispatchToProps = dispatch => {
-  return {
-    addToCart: (number) => dispatch(addToCart(number))
-  }
+    return {
+        addToCart: (number) => dispatch(addToCart(number))
+    }
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Cart)
-*/
-export default connect(mapStateToProps)(Cart)
+//export default connect(mapStateToProps)(Cart)

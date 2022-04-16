@@ -17,8 +17,6 @@ const cartReducer = (state = initCartState, action) => {
           price,
           itemsToBuy
         } = payload;
-        console.log("add to cart")
-        console.log(payload)
 
         if (itemsToBuy === 0) return state
         if (state.cartItems.length === 0) {
@@ -124,13 +122,17 @@ const cartReducer = (state = initCartState, action) => {
           cartItems: updatedCartItems,
           totalPrice: newTotal
         }
+
       }
 
     case CART_ACTIONS.EMPTY_CART:
-      return {
-        ...state,
-        cartItems: [],
-        numberOfItems: 0
+      {
+        return {
+          ...state,
+          cartItems: [],
+          numberOfItems: 0
+        }
+
       }
     default: return state
   }

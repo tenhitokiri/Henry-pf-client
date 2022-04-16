@@ -5,7 +5,6 @@ import ProductCard from './ProductCard'
 import CategoriesList from '../Categories/CategoriesList'
 
 const ProductList = ({ productList }) => {
-
     const productMarkup = productList.length ? (
         productList.map(product => (
             <ProductCard key={product.id} product={product} />
