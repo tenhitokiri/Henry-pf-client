@@ -9,7 +9,7 @@ const Nav = () => {
                 <NavLink className={styles.link} to={'/'}>Home</NavLink>
                 <NavLink className={styles.link} to={''}>Featured Products</NavLink>
                 <div className={styles.link}>Dropdown</div>
-                <NavLink className={styles.link} to={''}>Sell</NavLink>
+                <NavLink className={styles.link} to={'/add-product'}>Sell</NavLink>
             </div>
         </div>
     )

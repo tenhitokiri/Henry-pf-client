@@ -1,0 +1,76 @@
+.background {
+    width: 100%;
+    display: flex;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    margin: 0 auto;
+    max-width: 1300px;
+}
+
+.detail {
+    display: flex;
+    margin-top: 1.2vw;
+    justify-content: center;
+    max-width: 1300px;
+}
+
+.img {
+    max-width: 400px;
+    max-height: 400px;
+}
+
+
+.contentPSD {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 2vw;
+}
+
+.price {
+    font-size: 1.2vw;
+}
+
+.description {
+    display: flex;
+    margin-top: 1.2vw;
+    height: 100%;
+    width: 100%;
+    text-align: justify;
+}
+
+
+
+.add {
+    border: 2px solid black;
+    width: 20vw;
+
+}
+
+.category {
+    display: flex
+}
+
+.title {
+    display: flex;
+}
+
+.rate {
+    display: flex;
+}
+
+.related {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    height: auto;
+}
+
+.carrousel {
+    max-width: 1300px;
+    display: flex;
+    height: 30vw;
+}
