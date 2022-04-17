@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { fetchCategories } from '../../redux'
 import styles from '../Categories/CategoriesList.module.css'
 
-const CategoriesList = ({ fetchCategories, categoryList, loading, error }) => {
+const CategoriesList = ({ fetchCategories, categoryList, loading, error, setCategory, selectedCategory }) => {
     useEffect(() => {
         fetchCategories()
     }, []) //eslint-disable-line
@@ -15,7 +15,10 @@ const CategoriesList = ({ fetchCategories, categoryList, loading, error }) => {
         <div>{error}</div>
     ) : (
         categoryList.map(category => (
-            <li>{category}</li>
+            category === selectedCategory ? (
+                <li key={category.id} onClick={() => setCategory("")} className={styles.selected}> {`> ${category}`} </li>) : (
+                <li key={category.id} onClick={() => setCategory(category)}>{category}</li>
+            )
         ))
     )
 

@@ -22,6 +22,10 @@
     cursor: pointer;
     text-decoration: underline;
 }
+
+.selected {
+    font-weight: bold;
+}
 @media screen and (max-width: 1000px) {
     .container {
         float: left;
