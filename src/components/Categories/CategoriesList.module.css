@@ -1,5 +1,6 @@
 .container {
-    width: 210px;
+    width: 15%;
+    min-width: 160px;
     height: auto;
     padding: 15px 35px;
     background-color: #EDF1F2;
@@ -13,6 +14,26 @@
     padding-left: 0;
 }
 .container li {
+    text-transform: capitalize;
     list-style: none;
     padding: 5px 0;
+}
+.container li:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+@media screen and (max-width: 1000px) {
+    .container {
+        float: left;
+        width: 90%;
+        padding: 15px 5%;
+    }
+    .container li {
+        list-style: none;
+        padding: 5px 15px 5px 0;
+        display: inline;
+        border-right: 1px solid #F9C801;
+        margin-right: 15px;
+        line-height: 32px;
+    }
 }

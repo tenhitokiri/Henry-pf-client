@@ -47,14 +47,15 @@
 }
 .cardItem {
     margin: 0.5rem 20px;
-    width: 206px;
+    width: 80vw;
     height: auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
     padding: 20px 0;
     border-radius: 10px;
+    border: 1px solid var(--background);    
 }
 .cardHeader {
     width: 155px;
@@ -64,15 +65,21 @@
     justify-content: center;
     padding: 0 20px;
     margin-bottom: 10px;
+    border: 1px solid var(--background);    
+
 }
 .cardBody {
     width: 195px;
     height: auto;
+    border: 1px solid var(--background);    
+
 }
 .cardFooter {
     width: 195px;
     height: auto;
     padding: 0 0.5rem;
+    border: 1px solid var(--background);    
+
 }
 .buttonGroup {
     width: fit-content;

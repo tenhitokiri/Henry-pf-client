@@ -41,15 +41,17 @@ code {
   }
 }
 
-.App-header {
-  background-color: #282c34;
+.App-container {
   min-height: 100vh;
+  font-size: calc(10px + 2vmin);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 98vw;
+  height: 60vh;
+  padding: 0.5rem;
+  margin: 0.5rem;
 }
 
 .App-link {
@@ -64,4 +66,34 @@ code {
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.loader {
+  --s: 180px;
+  /*thesize*//*thecolors*//**/width: var(--s);
+  aspect-ratio: 8/5;
+  --_g: no-repeat radial-gradient(#000 68%,#0000 71%);
+  -webkit-mask: var(--_g),var(--_g),var(--_g);
+  -webkit-mask-size: calc(var(--s)/4) calc(var(--s)/4);
+  background:     conic-gradient(var(--primary-color) 50%,var(--secondary-color) 0) no-repeat,    conic-gradient(var(--tertiary-color) 50%,var(--fontSeccondary) 0) no-repeat;
+  background-size: 200% 50%;
+  animation:     b 4s infinite linear,    l 2s infinite;
+  -webkit-animation:     b 4s infinite linear,    l 2s infinite;
+}
+
+@keyframes l {
+  0%    {-webkit-mask-position: 0% 0%  ,50% 0%  ,100% 0%  }
+  16.67%{-webkit-mask-position: 0% 100%,50% 0%  ,100% 0%  }
+  33.33%{-webkit-mask-position: 0% 100%,50% 100%,100% 0%  }
+  50%   {-webkit-mask-position: 0% 100%,50% 100%,100% 100%}
+  66.67%{-webkit-mask-position: 0% 0%  ,50% 100%,100% 100%}
+  83.33%{-webkit-mask-position: 0% 0%  ,50% 0%  ,100% 100%}
+  100%  {-webkit-mask-position: 0% 0%  ,50% 0%  ,100% 0%  }
+}
+@keyframes b {
+  0% ,24.9% {background-position: 0%   0%,0%   100%}
+  25%,49.9% {background-position: 100% 0%,0%   100%}
+  50%,74.9% {background-position: 100% 0%,100% 100%}
+  75%,100%  {background-position: 0%   0%,100% 100%}
 }
