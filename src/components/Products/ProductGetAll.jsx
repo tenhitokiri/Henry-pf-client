@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-//redux
 import { connect } from 'react-redux'
 import { fetchProducts } from '../../redux'
 import ProductList from './ProductList'
