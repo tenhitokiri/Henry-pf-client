@@ -30,21 +30,6 @@
     justify-content: space-around;
     flex-flow: wrap;
 }
-.pagination {
-    margin: 0 auto;
-    width: 100%;
-    max-width: 1300px;
-    display: flex;
-    height: 5vh;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 0;
-    margin: 0.5rem;
-    border: 1px solid var(--background);    
-    flex-flow: row wrap;
-    overflow: auto;
-    border-radius: 10px;
-}
 .cardItem {
     margin: 0.5rem 20px;
     width: 206px;

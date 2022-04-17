@@ -3,6 +3,7 @@ import React from 'react'
 import styles from './Product.module.css'
 import ProductCard from './ProductCard'
 import CategoriesList from '../Categories/CategoriesList'
+import Paginate from '../Paginate/Paginate'
 
 const ProductList = ({ productList }) => {
 
@@ -21,9 +22,7 @@ const ProductList = ({ productList }) => {
                 <div className={styles.listContainer}>
                     {productMarkup}
                 </div>
-                <div className={styles.pagination}>
-                    pagination
-                </div>
+                <Paginate itemsPerPage={15} />
             </div>
         </div>
     )
