@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import Inputs from '../Inputs/Inputs'
 import { addPRODUCT } from '../../redux/Products/productActions'
 import styles from './productForm.module.css'
+import TextArea from '../Inputs/TextArea'
 
 const ProductForm = () => {
     const dispatch = useDispatch();
@@ -51,13 +52,13 @@ const ProductForm = () => {
                                 type='text'
                                 placeholder='title'
                                 name='name'
-                                textError='product name needs to be at least 50 characters long. only letters and numbers'
+                                textError='product name needs to be at least 50 characters long.letters and numbers'
                                 validation={validation.name}
                                 value={data.name}
                             />
                             <div className={styles.categories}>categories</div>
                         </div>
-                        <Inputs
+                        <TextArea
                             className={styles.description}
                             error={descriptionError}
                             setError={setDescriptionError}
