@@ -16,7 +16,7 @@
 .link {
     position: relative;
     color: var(--fontSeccondary);
-    margin-left: 1vw;
+    margin-right: 1vw;
     text-decoration: none;
     cursor: pointer;
 }

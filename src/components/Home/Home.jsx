@@ -6,7 +6,7 @@ import { faRocket, faRotate } from '@fortawesome/free-solid-svg-icons'
 import { faCreditCard } from '@fortawesome/free-regular-svg-icons'
 import ProductCarrousel from '../Carrousel/ProductCarrousel'
 import { useSelector } from 'react-redux'
-import CategoriesList from '../Categories/CategoriesList'
+
 
 const Home = () => {
     //featured products
@@ -30,9 +30,12 @@ const Home = () => {
     }
 
     useEffect(() => {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             nextFtPagined()
         }, 3000);
+        return () => {
+            clearTimeout(timer);
+        }
     })
 
 
@@ -55,9 +58,12 @@ const Home = () => {
     }
 
     useEffect(() => {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             nextLtPagined()
         }, 3000);
+        return () => {
+            clearTimeout(timer);
+        }
     })
 
     return (
@@ -97,14 +103,14 @@ const Home = () => {
                 <div className={styles.ft}>
                     {
                         rFtProducts ? rFtProducts.map(e => (
-                            <ProductCarrousel key={e.title} image={e.image} title={e.title} rating={e.rating.rate} price={e.price} />
+                            <ProductCarrousel key={e.title} id={e.id} image={e.image} title={e.title} rating={e.rating.rate} price={e.price} />
                         )) : null
                     }
                 </div>
                 <div className={styles.lt}>
                     {
                         rLtProducts ? rLtProducts.map(e => (
-                            <ProductCarrousel key={e.title} image={e.image} title={e.title} rating={e.rating.rate} price={e.price} />
+                            <ProductCarrousel key={e.title} id={e.id} image={e.image} title={e.title} rating={e.rating.rate} price={e.price} />
                         )) : null
                     }
                 </div>

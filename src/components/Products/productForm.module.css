@@ -1,0 +1,56 @@
+.background {
+    width: 100%;
+    height: 100%;
+}
+
+.path {
+    display: flex;
+    margin-bottom: 1vw;
+}
+
+.form {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.formContent {
+    display: flex;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.content {
+    display: flex;
+    height: 100%;
+    width: 900px;
+    flex-direction: column;
+}
+
+.img {
+    margin-left: 0;
+    max-height: 400px;
+    max-width: 400px;
+    position: relative;
+}
+
+.catName {
+    display: flex;
+    justify-content: space-between;
+}
+
+.description {
+    margin: 20px;
+}
+
+.categories {
+    margin: 0 10vw;
+}
+
+.imgInput {
+    width: max-content;
+}
+
+.imgInContent {}

@@ -6,7 +6,6 @@ import CategoriesList from '../Categories/CategoriesList'
 import Paginate from '../Paginate/Paginate'
 
 const ProductList = ({ productList }) => {
-
     const productMarkup = productList.length ? (
         productList.map(product => (
             <ProductCard key={product.id} product={product} />

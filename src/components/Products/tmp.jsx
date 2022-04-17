@@ -1,12 +1,12 @@
 import React from 'react'
 import styles from './Product.module.css'
 import useCounter from '../../hooks/UseCounter';
-import { useDispatch } from 'react-redux'
-import { addToCart } from '../../redux'
+//import { addToCart, initCartState } from '../Cart/CartFunctions'
 import { FormatMoney } from 'format-money-js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faStar as starReg } from '@fortawesome/free-regular-svg-icons'
 import { faCircleMinus, faCircleXmark, faCirclePlus, faStar } from '@fortawesome/free-solid-svg-icons'
+//import useLocalStorage from '../../hooks/UseLocalStorage';
 
 const ProductCard = ({ product }) => {
 
@@ -17,8 +17,7 @@ const ProductCard = ({ product }) => {
     const inventoryQty = product.inventoryQty || 100;
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(price)) || price
-
-    const dispatch = useDispatch()
+    //const [cart, setCart] = useLocalStorage('cart', initCartState);
     let itemsToBuy = 0
     const addCart = () => {
         const payload = {
@@ -26,7 +25,11 @@ const ProductCard = ({ product }) => {
             inventoryQty, price,
             image, rating, itemsToBuy
         }
-        dispatch(addToCart(payload))
+        //const newCart = addToCart(cart, payload)
+        //console.log(newCart)
+        //setCart(newCart)
+        //console.log("Cart Content:")
+        //console.log(cart)
     }
 
     const Buttons = ({ initialCount, value, max }) => {
@@ -88,5 +91,6 @@ const ProductCard = ({ product }) => {
         </div>
     )
 }
+
 
 export default ProductCard
