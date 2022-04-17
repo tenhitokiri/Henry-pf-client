@@ -91,18 +91,22 @@ const ProductForm = () => {
                         />
                     </div>
                 </div>
-                {
-                    (
-                        !nameError
-                        && !descriptionError
-                        && !imageError
-                        && data.name !== ''
-                        && data.description !== ''
-                        && data.image !== ''
-                    ) ?
-                        <button type='submit'>Save</button> : <button type='submit' disabled>save</button>
-                }
-                <button className={styles.butClear} onClick={onClear}>clear</button>
+                <div className={styles.butContent}>
+
+
+                    {
+                        (
+                            !nameError
+                            && !descriptionError
+                            && !imageError
+                            && data.name !== ''
+                            && data.description !== ''
+                            && data.image !== ''
+                        ) ?
+                            <button className={styles.butSave} type='submit'>save</button> : <button className={styles.butDisabled} type='submit' disabled>save</button>
+                    }
+                    <button className={styles.butClear} onClick={onClear}>clear</button>
+                </div>
             </form>
         </div>
     )

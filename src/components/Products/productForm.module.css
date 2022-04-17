@@ -61,3 +61,44 @@
     justify-content: flex-end;
     align-items: flex-end;
 }
+
+.butContent {
+    display: flex;
+    justify-content: end;
+}
+
+.butSave {
+    width: 10vw;
+    height: 1.5vw;
+    border: transparent;
+    border-radius: 3px;
+    background-color: #F9C801;
+    margin: 0 2vw;
+    transition: 0.2s ease-in-out;
+}
+
+.butSave:hover {
+    background-color: #d4aa05;
+}
+
+.butClear {
+    width: 10vw;
+    height: 1.5vw;
+    background-color: #02354A;
+    color: #FFFFFF;
+    border-radius: 3px;
+    transition: 0.2s ease-in-out;
+    border: transparent;
+}
+
+.butClear:hover {
+    background-color: #555555;
+}
+
+.butDisabled {
+    width: 10vw;
+    height: 1.5vw;
+    border-radius: 3px;
+    transition: 0.2s ease-in;
+    border: 1px solid #555555;
+}
