@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import Inputs from '../Inputs/Inputs'
 import { addPRODUCT } from '../../redux/Products/productActions'
 import styles from './productForm.module.css'
+import TextArea from '../Inputs/TextArea'
 
 const ProductForm = () => {
     const dispatch = useDispatch();
@@ -51,13 +52,13 @@ const ProductForm = () => {
                                 type='text'
                                 placeholder='title'
                                 name='name'
-                                textError='product name needs to be at least 50 characters long. only letters and numbers'
+                                textError='product name needs to be at least 50 characters long.letters and numbers'
                                 validation={validation.name}
                                 value={data.name}
                             />
                             <div className={styles.categories}>categories</div>
                         </div>
-                        <Inputs
+                        <TextArea
                             className={styles.description}
                             error={descriptionError}
                             setError={setDescriptionError}
@@ -90,18 +91,22 @@ const ProductForm = () => {
                         />
                     </div>
                 </div>
-                {
-                    (
-                        !nameError
-                        && !descriptionError
-                        && !imageError
-                        && data.name !== ''
-                        && data.description !== ''
-                        && data.image !== ''
-                    ) ?
-                        <button type='submit'>Save</button> : <button type='submit' disabled>save</button>
-                }
-                <button className={styles.butClear} onClick={onClear}>clear</button>
+                <div className={styles.butContent}>
+
+
+                    {
+                        (
+                            !nameError
+                            && !descriptionError
+                            && !imageError
+                            && data.name !== ''
+                            && data.description !== ''
+                            && data.image !== ''
+                        ) ?
+                            <button className={styles.butSave} type='submit'>save</button> : <button className={styles.butDisabled} type='submit' disabled>save</button>
+                    }
+                    <button className={styles.butClear} onClick={onClear}>clear</button>
+                </div>
             </form>
         </div>
     )
