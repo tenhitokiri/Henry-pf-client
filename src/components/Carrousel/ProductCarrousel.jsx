@@ -5,13 +5,11 @@ import { faStar as starReg } from '@fortawesome/free-regular-svg-icons'
 import styles from './productCF.module.css'
 import { Link } from 'react-router-dom'
 
-
 const ProductCarrousel = ({ id, image, name, rating, price }) => {
     const star = Math.floor(rating)
 
     return (
         <div className={styles.carrousel}>
-
             <Link className={styles.detailLink} to={`/product/${id}`}>
                 <img className={styles.img} src={image} alt={name} />
                 <div className={styles.name}>{name.substring(0, 16)}</div>

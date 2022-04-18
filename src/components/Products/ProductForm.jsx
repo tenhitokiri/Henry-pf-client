@@ -15,17 +15,27 @@ const ProductForm = () => {
     const [data, setData] = useState({
         name: '',
         description: '',
-        image: ''
+        images: [],
+        imgOnScreen: ''
     })
 
     const [nameError, setNameError] = useState('')
     const [descriptionError, setDescriptionError] = useState('')
     const [imageError, setImagetError] = useState('')
+    /*
+    const [pushImg, setPushImg] = useState([])
 
+    if (!imageError && imageError !== '') {
+        setPushImg(pushImg.push(data.images))
+    }
+*/
     const onSubmit = (e) => {
         e.preventDefault();
         if (!nameError && !descriptionError && !imageError) {
+
+            setData({ ...data, images: data.images.push(data.imgOnScreen) })
             dispatch(addPRODUCT(data))
+            console.log(data)
         }
     }
 
@@ -33,7 +43,8 @@ const ProductForm = () => {
         setData({
             name: '',
             description: '',
-            image: ''
+            images: [],
+            imgOnScreen: ''
         })
     }
     return (
@@ -74,7 +85,7 @@ const ProductForm = () => {
                     </div>
                     <div className={styles.imgInContent}>
                         {
-                            !imageError && <img alt='' className={styles.img} src={data.image} />
+                            !imageError && <img alt='' className={styles.img} src={data.images} />
                         }
                         <Inputs
                             className={styles.imgInput}
@@ -84,14 +95,15 @@ const ProductForm = () => {
                             setData={setData}
                             type='url'
                             placeholder='url image'
-                            name='image'
+                            name='imgOnScreen'
                             textError='product image needs to be a Valid URL'
                             validation={validation.image}
-                            value={data.image}
+                            value={data.imgOnScreen}
                         />
                     </div>
                 </div>
                 <div className={styles.butContent}>
+
                     {
                         (
                             !nameError
@@ -99,7 +111,7 @@ const ProductForm = () => {
                             && !imageError
                             && data.name !== ''
                             && data.description !== ''
-                            && data.image !== ''
+                            && data.imgOnScreen !== ''
                         ) ?
                             <button className={styles.butSave} type='submit'>save</button> : <button className={styles.butDisabled} type='submit' disabled>save</button>
                     }
