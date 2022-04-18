@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Inputs from '../Inputs/Inputs'
 import { addPRODUCT } from '../../redux/Products/productActions'
 import styles from './productForm.module.css'
@@ -7,6 +8,7 @@ import TextArea from '../Inputs/TextArea'
 
 const ProductForm = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const validation = {
         name: /^[A-Za-z0-9\s.,]+$/,
@@ -22,22 +24,6 @@ const ProductForm = () => {
     const [nameError, setNameError] = useState('')
     const [descriptionError, setDescriptionError] = useState('')
     const [imageError, setImagetError] = useState('')
-    /*
-    const [pushImg, setPushImg] = useState([])
-
-    if (!imageError && imageError !== '') {
-        setPushImg(pushImg.push(data.images))
-    }
-*/
-    const onSubmit = (e) => {
-        e.preventDefault();
-        if (!nameError && !descriptionError && !imageError) {
-
-            setData({ ...data, images: data.images.push(data.imgOnScreen) })
-            dispatch(addPRODUCT(data))
-            console.log(data)
-        }
-    }
 
     const onClear = () => {
         setData({
@@ -47,6 +33,17 @@ const ProductForm = () => {
             imgOnScreen: ''
         })
     }
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        if (!nameError && !descriptionError && !imageError) {
+
+            setData({ ...data, images: data.images.push(data.imgOnScreen) })
+            dispatch(addPRODUCT(data))
+            onClear()
+            navigate('/add-produc/done')
+        }
+    }
     return (
         <div className={styles.background}>
             <form className={styles.form} autoComplete="off" onSubmit={onSubmit}>
@@ -54,7 +51,6 @@ const ProductForm = () => {
                 <div className={styles.formContent}>
                     <div className={styles.content}>
                         <div className={styles.catName}>
-
                             <Inputs
                                 error={nameError}
                                 setError={setNameError}
@@ -85,7 +81,7 @@ const ProductForm = () => {
                     </div>
                     <div className={styles.imgInContent}>
                         {
-                            !imageError && <img alt='' className={styles.img} src={data.images} />
+                            !imageError && <img alt='' className={styles.img} src={data.imgOnScreen} />
                         }
                         <Inputs
                             className={styles.imgInput}
@@ -113,7 +109,9 @@ const ProductForm = () => {
                             && data.description !== ''
                             && data.imgOnScreen !== ''
                         ) ?
-                            <button className={styles.butSave} type='submit'>save</button> : <button className={styles.butDisabled} type='submit' disabled>save</button>
+                            <button className={styles.butSave} type='submit'>save</button>
+                            :
+                            <button className={styles.butDisabled} type='submit' disabled>save</button>
                     }
                     <button className={styles.butClear} onClick={onClear}>clear</button>
                 </div>
