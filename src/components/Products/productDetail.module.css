@@ -13,8 +13,8 @@
 .detail {
     display: flex;
     margin-top: 1.2vw;
-    justify-content: center;
-    max-width: 1300px;
+    justify-content: space-between;
+    width: 1300px;
 }
 
 .img {
@@ -26,6 +26,7 @@
 
 .contentPSD {
     display: flex;
+    width: 700px;
     flex-direction: column;
     align-items: flex-start;
     margin: 0 2vw;
@@ -92,8 +93,7 @@
 }
 
 .add {
-    width: 20vw;
-    height: fit-content;
+    width: 100px;
 }
 
 .box {
