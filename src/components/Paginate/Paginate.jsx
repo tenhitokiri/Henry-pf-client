@@ -1,30 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import ReactPaginate from 'react-paginate';
-import { connect } from 'react-redux'
-
-//redux
 import styles from './Paginate.module.css'
+import ProductCard from '../Products/ProductCard'
+
 
 // Example items, to simulate fetching from another resources.
-const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
-function Items({ currentItems }) {
+function Items({ currentProducts }) {
   return (
     <>
-      {currentItems &&
-        currentItems.map((item) => (
+      {currentProducts &&
+        currentProducts.map((item, index) => (
           <div>
-            <h3>Item #{item}</h3>
+            <h3><div id={item.index}>{item.title}</div></h3>
           </div>
         ))}
     </>
   );
 }
 
-function Paginate({ itemsPerPage }) {
+function Paginate({ itemsPerPage, totalItems, items, currentProducts, setCurrentProducts }) {
   // We start with an empty list of items.
-  const [currentItems, setCurrentItems] = useState(null);
+  //const [currentProducts, setCurrentProducts] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   // Here we use item offsets; we could also use page offsets
   // following the API or data you're working with.
@@ -34,7 +31,7 @@ function Paginate({ itemsPerPage }) {
     // Fetch items from another resources.
     const endOffset = itemOffset + itemsPerPage;
     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-    setCurrentItems(items.slice(itemOffset, endOffset));
+    setCurrentProducts(items.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(items.length / itemsPerPage));
   }, [itemOffset, itemsPerPage]);
 
@@ -47,36 +44,35 @@ function Paginate({ itemsPerPage }) {
     setItemOffset(newOffset);
   };
 
-    return (
-        <div>
-            <Items currentItems={currentItems} />
-            <ReactPaginate 
-                previousLabel={'previous'}
-                nextLabel={'next'}
-                pageCount={15}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination'}
-                pageClassName={'page-item'}
-                pageLinkClassName={'page-link'}
-                previousClassName={'page-item'}
-                previousLinkClassName={'page-link'}
-                nextClassName={'page-item'}
-                nextLinkClassName={'page-link'}
-                activeClassName={'active'}
-            />
-        </div>
-    )
+  const productMarkup = currentProducts.length ? (
+    currentProducts.map(product => (
+      <ProductCard key={product.id} product={product} />
+    ))
+  ) : (
+    <div>No products found</div>
+  )
+
+  return (
+    <div>
+      <div className={styles.listContainer}>
+        {productMarkup}
+      </div>
+      <ReactPaginate
+        previousLabel={'previous'}
+        nextLabel={'next'}
+        pageCount={15}
+        onPageChange={handlePageClick}
+        containerClassName={'pagination'}
+        pageClassName={'page-item'}
+        pageLinkClassName={'page-link'}
+        previousClassName={'page-item'}
+        previousLinkClassName={'page-link'}
+        nextClassName={'page-item'}
+        nextLinkClassName={'page-link'}
+        activeClassName={'active'}
+      />
+    </div>
+  )
 }
 
-const mapStateToProps = state => ({
-    items: state.products.products,
-    loading: state.products.loading,
-    error: state.products.error,
-})
-
-const mapDispatchToProps = dispatch => ({
-    fetchProducts: () => dispatch(fetchProducts())
-})
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Paginate)
+export default Paginate
