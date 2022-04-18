@@ -5,13 +5,13 @@ import { updateCartItem, removeFromCart } from '../../redux'
 import { FormatMoney } from 'format-money-js';
 import styles from './Cart.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart, faStar as starReg } from '@fortawesome/free-regular-svg-icons'
-import { faCircleMinus, faCircleXmark, faCirclePlus, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faCircleMinus, faCircleXmark, faCirclePlus } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom';
 
 
-function CartProduct({ product, size }) {
+function CartProduct({ product }) {
     const {
-        id, title,
+        product_id, name,
         inventoryQty, price,
         image, itemsToBuy
     } = product
@@ -23,7 +23,7 @@ function CartProduct({ product, size }) {
     const dispatch = useDispatch()
     const updateCart = () => {
         const payload = {
-            id,
+            product_id,
             price,
             itemsToBuy: newCount
         }
@@ -31,7 +31,7 @@ function CartProduct({ product, size }) {
     }
     const removeCartItem = () => {
         const payload = {
-            id
+            product_id
         }
         dispatch(removeFromCart(payload))
     }
@@ -57,18 +57,24 @@ function CartProduct({ product, size }) {
                     <span className={styles.badge} >{count}</span>
                     <button className={`${styles.buttonAdd}`} onClick={add} ><FontAwesomeIcon icon={faCirclePlus} /></button>
                 </div >
-                <button className={`${styles.buttonReset}`} onClick={resetCount} ><FontAwesomeIcon icon={faCircleXmark} /></button>
+                <button className={`${styles.buttonReset}`} onClick={removeCartItem} ><FontAwesomeIcon icon={faCircleXmark} /></button>
             </div >
         )
     }
 
     return (
-        <div className={styles.cardItem} key={id}>
+        <div className={styles.cardItem} key={product_id}>
             <div className={styles.insideContainer}>
                 <div className={styles.cardHeader}>
-                    <img src={image} alt={id} className={styles.img} />
+                    <Link className={styles.link} to={`/product/${product_id}`}>
+
+                        <img src={image} alt={product_id} className={styles.img} />
+                    </Link>
                 </div>
-                <div className={styles.cardName}>{title}</div>
+                <Link className={styles.link} to={`/product/${product_id}`}>
+
+                    <div className={styles.cardName}>{name}</div>
+                </Link>
             </div>
             <div className={styles.cardFooter}>
                 <div className={styles.cardFooter}>

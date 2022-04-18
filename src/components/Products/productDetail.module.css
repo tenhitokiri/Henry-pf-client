@@ -62,7 +62,6 @@
 
 .related {
     display: flex;
-    height: 255px;
     position: static;
     align-items: center;
     justify-content: center;
