@@ -3,7 +3,8 @@ import { orderBy } from '../../utils/'
 import styles from './Product.module.css'
 import ProductCard from './ProductCard'
 import CategoriesList from '../Categories/CategoriesList'
-import Paginate from '../Paginate/Paginate'
+//import Paginate from '../Paginate/Paginate'
+import Pagination from '../Paginate/Pagination'
 import { PRODUCTS_PER_PAGE } from '../../env'
 
 const ProductList = ({ productList }) => {
@@ -11,7 +12,6 @@ const ProductList = ({ productList }) => {
     const [search, setSearch] = React.useState('')
     const [order, setOrder] = React.useState('')
     const [category, setCategory] = React.useState('')
-    const [currentProducts, setCurrentProducts] = React.useState([])
 
     let productsPerCategory = category.length > 0 ? productList.filter(product => product.category === category) : productList
 
@@ -35,13 +35,7 @@ const ProductList = ({ productList }) => {
             break;
     }
 
-    const productMarkup = filteredProducts.length ? (
-        filteredProducts.map(product => (
-            <ProductCard key={product.id} product={product} />
-        ))
-    ) : (
-        <div>No products found</div>
-    )
+    const pages = filteredProducts.length ? Math.round(filteredProducts.length / PRODUCTS_PER_PAGE) : 0
 
     return (
         <div className={styles.container}>
@@ -54,7 +48,6 @@ const ProductList = ({ productList }) => {
                         placeholder="Search by title"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                    /* onChange={(e) => setSearch(e.target.value.replace(/\s\s/g, ''))} */
                     />
                     <button onClick={(e) => setSearch('')}>clear</button>
                     <select title="order" onChange={(e) => setOrder(e.target.value)}>
@@ -69,12 +62,12 @@ const ProductList = ({ productList }) => {
             </div>
 
             <div className={styles.productsContainer}>
-
-                <div className={styles.listContainer}>
-                    {productMarkup}
-                    <Paginate itemsPerPage={PRODUCTS_PER_PAGE} totalItems={filteredProducts.length} items={filteredProducts} currentProducts={currentProducts} setCurrentProducts={setCurrentProducts} />
-
-                </div>
+                <Pagination
+                    data={filteredProducts}
+                    RenderComponent={ProductCard}
+                    pageLimit={pages}
+                    dataLimit={PRODUCTS_PER_PAGE}
+                />
             </div>
         </div>
     )
