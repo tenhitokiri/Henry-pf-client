@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { addToCart } from '../../redux'
 import CartProduct from './CartProduct'
 import { FormatMoney } from 'format-money-js';
+import styles from './Cart.module.css'
+import { NavLink } from 'react-router-dom'
 //import useLocalStorage from '../../hooks/UseLocalStorage';
 
 /* 
@@ -22,26 +24,43 @@ export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount
     const listMarkup = cartItems.length > 0 ? (cartItems.map(product => (
         <CartProduct key={product.id} product={product} />
     )))
-        : (<div className="container">No Hay productos</div>)
+        : (<div className={styles.addProducts}>
+                Add some products to cart
+                <span>&nbsp;</span>
+                <NavLink to={'/products'}>
+                    <button className={styles.button}>
+                        All products
+                    </button>
+                </NavLink>
+            </div>)
 
     return (
-        <div className="ModuleContainer">
-            <div className="Title">
+        <div className={styles.container}>
+            <div className={styles.titlePage}>
                 {
-                    numberOfItems === 0 ? <h1>Carrito de Compras Vacio</h1> :
-                        numberOfItems > 1 ? <h1>Carrito de Compras ({numberOfItems} items)</h1> : <h1>Carrito de Compras ({numberOfItems} item)</h1>
+                    numberOfItems === 0 ? <span>Shopping Cart empty</span> :
+                        numberOfItems >= 1 ? <span>Shopping Cart ({numberOfItems} items)</span> : <span>Carrito de Compras ({numberOfItems} item)</span>
                 }
-            </div>
-            <div className="ProductList">
-                {listMarkup}
             </div>
             {
                 totalPrice > 0 ?
-                    <div className="Total">
-                        <h1>Total: {prodPrice}</h1>
+                    <div className={styles.summary}>
+                        <div className={styles.titleSummary}>
+                            Summary
+                            <br /><br />
+                            Order Total: <span>{prodPrice}</span>
+                        </div>
+                        <button className={`${styles.buttonSuccess}`}>Proceed to Checkout</button>
                     </div>
                     : null
             }
+            <div className={styles.productList}>
+                {listMarkup}
+                {
+                    listMarkup.length > 0 ? <button className={`${styles.buttonSuccess} ${styles.continue}`}>Continue Shopping</button> :
+                    <div></div>
+                }
+            </div>
         </div>
 
     )

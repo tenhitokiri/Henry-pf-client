@@ -52,36 +52,32 @@ function CartProduct({ product, size }) {
         }
         return (
             <div className={styles.buttonGroup}>
-                <button className={`${styles.buttonAdd}`} onClick={add} ><FontAwesomeIcon icon={faCirclePlus} /></button>
-                <button className={`${styles.buttonRemove}`} onClick={remove} ><FontAwesomeIcon icon={faCircleMinus} /></button>
-
                 <div className={styles.buttonsStock}>
-
+                    <button className={`${styles.buttonRemove}`} onClick={remove} ><FontAwesomeIcon icon={faCircleMinus} /></button>
                     <span className={styles.badge} >{count}</span>
-                </div>
-                <button className={`${styles.buttonReset}`} onClick={removeCartItem} ><FontAwesomeIcon icon={faCircleXmark} /></button>
-
+                    <button className={`${styles.buttonAdd}`} onClick={add} ><FontAwesomeIcon icon={faCirclePlus} /></button>
+                </div >
+                <button className={`${styles.buttonReset}`} onClick={resetCount} ><FontAwesomeIcon icon={faCircleXmark} /></button>
             </div >
         )
     }
 
     return (
-        <div className={styles.cardItem} key={id} >
-            <div className={styles.cardHeader}>
-                <img src={image} alt={id} className={styles.img} />
+        <div className={styles.cardItem} key={id}>
+            <div className={styles.insideContainer}>
+                <div className={styles.cardHeader}>
+                    <img src={image} alt={id} className={styles.img} />
+                </div>
+                <div className={styles.cardName}>{title}</div>
             </div>
-            <div className={styles.title}><h1>{title}</h1></div>
             <div className={styles.cardFooter}>
-                <p>
-                    Existencia: <span>{inventoryQty} Item(s)</span><br />
-                </p>
                 <div className={styles.cardFooter}>
-                    <div className="CardPrice ">
-                        Precio: <span> {prodPrice} </span>
+                    <div className={styles.priceContainer}>
+                        <span className={styles.price}>{prodPrice}</span>
+                        <span className={styles.available}>({inventoryQty} available)</span>
                     </div>
                     <Buttons initialCount={itemsToBuy} value={1} max={inventoryQty} />
                     <button className={`${styles.buttonSuccess}`} onClick={updateCart}>Update cart</button>
-
                 </div>
             </div>
         </div>
