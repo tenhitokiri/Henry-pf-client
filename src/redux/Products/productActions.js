@@ -62,7 +62,7 @@ const fetchProductByIdSuccess = (Product) => {
 export const fetchProductById = (id) => {
     return (dispatch) => {
         dispatch(actionProductsRequest())
-        let api = backendUrl + 'products/' + id
+        let api = backendUrl + `products/?product_id=${id}`
         axios.get(api)
             .then(response => {
                 const Products = response.data
