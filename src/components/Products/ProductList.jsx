@@ -16,20 +16,26 @@ const ProductList = ({ productList }) => {
     let productsPerCategory = category.length > 0 ? productList.filter(product => product.category === category) : productList
 
     let filteredProducts = search.length === 0 ? productsPerCategory :
-        productsPerCategory.filter(product => product.title.toLowerCase().includes(search.toLowerCase()))
+        productsPerCategory.filter(product => product.name.toLowerCase().includes(search.toLowerCase()))
 
     switch (order) {
         case 'nameAsc':
-            filteredProducts = filteredProducts.sort((a, b) => orderBy(a.title.toLowerCase(), b.title.toLowerCase()))
+            filteredProducts = filteredProducts.sort((a, b) => orderBy(a.name.toLowerCase(), b.name.toLowerCase()))
             break;
         case 'nameDesc':
-            filteredProducts = filteredProducts.sort((a, b) => orderBy(b.title.toLowerCase(), a.title.toLowerCase()))
+            filteredProducts = filteredProducts.sort((a, b) => orderBy(b.name.toLowerCase(), a.name.toLowerCase()))
             break;
         case 'scoreAsc':
-            filteredProducts = filteredProducts.sort((a, b) => orderBy(a.rating.rate, b.rating.rate))
+            filteredProducts = filteredProducts.sort((a, b) => orderBy(a.rating, b.rating))
             break;
         case 'scoreDesc':
-            filteredProducts = filteredProducts.sort((a, b) => orderBy(b.rating.rate, a.rating.rate))
+            filteredProducts = filteredProducts.sort((a, b) => orderBy(b.rating, a.rating))
+            break;
+        case 'priceAsc':
+            filteredProducts = filteredProducts.sort((a, b) => orderBy(a.price, b.price))
+            break;
+        case 'priceDesc':
+            filteredProducts = filteredProducts.sort((a, b) => orderBy(b.price, a.price))
             break;
         default:
             break;
@@ -40,22 +46,24 @@ const ProductList = ({ productList }) => {
     return (
         <div className={styles.container}>
             <div className={styles.menuList}>
-                <div className={styles.productList}>
-                    <h3>Filtros</h3>
+                <div className={styles.filters}>
+                    <h3>FILTER</h3>
                     <input
-                        title="search"
+                        name="search"
                         type="text"
-                        placeholder="Search by title"
+                        placeholder="Search by name"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
                     <button onClick={(e) => setSearch('')}>clear</button>
-                    <select title="order" onChange={(e) => setOrder(e.target.value)}>
+                    <select name="order" onChange={(e) => setOrder(e.target.value)}>
                         <option value="">Order by...</option>
-                        <option value="nameAsc">title Ascending</option>
-                        <option value="nameDesc">title Descending</option>
+                        <option value="nameAsc">name Ascending</option>
+                        <option value="nameDesc">name Descending</option>
                         <option value="scoreAsc">Score Ascending</option>
                         <option value="scoreDesc">Score Descending</option>
+                        <option value="priceAsc">Price Ascending</option>
+                        <option value="priceDesc">Price Descending</option>
                     </select>
                 </div>
                 <CategoriesList selectedCategory={category} setCategory={setCategory} />

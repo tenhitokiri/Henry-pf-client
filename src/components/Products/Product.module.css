@@ -6,6 +6,18 @@
     display: flex;
     flex-direction: row;
 }
+
+.filters {
+    width: 14vw;
+    min-width: 160px;
+    height: auto;
+    padding: 1rem;
+    background-color: #EDF1F2;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
 .productsContainer {
     display: flex;
     flex-direction: column;
