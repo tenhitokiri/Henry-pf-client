@@ -102,7 +102,7 @@ const addProductSuccess = (Products) => {
 export const addPRODUCT = (Product) => {
     return (dispatch) => {
         dispatch(actionProductsRequest())
-        let api = backendUrl + 'PRODUCTs/'
+        let api = backendUrl + 'products'
         console.log(`Adding PRODUCT to: ${api}`)
         axios.post(api, Product)
             .then(response => {

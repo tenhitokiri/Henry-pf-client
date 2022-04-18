@@ -25,7 +25,7 @@ const ProductDetail = () => {
     const { name, description, stock, rating, amount_sold, price, images, category } = useSelector(state => state.products.foundProducts)
 
     if (rating) {
-        var star = Math.ceil(rating)
+        var star = Math.floor(rating)
     }
 
     const onClick = () => {
@@ -67,11 +67,12 @@ const ProductDetail = () => {
     return (
         <div className={styles.background}>
             {
-                rating &&
+                name &&
                 <div className={styles.content}>
                     <div className={styles.category} >category</div>
                     <div className={styles.title}>{name}</div>
                     {
+                        rating &&
                         <div className={styles.rate}>
                             {
                                 [...Array(star)].map((e, index) => {
