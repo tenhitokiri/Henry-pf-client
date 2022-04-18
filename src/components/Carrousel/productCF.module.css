@@ -4,6 +4,11 @@
     width: 30%;
 }
 
+.detailLink {
+    text-decoration: none;
+    color: var(--fontPrimary);
+}
+
 .img {
     position: relative;
     height: calc(100%);
@@ -18,4 +23,8 @@
 
 .price {
     font-size: 1.2em;
+}
+
+.rate {
+    color: var(--background);
 }

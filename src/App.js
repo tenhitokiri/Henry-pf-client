@@ -7,6 +7,7 @@ import ProductGetAll from './components/Products/ProductGetAll';
 import ProductForm from './components/Products/ProductForm';
 import ProductDetail from './components/Products/ProductDetail';
 import ProductSearch from './components/Products/ProductSearch';
+import AddCategory from './components/Admin/Categories/AddCategogory'
 import Route404 from './components/NotFound/Route404';
 import Nav from './components/Nav/Nav';
 import { fetchProducts } from './redux/Products/productActions'
@@ -31,6 +32,7 @@ function App() {
         <Route path='/add-product' element={<ProductForm />} />
         <Route path='/find-product' element={<ProductSearch />} />
         <Route path='/cart' element={<Cart />} />
+        <Route path='/admin/add-category' element={<AddCategory />} />
         <Route path="*" element={<Route404 />} />
       </Routes>
       <Footer />

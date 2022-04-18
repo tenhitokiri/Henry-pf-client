@@ -92,8 +92,6 @@ const ProductForm = () => {
                     </div>
                 </div>
                 <div className={styles.butContent}>
-
-
                     {
                         (
                             !nameError

@@ -12,10 +12,10 @@ const Home = () => {
     //featured products
     const products = useSelector(state => state.products.products)
     const ftProducts = products.sort((a, b) => {
-        if (a.rating.count < b.rating.count) {
+        if (a.rating < b.rating) {
             return 1;
         }
-        if (a.rating.count > b.rating.count) {
+        if (a.rating > b.rating) {
             return -1;
         }
         return 0;
@@ -39,12 +39,12 @@ const Home = () => {
     })
 
 
-    //latest products
+    //latest products - most saled
     const ltProducts = products.sort((a, b) => {
-        if (a.rating.rate < b.rating.rate) {
+        if (a.amount_sold < b.amount_sold) {
             return 1;
         }
-        if (a.rating.rate > b.rating.rate) {
+        if (a.amount_sold > b.amount_sold) {
             return -1;
         }
         return 0;
@@ -102,15 +102,27 @@ const Home = () => {
             <div className={styles.carrousels}>
                 <div className={styles.ft}>
                     {
-                        rFtProducts ? rFtProducts.map(e => (
-                            <ProductCarrousel key={e.title} id={e.id} image={e.image} title={e.title} rating={e.rating.rate} price={e.price} />
+                        rFtProducts ? rFtProducts.map((e, index) => (
+                            <ProductCarrousel
+                                key={e.name + index}
+                                id={e.product_id}
+                                image={e.images}
+                                name={e.name}
+                                rating={e.rating}
+                                price={e.price} />
                         )) : null
                     }
                 </div>
                 <div className={styles.lt}>
                     {
-                        rLtProducts ? rLtProducts.map(e => (
-                            <ProductCarrousel key={e.title} id={e.id} image={e.image} title={e.title} rating={e.rating.rate} price={e.price} />
+                        rLtProducts ? rLtProducts.map((e, index) => (
+                            <ProductCarrousel
+                                key={index + 'rlt'}
+                                id={e.product_id}
+                                image={e.images}
+                                name={e.name}
+                                rating={e.rating}
+                                price={e.price} />
                         )) : null
                     }
                 </div>

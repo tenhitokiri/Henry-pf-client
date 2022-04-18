@@ -18,8 +18,9 @@
 }
 
 .img {
-    max-width: 400px;
-    max-height: 400px;
+    object-fit: contain;
+    width: 400px;
+    height: 400px;
 }
 
 
@@ -44,11 +45,7 @@
 
 
 
-.add {
-    border: 2px solid black;
-    width: 20vw;
 
-}
 
 .category {
     display: flex
@@ -64,13 +61,110 @@
 
 .related {
     display: flex;
-    position: relative;
+    position: static;
+    align-items: center;
     justify-content: center;
-    height: auto;
 }
 
 .carrousel {
     max-width: 1300px;
     display: flex;
-    height: 30vw;
+}
+
+.prev {
+    height: 3vw;
+    width: 3vw;
+    transition: 0.16s;
+}
+
+.prev:hover {
+    color: var(--background);
+}
+
+.next {
+    height: 3vw;
+    width: 3vw;
+    transition: 0.16s;
+}
+
+.next:hover {
+    color: var(--background);
+}
+
+.add {
+    width: 20vw;
+    height: fit-content;
+}
+
+.box {
+    width: 100%;
+    justify-content: center;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    display: flex;
+    border: 1px solid #D0D9DC;
+    margin: 0.5vw auto;
+    border-radius: 3px;
+}
+
+.counter {
+    width: 30%;
+}
+
+.increment {
+    width: 25%;
+    margin: 3px auto;
+    background-color: var(--background);
+    border: transparent;
+    border-radius: 3px;
+}
+
+.increment:hover {
+    background-color: #daaf05;
+    box-shadow: 1px 1px 1px 1px #D0D9DC;
+}
+
+.decrement {
+    width: 25%;
+    margin: 3px auto;
+    background-color: var(--background);
+    border: transparent;
+    border-radius: 3px;
+}
+
+.decrement:hover {
+    background-color: #daaf05;
+    box-shadow: 1px 1px 1px 1px #D0D9DC;
+}
+
+.cart {
+    width: 100%;
+    color: var(--fontPrimary);
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin: 3px auto;
+    background-color: var(--background);
+    border: transparent;
+    border-radius: 3px;
+}
+
+.cart:hover {
+    background-color: #daaf05;
+    box-shadow: 1px 1px 1px 1px #D0D9DC;
+}
+
+.wish {
+    width: 100%;
+    color: var(--fontPrimary);
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin: 3px auto;
+    background-color: var(--background);
+    border: transparent;
+    border-radius: 3px;
+}
+
+.wish:hover {
+    background-color: #daaf05;
+    box-shadow: 1px 1px 1px 1px #D0D9DC;
 }
