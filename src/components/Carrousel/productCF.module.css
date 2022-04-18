@@ -1,7 +1,6 @@
 .carrousel {
-    justify-content: center;
-    align-items: center;
-    width: 30%;
+    width: 1300px;
+    height: 240px;
 }
 
 .detailLink {
@@ -17,8 +16,9 @@
     object-fit: scale-down;
 }
 
-.title {
+.name {
     font-size: 1em;
+
 }
 
 .price {
@@ -26,5 +26,7 @@
 }
 
 .rate {
+    display: flex;
+    justify-content: center;
     color: var(--background);
 }

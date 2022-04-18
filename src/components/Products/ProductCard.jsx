@@ -7,14 +7,30 @@ import { FormatMoney } from 'format-money-js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faStar as starReg } from '@fortawesome/free-regular-svg-icons'
 import { faCircleMinus, faCircleXmark, faCirclePlus, faStar } from '@fortawesome/free-solid-svg-icons'
+import { generateRandomInt } from '../../utils'
+import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
 
-    const { id, title,
-        price, image, rating } = product;
-    const star = Math.floor(rating.rate)
+    const { product_id,
+        name,
+        approved,
+        description,
+        stock,
+        rating,
+        amount_sold,
+        price,
+        images,
+        category,
+        added
+    } = product;
 
-    const inventoryQty = product.inventoryQty || 100;
+    console.log("datos de producto:");
+    console.log(product);
+    //const star = Math.floor(rating.rate)
+    const star = Math.floor(rating)
+
+    const inventoryQty = product.inventoryQty || generateRandomInt(100) + 1;
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(price)) || price
 
@@ -22,9 +38,10 @@ const ProductCard = ({ product }) => {
     let itemsToBuy = 0
     const addCart = () => {
         const payload = {
-            id, title,
+            product_id, name,
             inventoryQty, price,
-            image, rating, itemsToBuy
+            image: images[0],
+            rating, itemsToBuy
         }
         dispatch(addToCart(payload))
     }
@@ -58,10 +75,14 @@ const ProductCard = ({ product }) => {
     return (
         <div className={styles.cardItem}>
             <div className={styles.cardHeader}>
-                <img src={image} alt={title} className={styles.img} />
+                <Link className={styles.link} to={`/product/${product_id}`}>
+                    <img src={images[0]} alt={name} className={styles.img} />
+                </Link>
             </div>
             <div className={styles.cardBody}>
-                <div className={styles.title}>{title.length > 40 ? (title.substring(0, 40) + "...") : title} </div>
+                <Link className={styles.link} to={`/product/${product_id}`}>
+                    <div className={styles.title}>{name.length > 40 ? (name.substring(0, 40) + "...") : name} </div>
+                </Link>
                 <div className={styles.rate}>
                     {
                         [...Array(star)].map((e, index) => {

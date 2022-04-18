@@ -32,14 +32,14 @@ const cartReducer = (state = initCartState, action) => {
         let newPrice = parseFloat(price) * parseFloat(itemsToBuy)
         const updatedCartItems = state.cartItems.map(product => {
           const {
-            id, title,
+            product_id, name,
             price, image, itemsToBuy
           } = product
-          if (id === payload.id) {
+          if (product_id === payload.product_id) {
             oldQty = parseInt(itemsToBuy)
             oldPrice = parseFloat(price) * parseFloat(oldQty)
             const updatedProd = {
-              id, title,
+              product_id, name,
               inventoryQty: payload.inventoryQty,
               price, image, itemsToBuy: payload.itemsToBuy
             }
@@ -72,15 +72,15 @@ const cartReducer = (state = initCartState, action) => {
         let newPrice = parseFloat(payload.price) * parseFloat(payload.itemsToBuy)
         const updatedCartItems = state.cartItems.map(product => {
           const {
-            id, title,
+            product_id, name,
             inventoryQty,
             price, image, itemsToBuy
           } = product
-          if (id === payload.id) {
+          if (product_id === payload.product_id) {
             oldQty = parseInt(itemsToBuy)
             oldPrice = parseFloat(price) * parseFloat(oldQty)
             const updatedProd = {
-              id, title,
+              product_id, name,
               inventoryQty,
               price, image, itemsToBuy: payload.itemsToBuy
             }
@@ -109,11 +109,11 @@ const cartReducer = (state = initCartState, action) => {
 
     case CART_ACTIONS.REMOVE_FROM_CART:
       {
-        const productToRemove = state.cartItems.find(product => product.id === payload.id)
+        const productToRemove = state.cartItems.find(product => product.product_id === payload.product_id)
         const { itemsToBuy, price } = productToRemove
 
         const newTotal = parseFloat(state.totalPrice) - parseFloat(itemsToBuy) * parseFloat(price)
-        const updatedCartItems = state.cartItems.filter(product => product.id !== payload.id)
+        const updatedCartItems = state.cartItems.filter(product => product.product_id !== payload.product_id)
         const newQuantity = parseInt(state.numberOfItems) - parseInt(itemsToBuy)
 
         return {

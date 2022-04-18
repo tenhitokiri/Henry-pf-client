@@ -9,6 +9,7 @@ import styles from './productDetail.module.css'
 import ProductCarrousel from '../Carrousel/ProductCarrousel'
 import usePaginate from '../../hooks/usePaginate'
 import { addToCart, removeFromCart } from '../../redux/Cart/cartActions'
+import { generateRandomInt } from '../../utils'
 
 
 const ProductDetail = () => {
@@ -18,11 +19,15 @@ const ProductDetail = () => {
     const { prevPage, nextPage, items } = usePaginate(related, 10)
     const [render, setRender] = useState(false)
 
+
     useEffect(() => {
         dispatch(fetchProductById(id))
     }, [render])
 
-    const { name, description, stock, rating, amount_sold, price, images, category } = useSelector(state => state.products.foundProducts)
+    let { product_id, name, description, stock, rating, amount_sold, price, images, category, inventoryQty } = useSelector(state => state.products.foundProducts)
+
+    inventoryQty = inventoryQty || generateRandomInt(100) + 1;
+
 
     if (rating) {
         var star = Math.floor(rating)
@@ -49,13 +54,15 @@ const ProductDetail = () => {
 
     const addCart = () => {
         if (counter !== 0) {
-            dispatch(addToCart({
-                id,
-                price,
-                itemsToBuy: counter
-            }))
+            const payload = {
+                product_id, name,
+                inventoryQty, price,
+                image: images[0],
+                rating, itemsToBuy: counter
+            }
+            dispatch(addToCart(payload))
         } else {
-            dispatch(removeFromCart({ id }))
+            dispatch(removeFromCart({ product_id }))
         }
     }
 

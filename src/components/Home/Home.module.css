@@ -22,8 +22,8 @@
 
 .ft {
     display: flex;
-    width: 100%;
-    flex-wrap: wrap;
+    height: 255px;
+    width: 50%;
     justify-content: space-evenly;
     margin-right: 1vw;
     animation-name: slide;
@@ -58,8 +58,8 @@
 
 .lt {
     display: flex;
-    width: 100%;
-    flex-wrap: wrap;
+    width: 50%;
+    height: 255px;
     justify-content: space-evenly;
     margin-left: 1vw;
     animation-name: slide;
