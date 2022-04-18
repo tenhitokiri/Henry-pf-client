@@ -13,6 +13,7 @@ import Nav from './components/Nav/Nav';
 import { fetchProducts } from './redux/Products/productActions'
 import { useDispatch } from 'react-redux'
 import Cart from './components/Cart/Cart';
+import AddProductDone from './components/Products/AddProductDone';
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
         <Route path='/products' element={<ProductGetAll />} />
         <Route path='/product/:id' element={<ProductDetail />} />
         <Route path='/add-product' element={<ProductForm />} />
+        <Route path='/add-produc/done' element={<AddProductDone />} />
         <Route path='/find-product' element={<ProductSearch />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/admin/add-category' element={<AddCategory />} />
