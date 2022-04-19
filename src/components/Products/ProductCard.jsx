@@ -33,6 +33,7 @@ const ProductCard = ({ product }) => {
     const inventoryQty = product.inventoryQty || generateRandomInt(100) + 1;
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(price)) || price
+    const image = images[0] || 'https://via.placeholder.com/150'
 
     const dispatch = useDispatch()
     let itemsToBuy = 0
@@ -40,7 +41,7 @@ const ProductCard = ({ product }) => {
         const payload = {
             product_id, name,
             inventoryQty, price,
-            image: images[0],
+            image,
             rating, itemsToBuy
         }
         dispatch(addToCart(payload))
@@ -76,7 +77,7 @@ const ProductCard = ({ product }) => {
         <div className={styles.cardItem}>
             <div className={styles.cardHeader}>
                 <Link className={styles.link} to={`/product/${product_id}`}>
-                    <img src={images[0]} alt={name} className={styles.img} />
+                    <img src={image} alt={name} className={styles.img} />
                 </Link>
             </div>
             <div className={styles.cardBody}>

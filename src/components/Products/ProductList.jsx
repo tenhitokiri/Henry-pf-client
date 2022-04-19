@@ -3,7 +3,6 @@ import { orderBy } from '../../utils/'
 import styles from './Product.module.css'
 import ProductCard from './ProductCard'
 import CategoriesList from '../Categories/CategoriesList'
-//import Paginate from '../Paginate/Paginate'
 import Pagination from '../Paginate/Pagination'
 import { PRODUCTS_PER_PAGE } from '../../env'
 
