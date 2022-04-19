@@ -46,43 +46,14 @@ const ProductForm = () => {
     }
     return (
         <div className={styles.background}>
+            <div className={styles.path}><div className={styles.pathContainer}>Home / Sell / Add-Product</div></div>
             <form className={styles.form} autoComplete="off" onSubmit={onSubmit}>
-                <div className={styles.path}>Home / Sell / Add-Product</div>
                 <div className={styles.formContent}>
-                    <div className={styles.content}>
-                        <div className={styles.catName}>
-                            <Inputs
-                                error={nameError}
-                                setError={setNameError}
-                                data={data}
-                                setData={setData}
-                                type='text'
-                                placeholder='title'
-                                name='name'
-                                textError='product name needs to be at least 50 characters long.letters and numbers'
-                                validation={validation.name}
-                                value={data.name}
-                            />
-                            <div className={styles.categories}>categories</div>
-                        </div>
-                        <TextArea
-                            className={styles.description}
-                            error={descriptionError}
-                            setError={setDescriptionError}
-                            data={data}
-                            setData={setData}
-                            type='text'
-                            placeholder='description'
-                            name='description'
-                            textError='only letters and numbers'
-                            validation={validation.name}
-                            value={data.description}
-                        />
-                    </div>
-                    <div className={styles.imgInContent}>
+                    <div className={styles.leftContainer}>
                         {
                             !imageError && <img alt='' className={styles.img} src={data.imgOnScreen} />
                         }
+                        <di>Product Image</di>
                         <Inputs
                             className={styles.imgInput}
                             error={imageError}
@@ -90,16 +61,49 @@ const ProductForm = () => {
                             data={data}
                             setData={setData}
                             type='url'
-                            placeholder='url image'
+                            placeholder='Product Image'
                             name='imgOnScreen'
                             textError='product image needs to be a Valid URL'
                             validation={validation.image}
                             value={data.imgOnScreen}
                         />
                     </div>
+                    <div className={styles.rightContainer}>
+                        <div className={styles.contentNameCat}>
+                            <div className={styles.name}>
+                                Product Name
+                                <Inputs
+                                    error={nameError}
+                                    setError={setNameError}
+                                    data={data}
+                                    setData={setData}
+                                    type='text'
+                                    placeholder='Product Name'
+                                    name='name'
+                                    textError='Product name needs to be at least 50 characters long.letters and numbers'
+                                    validation={validation.name}
+                                    value={data.name}
+                                />
+                            </div>
+                            <div className={styles.categories}>Category</div>
+                        </div>
+                        Product Description
+                        <TextArea
+                            className={styles.description}
+                            error={descriptionError}
+                            setError={setDescriptionError}
+                            data={data}
+                            setData={setData}
+                            type='text'
+                            placeholder='Product Description'
+                            name='description'
+                            textError='Only letters and numbers'
+                            validation={validation.name}
+                            value={data.description}
+                        />
+                    </div>
                 </div>
                 <div className={styles.butContent}>
-
                     {
                         (
                             !nameError
@@ -109,7 +113,7 @@ const ProductForm = () => {
                             && data.description !== ''
                             && data.imgOnScreen !== ''
                         ) ?
-                            <button className={styles.butSave} type='submit'>save</button>
+                            <button className={styles.buttonSave} type='submit'>save</button>
                             :
                             <button className={styles.butDisabled} type='submit' disabled>save</button>
                     }
