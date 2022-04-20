@@ -13,11 +13,9 @@ import { fetchProducts, getCartItems } from '../../redux'
 const Header = ({ getCartItems, numberOfCartItems, numberOfProducts }) => {
     useEffect(() => {
         if (numberOfProducts === 0) {
-            console.log("fetching products")
             fetchProducts()
         }
         getCartItems()
-        console.log('Header component rendered')
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
