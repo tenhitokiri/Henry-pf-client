@@ -6,7 +6,7 @@ import { faRocket, faRotate } from '@fortawesome/free-solid-svg-icons'
 import { faCreditCard } from '@fortawesome/free-regular-svg-icons'
 import ProductCarrousel from '../Carrousel/ProductCarrousel'
 import { useSelector, useDispatch } from 'react-redux'
-import { loadCart } from '../../redux'
+
 
 
 const Home = () => {
@@ -38,7 +38,6 @@ const Home = () => {
             clearTimeout(timer);
         }
     })
-
 
     //latest products - most saled
     const ltProducts = products.sort((a, b) => {
