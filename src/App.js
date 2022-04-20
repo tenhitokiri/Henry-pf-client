@@ -15,13 +15,17 @@ import { useDispatch } from 'react-redux'
 import Cart from './components/Cart/Cart';
 import AddProductDone from './components/Products/AddProductDone';
 
+
 function App() {
 
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     dispatch(fetchProducts())
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+
   return (
     <div className="App">
       <Header />

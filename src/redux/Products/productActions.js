@@ -74,11 +74,13 @@ export const fetchProductById = (id) => {
             })
     }
 }
+
+
 //Fetch one  PRODUCTs by ID
-export const fetchProductByName = (id) => {
+export const fetchProductByName = (search) => {
     return (dispatch) => {
         dispatch(actionProductsRequest())
-        let api = backendUrl + 'products/name/'
+        let api = backendUrl + 'products/search/?search=' + search
         axios.get(api)
             .then(response => {
                 const Products = response.data

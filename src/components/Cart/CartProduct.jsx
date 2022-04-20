@@ -12,9 +12,17 @@ import { Link } from 'react-router-dom';
 function CartProduct({ product }) {
     const {
         product_id, name,
-        inventoryQty, price,
-        image, itemsToBuy
-    } = product
+        stock, price,
+        images
+    } = product.product
+
+    const itemsToBuy = product.quantity;
+
+    let inventoryQty = 'no';
+    if (stock) {
+        inventoryQty = stock
+    }
+
 
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseInt(price)) || price
@@ -68,7 +76,7 @@ function CartProduct({ product }) {
                 <div className={styles.cardHeader}>
                     <Link className={styles.link} to={`/product/${product_id}`}>
 
-                        <img src={image} alt={product_id} className={styles.img} />
+                        <img src={images[0]} alt={product_id} className={styles.img} />
                     </Link>
                 </div>
                 <Link className={styles.link} to={`/product/${product_id}`}>
