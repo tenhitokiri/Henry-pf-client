@@ -11,6 +11,24 @@ const initCartState = {
 const cartReducer = (state = initCartState, action) => {
   const { type, payload } = action
   switch (type) {
+    //logged get cart
+    case CART_ACTIONS.LOAD_CART:
+
+      const total = payload.map(e => {
+        return parseFloat(e.unit_price) * parseInt(e.quantity)
+      })
+
+      return {
+        ...state,
+        cartItems: payload,
+        numberOfItems: payload.length,
+        totalPrice: total.reduce((a, b) => { return a + b })
+      }
+    //logged add-cart
+
+
+
+
     case CART_ACTIONS.ADD_TO_CART:
       {
         const {

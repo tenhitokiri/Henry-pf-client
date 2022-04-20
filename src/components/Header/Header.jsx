@@ -4,12 +4,13 @@ import styles from '../Header/Header.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
 import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 //import useLocalStorage from '../../hooks/UseLocalStorage';
 
 const Header = ({ numberOfItems, cartItems }) => {
+    const loggedCart = useSelector(state => state.cart)
 
     return (
         <div className={styles.container}>
@@ -23,10 +24,18 @@ const Header = ({ numberOfItems, cartItems }) => {
                 <div className={styles.icons}>
                     <FontAwesomeIcon className={styles.icon} icon={faHeart} size="2x" />
                     <div className={styles.cart}>
-                        <Link to='/cart'>
-                            <FontAwesomeIcon className={styles.icon} icon={faCartArrowDown} size="2x" />
-                            {numberOfItems > 0 && <span className={styles.cartItems}>{numberOfItems}</span>}
-                        </Link>
+                        {
+                            loggedCart.cartItems.length > 0 ?
+                                <Link to='/cart'>
+                                    <FontAwesomeIcon className={styles.icon} icon={faCartArrowDown} size="2x" />
+                                    <span className={styles.cartItems}>{cartItems.length}</span>
+                                </Link>
+
+                                : <Link to='/cart'>
+                                    <FontAwesomeIcon className={styles.icon} icon={faCartArrowDown} size="2x" />
+                                    {numberOfItems > 0 && <span className={styles.cartItems}>{numberOfItems}</span>}
+                                </Link>
+                        }
                     </div>
                     <FontAwesomeIcon className={styles.icon} icon={faUser} size="2x" />
                 </div>

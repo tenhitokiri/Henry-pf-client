@@ -1,4 +1,18 @@
 import CART_ACTIONS from './cartTypes'
+import { backendUrl } from '../../env.js';
+import axios from 'axios'
+
+export const loadCart = (user_id) => {
+    return dispatch => {
+        axios(backendUrl + 'cart/?user_id=' + user_id)
+            .then(itemsCart => {
+                return dispatch({
+                    type: CART_ACTIONS.LOAD_CART,
+                    payload: itemsCart.data
+                })
+            })
+    }
+}
 
 export const addToCart = (payload) => {
     return {

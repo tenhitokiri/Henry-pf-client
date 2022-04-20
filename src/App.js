@@ -14,14 +14,23 @@ import { fetchProducts } from './redux/Products/productActions'
 import { useDispatch } from 'react-redux'
 import Cart from './components/Cart/Cart';
 import AddProductDone from './components/Products/AddProductDone';
+import { loadCart } from './redux';
 
 function App() {
 
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     dispatch(fetchProducts())
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const user_id = '6ece691f-1db0-49eb-b810-d0909f6c3a47'
+
+  useEffect(() => {
+    dispatch(loadCart(user_id))
+  }, [])
+
   return (
     <div className="App">
       <Header />
