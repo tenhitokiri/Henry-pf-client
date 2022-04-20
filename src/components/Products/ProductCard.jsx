@@ -25,8 +25,7 @@ const ProductCard = ({ product }) => {
         added
     } = product;
 
-    console.log("datos de producto:");
-    console.log(product);
+
     //const star = Math.floor(rating.rate)
     const star = Math.floor(rating)
 

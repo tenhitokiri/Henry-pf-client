@@ -24,13 +24,19 @@ const fetchAllProductsSuccess = (Products) => {
         payload: Products
     }
 }
+//succes for fetching product by category
+const fetchProductsCategorySucces = (products) => {
+    return {
+        type: PRODUCT_ACTIONS.FETCH_PRODUCT_CATEGORY_SUCCES,
+        payload: products
+    }
+}
 
 //Fetch all Products
 export const fetchProducts = () => {
     return (dispatch) => {
         dispatch(actionProductsRequest())
         let api = backendUrl + 'products'
-        console.log(`fetchProducts: ${api}`)
         axios.get(api)
             .then(response => {
                 const products = response.data
@@ -170,3 +176,20 @@ export const clearSearchedProducts = () => {
         type: PRODUCT_ACTIONS.CLEAR_PRODUCT_SUCCESS
     }
 }
+
+export const fetchProductByCategory = (category) => {
+    return dispatch => {
+        dispatch(actionProductsRequest())
+        let api = backendUrl + 'products/categories/?type=' + category;
+        axios(api)
+            .then(response => {
+                const products = response.data
+                dispatch(fetchProductsCategorySucces(products))
+            })
+            .catch(error => {
+                const msg = error.message
+                dispatch(actionProductsFailure(msg))
+            })
+    }
+}
+
