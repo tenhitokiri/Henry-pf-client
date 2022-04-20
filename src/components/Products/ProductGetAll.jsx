@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { fetchProducts } from '../../redux'
 import ProductList from './ProductList'
 
-const ProductListAll = ({ fetchProducts, productList, loading, error, cartList, numberOfItems }) => {
+const ProductListAll = ({ fetchProducts, productList, loading, error }) => {
     useEffect(() => {
         fetchProducts()
         console.log(productList);
@@ -30,8 +30,6 @@ const mapStateToProps = state => ({
     productList: state.products.products,
     loading: state.products.loading,
     error: state.products.error,
-    cartList: state.cart.cartItems,
-    numberOfItems: state.cart.numberOfItems,
 })
 
 const mapDispatchToProps = dispatch => ({
