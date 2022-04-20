@@ -33,8 +33,8 @@ export const fetchProducts = () => {
         console.log(`fetchProducts: ${api}`)
         axios.get(api)
             .then(response => {
-                const Products = response.data
-                dispatch(fetchAllProductsSuccess(Products))
+                const products = response.data
+                dispatch(fetchAllProductsSuccess(products))
             })
             .catch(error => {
                 const msg = error.message

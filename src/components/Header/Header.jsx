@@ -7,10 +7,18 @@ import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons'
 import { connect, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
-//import useLocalStorage from '../../hooks/UseLocalStorage';
+import { fetchProducts, getCartItems } from '../../redux'
 
-const Header = ({ numberOfItems, cartItems }) => {
-    const loggedCart = useSelector(state => state.cart)
+
+const Header = ({ getCartItems, numberOfCartItems, numberOfProducts }) => {
+    useEffect(() => {
+        if (numberOfProducts === 0) {
+            console.log("fetching products")
+            fetchProducts()
+        }
+        getCartItems()
+        console.log('Header component rendered')
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className={styles.container}>
@@ -24,18 +32,10 @@ const Header = ({ numberOfItems, cartItems }) => {
                 <div className={styles.icons}>
                     <FontAwesomeIcon className={styles.icon} icon={faHeart} size="2x" />
                     <div className={styles.cart}>
-                        {
-                            loggedCart.cartItems.length > 0 ?
-                                <Link to='/cart'>
-                                    <FontAwesomeIcon className={styles.icon} icon={faCartArrowDown} size="2x" />
-                                    <span className={styles.cartItems}>{cartItems.length}</span>
-                                </Link>
-
-                                : <Link to='/cart'>
-                                    <FontAwesomeIcon className={styles.icon} icon={faCartArrowDown} size="2x" />
-                                    {numberOfItems > 0 && <span className={styles.cartItems}>{numberOfItems}</span>}
-                                </Link>
-                        }
+                        <Link to='/cart'>
+                            <FontAwesomeIcon className={styles.icon} icon={faCartArrowDown} size="2x" />
+                            {numberOfCartItems > 0 && <span className={styles.cartItems}>{numberOfCartItems}</span>}
+                        </Link>
                     </div>
                     <FontAwesomeIcon className={styles.icon} icon={faUser} size="2x" />
                 </div>
@@ -51,8 +51,15 @@ const Header = ({ numberOfItems, cartItems }) => {
 //export default Header
 
 const mapStateToProps = state => ({
-    cartItems: state.cart.cartItems,
-    numberOfItems: state.cart.numberOfItems,
+    numberOfCartItems: state.cart.numberOfItems,
+    numberOfProducts: state.products.numberOfProducts,
+    productLoading: state.products.loading,
+    productError: state.products.error,
 })
 
-export default connect(mapStateToProps)(Header)
+const mapDispatchToProps = dispatch => ({
+    fetchProducts: () => dispatch(fetchProducts()),
+    getCartItems: (userId) => dispatch(getCartItems(userId)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)
