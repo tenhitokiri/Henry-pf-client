@@ -14,6 +14,7 @@ import { fetchProducts } from './redux/Products/productActions'
 import { useDispatch } from 'react-redux'
 import Cart from './components/Cart/Cart';
 import AddProductDone from './components/Products/AddProductDone';
+import { fetchCategories } from './redux';
 
 
 function App() {
@@ -25,6 +26,9 @@ function App() {
     dispatch(fetchProducts())
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    dispatch(fetchCategories())
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="App">

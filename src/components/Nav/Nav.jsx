@@ -1,21 +1,22 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './nav.module.css'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { fetchProductByCategory, fetchProducts } from '../../redux/Products/productActions'
 
 const Nav = () => {
     const categories = useSelector(state => state.categories)
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [toggle, setToggle] = useState(false)
 
     const onClick = () => {
         setToggle(!toggle)
     }
     const onCategory = (e) => {
-
         onClick()
         dispatch(fetchProductByCategory(e.target.id.toString()))
+        navigate('/products')
     }
     const onCategoryReset = () => {
         dispatch(fetchProducts())
