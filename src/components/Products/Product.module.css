@@ -221,6 +221,10 @@
     float: right;
 }
 
+.iconHearthFilled {
+    float: right;
+    color: var(--background);
+}
 .priceContainer {
     width: 100%;
     float: left;

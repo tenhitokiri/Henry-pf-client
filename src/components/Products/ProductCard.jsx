@@ -1,28 +1,23 @@
 import React from 'react'
 import styles from './Product.module.css'
 import useCounter from '../../hooks/UseCounter';
+import { connect } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { addToCart, addToWL } from '../../redux'
+import { addToCart, addToWL, removeFromWL } from '../../redux'
 import { FormatMoney } from 'format-money-js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faStar as starReg } from '@fortawesome/free-regular-svg-icons'
-import { faCircleMinus, faCircleXmark, faCirclePlus, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faCircleMinus, faCircleXmark, faCirclePlus, faStar, faHeart as heartFilled } from '@fortawesome/free-solid-svg-icons'
 import { generateRandomInt } from '../../utils'
 import { Link } from 'react-router-dom';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, favoriteProducts }) => {
 
     const { product_id,
         name,
-        approved,
-        description,
-        stock,
         rating,
-        amount_sold,
         price,
         images,
-        category,
-        added
     } = product;
 
 
@@ -52,6 +47,20 @@ const ProductCard = ({ product }) => {
             image, rating
         }
         dispatch(addToWL(payload))
+    }
+    const removeWL = () => {
+        const payload = {
+            product_id, name,
+            inventoryQty, price,
+            image, rating
+        }
+        dispatch(removeFromWL(payload))
+    }
+
+    const isFavorite = (id) => {
+        const isFav = favoriteProducts && favoriteProducts.find(item => item.product_id === id)
+        return isFav ? (<FontAwesomeIcon className={styles.iconHearthFilled} icon={heartFilled} onClick={removeWL} />)
+            : (<FontAwesomeIcon className={styles.iconHearthFilled} icon={faHeart} onClick={addWL} />)
     }
 
     const Buttons = ({ initialCount, value, max }) => {
@@ -103,7 +112,10 @@ const ProductCard = ({ product }) => {
                         })
                     }
                 </div>
-                <FontAwesomeIcon className={styles.iconHearth} icon={faHeart} onClick={addWL} />
+                {isFavorite(product_id)}
+                {/* 
+                <FontAwesomeIcon className={styles.iconHearthFilled} icon={faHeart} onClick={addWL} />
+                 */}
                 <div className={styles.priceContainer}>
                     <span className={styles.price}>{prodPrice}</span>
                     <span className={styles.available}>({inventoryQty} available)</span></div>
@@ -118,4 +130,10 @@ const ProductCard = ({ product }) => {
     )
 }
 
-export default ProductCard
+
+const mapStateToProps = state => ({
+    favoriteProducts: state.wishList.wishListItems,
+})
+
+export default connect(mapStateToProps)(ProductCard)
+

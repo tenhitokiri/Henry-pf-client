@@ -18,7 +18,7 @@ function WishListProduct({ product }) {
 
     //const itemsToBuy = product.quantity;
 
-    /*     let inventoryQty = 'no';
+    /*     let inventoryQty = '0';
         if (stock) {
             inventoryQty = stock
         } */
