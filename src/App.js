@@ -14,6 +14,7 @@ import { fetchProducts } from './redux/Products/productActions'
 import { useDispatch } from 'react-redux'
 import Cart from './components/Cart/Cart';
 import AddProductDone from './components/Products/AddProductDone';
+import Panels from './components/User/Panels/Panels';
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
         <Route path='/find-product' element={<ProductSearch />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/admin/add-category' element={<AddCategory />} />
+        <Route path='/panels' element={<Panels />} />
         <Route path="*" element={<Route404 />} />
       </Routes>
       <Footer />

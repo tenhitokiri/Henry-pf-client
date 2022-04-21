@@ -10,6 +10,7 @@ const Nav = () => {
                 <NavLink className={styles.link} to={'/products'}>Featured Products</NavLink>
                 <div className={styles.link}>Dropdown</div>
                 <NavLink className={styles.link} to={'/add-product'}>Sell</NavLink>
+                <NavLink className={styles.link} to={'/panels'}>User</NavLink>
             </div>
         </div>
     )
