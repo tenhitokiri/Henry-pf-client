@@ -1,96 +1,161 @@
-import React from 'react'
-import styles from './Product.module.css'
-import useCounter from '../../hooks/UseCounter';
-//import { addToCart, initCartState } from '../Cart/CartFunctions'
-import { FormatMoney } from 'format-money-js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart, faStar as starReg } from '@fortawesome/free-regular-svg-icons'
-import { faCircleMinus, faCircleXmark, faCirclePlus, faStar } from '@fortawesome/free-solid-svg-icons'
-//import useLocalStorage from '../../hooks/UseLocalStorage';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import Inputs from '../Inputs/Inputs'
+import { addPRODUCT } from '../../redux/Products/productActions'
+import styles from './productForm.module.css'
+import TextArea from '../Inputs/TextArea'
+import { fetchDetailCategories } from '../../redux/Categories/categoryActions'
 
-const ProductCard = ({ product }) => {
+const ProductForm = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const categories = useSelector(state => state.categories.categories)
 
-    const { id, title,
-        price, image, rating } = product;
-    const star = Math.floor(rating.rate)
+    useEffect(() => {
+        dispatch(fetchDetailCategories())
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    const inventoryQty = product.inventoryQty || 100;
-    const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
-    const prodPrice = formatMoney.from(parseFloat(price)) || price
-    //const [cart, setCart] = useLocalStorage('cart', initCartState);
-    let itemsToBuy = 0
-    const addCart = () => {
-        const payload = {
-            id, title,
-            inventoryQty, price,
-            image, rating, itemsToBuy
-        }
-        //const newCart = addToCart(cart, payload)
-        //console.log(newCart)
-        //setCart(newCart)
-        //console.log("Cart Content:")
-        //console.log(cart)
+    const validation = {
+        name: /^[A-Za-z0-9\s.,]+$/,
+        image: /^https?:\/\/[\w]+(\.[\w]+)+[/#?]?.*$/
+    }
+    const [data, setData] = useState({
+        name: '',
+        description: '',
+        category_id: '',
+        images: [],
+        imgOnScreen: ''
+    })
+
+    const [nameError, setNameError] = useState('')
+    const [descriptionError, setDescriptionError] = useState('')
+    const [imageError, setImagetError] = useState('')
+    const [categoryError, setCategoryError] = useState(true)
+    const [toggle, setToggle] = useState(false)
+
+    const onClear = () => {
+        setData({
+            name: '',
+            description: '',
+            category_id: '',
+            images: [],
+            imgOnScreen: ''
+        })
+    }
+    const onToggle = () => {
+        setToggle(!toggle)
+    }
+    const onCategory = (e) => {
+        setToggle()
+        setData({ ...data, category_id: e.target.id })
+        setCategoryError(false)
     }
 
-    const Buttons = ({ initialCount, value, max }) => {
-        const [count, increment, decrement, reset] = useCounter(initialCount, value, max)
-        const add = () => {
-            increment()
-            itemsToBuy = count + value > max ? max : count + value
-        }
-        const remove = () => {
-            decrement()
-            itemsToBuy = count - value < 0 ? 0 : count - value
-        }
-        const resetCount = () => {
-            reset()
-            itemsToBuy = 0
-        }
-        return (
-            <div className={styles.buttonGroup}>
-                <div className={styles.buttonsStock}>
-                    <button className={`${styles.buttonRemove}`} onClick={remove} ><FontAwesomeIcon icon={faCircleMinus} /></button>
-                    <span className={styles.badge} >{count}</span>
-                    <button className={`${styles.buttonAdd}`} onClick={add} ><FontAwesomeIcon icon={faCirclePlus} /></button>
-                </div >
-                <button className={`${styles.buttonReset}`} onClick={resetCount} ><FontAwesomeIcon icon={faCircleXmark} /></button>
-            </div >
-        )
-    }
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+        if (!nameError && !descriptionError && !imageError && !categoryError) {
+            setData({ ...data, images: data.images.push(data.imgOnScreen) })
+            dispatch(addPRODUCT(data))
+            onClear()
+            navigate('/add-produc/done')
+            console.log(data)
+        }
+    }
     return (
-        <div className={styles.cardItem}>
-            <div className={styles.cardHeader}>
-                <img src={image} alt={title} className={styles.img} />
-            </div>
-            <div className={styles.cardBody}>
-                <div className={styles.title}>{title.length > 40 ? (title.substring(0, 40) + "...") : title} </div>
-                <div className={styles.rate}>
-                    {
-                        [...Array(star)].map((e, index) => {
-                            return <FontAwesomeIcon className={styles.stars} key={index} icon={faStar} />
-                        })
-                    }
-                    {
-                        [...Array(5 - star)].map((e, index) => {
-                            return <FontAwesomeIcon className={styles.stars} key={index.toString() + 'b'} icon={starReg} />
-                        })
-                    }
+        <div className={styles.background}>
+            <form className={styles.form} autoComplete="off" onSubmit={onSubmit}>
+                <div className={styles.path}>Home / Sell / Add-Product</div>
+                <div className={styles.formContent}>
+                    <div className={styles.content}>
+                        <div className={styles.catName}>
+                            <Inputs
+                                error={nameError}
+                                setError={setNameError}
+                                data={data}
+                                setData={setData}
+                                type='text'
+                                placeholder='title'
+                                name='name'
+                                textError='product name needs to be at least 50 characters long.letters and numbers'
+                                validation={validation.name}
+                                value={data.name}
+                            />
+                            <label
+                                className={styles.categories}
+                                onClick={onToggle}
+                            >
+                                categories
+                                <ul>
+                                    {
+                                        toggle &&
+                                        categories.map(e => (
+                                            <li
+                                                key={e.category_id}
+                                                id={e.category_id}
+                                                onClick={onCategory}
+                                            >
+                                                {e.name}
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
+                            </label>
+                        </div>
+                        <TextArea
+                            className={styles.description}
+                            error={descriptionError}
+                            setError={setDescriptionError}
+                            data={data}
+                            setData={setData}
+                            type='text'
+                            placeholder='description'
+                            name='description'
+                            textError='only letters and numbers'
+                            validation={validation.name}
+                            value={data.description}
+                        />
+                    </div>
+                    <div className={styles.imgInContent}>
+                        {
+                            !imageError && <img alt='' className={styles.img} src={data.imgOnScreen} />
+                        }
+                        <Inputs
+                            className={styles.imgInput}
+                            error={imageError}
+                            setError={setImagetError}
+                            data={data}
+                            setData={setData}
+                            type='url'
+                            placeholder='url image'
+                            name='imgOnScreen'
+                            textError='product image needs to be a Valid URL'
+                            validation={validation.image}
+                            value={data.imgOnScreen}
+                        />
+                    </div>
                 </div>
-                <FontAwesomeIcon className={styles.iconHearth} icon={faHeart} />
-                <div className={styles.priceContainer}>
-                    <span className={styles.price}>{prodPrice}</span>
-                    <span className={styles.available}>({inventoryQty} available)</span></div>
-            </div>
-            <div className={styles.cardFooter}>
-                <div>
-                    <Buttons initialCount={0} value={1} max={inventoryQty} itemsToBuy={itemsToBuy} />
-                    <button className={`${styles.buttonSuccess}`} onClick={addCart}>Add to cart</button>
+                <div className={styles.butContent}>
+                    {
+                        (
+                            !nameError
+                            && !descriptionError
+                            && !imageError
+                            && data.name !== ''
+                            && data.description !== ''
+                            && data.imgOnScreen !== ''
+                            && !categoryError
+                        ) ?
+                            <button className={styles.butSave} type='submit'>save</button>
+                            :
+                            <button className={styles.butDisabled} type='submit' disabled>save</button>
+                    }
+                    <button className={styles.butClear} onClick={onClear}>clear</button>
                 </div>
-            </div>
+            </form>
         </div>
     )
 }
 
-
-export default ProductCard
+export default ProductForm
