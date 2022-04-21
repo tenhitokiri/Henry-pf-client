@@ -43,6 +43,7 @@ const Nav = () => {
                 </label>
 
                 <NavLink className={styles.link} to={'/add-product'}>Sell</NavLink>
+                <NavLink className={styles.link} to={'/panels'}>User</NavLink>
             </div>
         </div>
     )

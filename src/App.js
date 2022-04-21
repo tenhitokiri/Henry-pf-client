@@ -14,8 +14,12 @@ import { fetchProducts } from './redux/Products/productActions'
 import { useDispatch } from 'react-redux'
 import Cart from './components/Cart/Cart';
 import AddProductDone from './components/Products/AddProductDone';
+<<<<<<< HEAD
+import Panels from './components/User/Panels/Panels';
+=======
 import { fetchCategories } from './redux';
 
+>>>>>>> ecae7777926a998a88797d8038a14395528a281d
 
 function App() {
 
@@ -43,6 +47,7 @@ function App() {
         <Route path='/find-product' element={<ProductSearch />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/admin/add-category' element={<AddCategory />} />
+        <Route path='/panels' element={<Panels />} />
         <Route path="*" element={<Route404 />} />
       </Routes>
       <Footer />
