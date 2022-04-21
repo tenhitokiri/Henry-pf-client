@@ -94,6 +94,15 @@ const productReducer = (state = productState, action) => {
 
                 }
             }
+
+        case PRODUCT_ACTIONS.FETCH_PRODUCT_CATEGORY_SUCCES:
+            return {
+                ...state,
+                loading: false,
+                products: payload,
+                numberOfFoundProducts: payload.length,
+                error: ''
+            }
         default: return state
     }
 }

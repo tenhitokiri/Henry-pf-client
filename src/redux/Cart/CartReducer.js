@@ -11,6 +11,24 @@ const initCartState = {
 const cartReducer = (state = initCartState, action) => {
   const { type, payload } = action
   switch (type) {
+    //logged get cart
+    case CART_ACTIONS.LOAD_CART:
+
+      const total = payload.map(e => {
+        return parseFloat(e.unit_price) * parseInt(e.quantity)
+      })
+
+      return {
+        ...state,
+        cartItems: payload,
+        numberOfItems: payload.length,
+        totalPrice: total.reduce((a, b) => { return a + b })
+      }
+    //logged add-cart
+
+
+
+
     case CART_ACTIONS.ADD_TO_CART:
       {
         const {
@@ -20,6 +38,9 @@ const cartReducer = (state = initCartState, action) => {
 
         if (itemsToBuy === 0) return state
         if (state.cartItems.length === 0) {
+          localStorage.setItem('cart', JSON.stringify([payload]));
+          localStorage.setItem('savedCartItems', true);
+
           return {
             ...state,
             cartItems: [payload],
@@ -51,6 +72,9 @@ const cartReducer = (state = initCartState, action) => {
         const newTotal = parseFloat(state.totalPrice) + parseFloat(newPrice) - parseFloat(oldPrice)
         const newQuantity = parseInt(state.numberOfItems) + parseInt(payload.itemsToBuy) - parseInt(oldQty)
         if (oldQty === 0) {
+          localStorage.setItem('cart', JSON.stringify([...updatedCartItems, payload]));
+          localStorage.setItem('savedCartItems', true);
+
           return {
             ...state,
             cartItems: [...updatedCartItems, payload],
@@ -58,6 +82,9 @@ const cartReducer = (state = initCartState, action) => {
             totalPrice: newTotal
           }
         }
+        localStorage.setItem('cart', JSON.stringify([...updatedCartItems]));
+        localStorage.setItem('savedCartItems', true);
+
         return {
           ...state,
           cartItems: updatedCartItems,
@@ -92,6 +119,8 @@ const cartReducer = (state = initCartState, action) => {
         const newTotal = parseFloat(state.totalPrice) + parseFloat(newPrice) - parseFloat(oldPrice)
         const newQuantity = parseInt(state.numberOfItems) + parseInt(payload.itemsToBuy) - parseInt(oldQty)
         if (oldQty === 0) {
+          localStorage.setItem('cart', JSON.stringify([...updatedCartItems, payload]));
+          localStorage.setItem('savedCartItems', true);
           return {
             ...state,
             cartItems: [...updatedCartItems, payload],
@@ -99,6 +128,8 @@ const cartReducer = (state = initCartState, action) => {
             totalPrice: newTotal
           }
         }
+        localStorage.setItem('cart', JSON.stringify([...updatedCartItems]));
+        localStorage.setItem('savedCartItems', true);
         return {
           ...state,
           cartItems: updatedCartItems,
@@ -115,7 +146,8 @@ const cartReducer = (state = initCartState, action) => {
         const newTotal = parseFloat(state.totalPrice) - parseFloat(itemsToBuy) * parseFloat(price)
         const updatedCartItems = state.cartItems.filter(product => product.product_id !== payload.product_id)
         const newQuantity = parseInt(state.numberOfItems) - parseInt(itemsToBuy)
-
+        localStorage.setItem('cart', JSON.stringify([...updatedCartItems]));
+        localStorage.setItem('savedCartItems', true);
         return {
           ...state,
           numberOfItems: newQuantity,
@@ -127,6 +159,8 @@ const cartReducer = (state = initCartState, action) => {
 
     case CART_ACTIONS.EMPTY_CART:
       {
+        localStorage.setItem('cart', JSON.stringify([]));
+        localStorage.setItem('savedCartItems', false);
         return {
           ...state,
           cartItems: [],
@@ -134,6 +168,25 @@ const cartReducer = (state = initCartState, action) => {
         }
 
       }
+    case CART_ACTIONS.SET_CART_ITEMS: {
+      let numberOfItems = 0;
+      let totalPrice = 0.0;
+      let cartItems = [];
+      if (payload.length > 0) {
+        payload.forEach(product => {
+          numberOfItems += parseInt(product.itemsToBuy)
+          totalPrice += parseFloat(product.price) * parseFloat(product.itemsToBuy)
+          cartItems.push(product)
+        })
+      }
+
+      return {
+        ...state,
+        cartItems: payload,
+        numberOfItems,
+        totalPrice
+      }
+    }
     default: return state
   }
 }

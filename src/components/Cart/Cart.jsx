@@ -25,14 +25,14 @@ export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount
         <CartProduct key={product.id} product={product} />
     )))
         : (<div className={styles.addProducts}>
-                Add some products to cart
-                <span>&nbsp;</span>
-                <NavLink to={'/products'}>
-                    <button className={styles.button}>
-                        All products
-                    </button>
-                </NavLink>
-            </div>)
+            Add some products to cart
+            <span>&nbsp;</span>
+            <NavLink to={'/products'}>
+                <button className={styles.button}>
+                    All products
+                </button>
+            </NavLink>
+        </div>)
 
     return (
         <div className={styles.container}>
@@ -58,7 +58,7 @@ export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount
                 {listMarkup}
                 {
                     listMarkup.length > 0 ? <button className={`${styles.buttonSuccess} ${styles.continue}`}>Continue Shopping</button> :
-                    <div></div>
+                        <div></div>
                 }
             </div>
         </div>

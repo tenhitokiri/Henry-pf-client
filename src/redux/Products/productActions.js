@@ -24,17 +24,23 @@ const fetchAllProductsSuccess = (Products) => {
         payload: Products
     }
 }
+//succes for fetching product by category
+const fetchProductsCategorySucces = (products) => {
+    return {
+        type: PRODUCT_ACTIONS.FETCH_PRODUCT_CATEGORY_SUCCES,
+        payload: products
+    }
+}
 
 //Fetch all Products
 export const fetchProducts = () => {
     return (dispatch) => {
         dispatch(actionProductsRequest())
         let api = backendUrl + 'products'
-        console.log(`fetchProducts: ${api}`)
         axios.get(api)
             .then(response => {
-                const Products = response.data
-                dispatch(fetchAllProductsSuccess(Products))
+                const products = response.data
+                dispatch(fetchAllProductsSuccess(products))
             })
             .catch(error => {
                 const msg = error.message
@@ -74,11 +80,13 @@ export const fetchProductById = (id) => {
             })
     }
 }
+
+
 //Fetch one  PRODUCTs by ID
-export const fetchProductByName = (id) => {
+export const fetchProductByName = (search) => {
     return (dispatch) => {
         dispatch(actionProductsRequest())
-        let api = backendUrl + 'products/name/'
+        let api = backendUrl + 'products/search/?search=' + search
         axios.get(api)
             .then(response => {
                 const Products = response.data
@@ -168,3 +176,20 @@ export const clearSearchedProducts = () => {
         type: PRODUCT_ACTIONS.CLEAR_PRODUCT_SUCCESS
     }
 }
+
+export const fetchProductByCategory = (category) => {
+    return dispatch => {
+        dispatch(actionProductsRequest())
+        let api = backendUrl + 'products/categories/?type=' + category;
+        axios(api)
+            .then(response => {
+                const products = response.data
+                dispatch(fetchProductsCategorySucces(products))
+            })
+            .catch(error => {
+                const msg = error.message
+                dispatch(actionProductsFailure(msg))
+            })
+    }
+}
+

@@ -66,16 +66,6 @@
 }
 .name {
     display: flex;
-    flex-direction: column;
-    text-align: left;
-    float: left;
-    width: 50%;
-    margin-right: 40px;
-}
-.name div {
-    width: 100%;
-    float: left;
-    margin: 0;
 }
 .categories {
     float: left;
@@ -84,16 +74,15 @@
 .description {
     margin: 20px;
 }
-.imgInput {
-    width: 100%;
-}
-input {
-    font-family: 'Work Sans', sans-serif;
-    font-weight: 500;
-    font-size: 0.9rem;
-    padding: 9px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px 0 0 4px;
+
+
+.imgInContent {
+    display: flex;
+    width: 400px;
+    height: 400px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 .butContent {
     display: flex;

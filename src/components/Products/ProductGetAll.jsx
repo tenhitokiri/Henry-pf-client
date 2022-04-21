@@ -3,10 +3,12 @@ import { connect } from 'react-redux'
 import { fetchProducts } from '../../redux'
 import ProductList from './ProductList'
 
-const ProductListAll = ({ fetchProducts, productList, loading, error, cartList, numberOfItems }) => {
+const ProductListAll = ({ fetchProducts, productList, loading, error, numberOfProducts }) => {
     useEffect(() => {
-        fetchProducts()
-        console.log(productList);
+        if (numberOfProducts === 0) {
+            console.log("fetching products")
+            fetchProducts()
+        }
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const productMarkup = loading ? (
@@ -28,15 +30,13 @@ const ProductListAll = ({ fetchProducts, productList, loading, error, cartList, 
 
 const mapStateToProps = state => ({
     productList: state.products.products,
+    numberOfProducts: state.products.numberOfProducts,
     loading: state.products.loading,
     error: state.products.error,
-    cartList: state.cart.cartItems,
-    numberOfItems: state.cart.numberOfItems,
 })
 
 const mapDispatchToProps = dispatch => ({
     fetchProducts: () => dispatch(fetchProducts())
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductListAll)
