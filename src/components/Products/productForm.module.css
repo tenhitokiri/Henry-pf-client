@@ -38,24 +38,17 @@
 
 .catName {
     display: flex;
-    justify-content: space-between;
-}
 
-.description {
-    margin: 20px;
 }
 
 .categories {
     margin: 0 10vw;
 }
 
-.imgInput {
-    width: 100%;
-}
 
 .imgInContent {
     display: flex;
-    width: 100%;
+    width: 400px;
     height: 400px;
     flex-direction: column;
     justify-content: flex-end;
