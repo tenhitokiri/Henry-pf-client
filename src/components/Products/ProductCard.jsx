@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Product.module.css'
 import useCounter from '../../hooks/UseCounter';
 import { useDispatch } from 'react-redux'
-import { addToCart } from '../../redux'
+import { addToCart, addToWL } from '../../redux'
 import { FormatMoney } from 'format-money-js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faStar as starReg } from '@fortawesome/free-regular-svg-icons'
@@ -44,6 +44,14 @@ const ProductCard = ({ product }) => {
             rating, itemsToBuy
         }
         dispatch(addToCart(payload))
+    }
+    const addWL = () => {
+        const payload = {
+            product_id, name,
+            inventoryQty, price,
+            image, rating
+        }
+        dispatch(addToWL(payload))
     }
 
     const Buttons = ({ initialCount, value, max }) => {
@@ -95,7 +103,7 @@ const ProductCard = ({ product }) => {
                         })
                     }
                 </div>
-                <FontAwesomeIcon className={styles.iconHearth} icon={faHeart} />
+                <FontAwesomeIcon className={styles.iconHearth} icon={faHeart} onClick={addWL} />
                 <div className={styles.priceContainer}>
                     <span className={styles.price}>{prodPrice}</span>
                     <span className={styles.available}>({inventoryQty} available)</span></div>
