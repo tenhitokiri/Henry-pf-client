@@ -14,13 +14,14 @@ import Cart from './components/Cart/Cart';
 import AddProductDone from './components/Products/AddProductDone';
 import Panels from './components/User/Panels/Panels';
 import WishList from './components/WishList/WishList';
-import { fetchProducts, getCartItems } from './redux'
-import { useSelector, useDispatch } from 'react-redux';
+import { fetchProducts, getCartItems, fetchCategories } from './redux'
+import { useDispatch } from 'react-redux';
 
 function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    dispatch(fetchCategories())
     dispatch(fetchProducts())
     dispatch(getCartItems())
   }, []) // eslint-disable-line react-hooks/exhaustive-deps

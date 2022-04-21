@@ -28,7 +28,7 @@ const fetchAllCategoriesSuccess = (Categories) => {
 //success for fetching all Categories detailed
 const fetchDetailCategoriesSuccess = (Categories) => {
     return {
-        type: CATEGORY_ACTIONS.FETCH_ALL_CATEGORIES_SUCCESS,
+        type: CATEGORY_ACTIONS.FETCH_CATEGORIES_DETAIL,
         payload: Categories
     }
 }

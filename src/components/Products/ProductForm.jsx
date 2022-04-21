@@ -10,7 +10,7 @@ import { fetchDetailCategories } from '../../redux/Categories/categoryActions'
 const ProductForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const categories = useSelector(state => state.categories.categories)
+    const categories = useSelector(state => state.categories.categories_detail)
 
     useEffect(() => {
         dispatch(fetchDetailCategories())

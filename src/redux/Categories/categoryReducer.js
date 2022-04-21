@@ -1,7 +1,8 @@
 import CATEGORY_ACTIONS from './categoryTypes'
 
 const categoryState = {
-    categories: []
+    categories: [],
+    categories_detail: []
 }
 
 const categoryReducer = (state = categoryState, action) => {
@@ -32,8 +33,7 @@ const categoryReducer = (state = categoryState, action) => {
                 return {
                     ...state,
                     loading: false,
-                    categories: payload,
-                    numberOfCategories: payload.length,
+                    categories_detail: payload,
                     error: ''
                 }
             }
