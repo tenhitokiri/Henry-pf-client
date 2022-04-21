@@ -1,7 +1,8 @@
 import CATEGORY_ACTIONS from './categoryTypes'
 
 const categoryState = {
-    categories: []
+    categories: [],
+    categories_detail: []
 }
 
 const categoryReducer = (state = categoryState, action) => {
@@ -27,8 +28,17 @@ const categoryReducer = (state = categoryState, action) => {
                 numberOfCategories: payload.length,
                 error: ''
             }
-            default: return state
-        }
+        case CATEGORY_ACTIONS.FETCH_CATEGORIES_DETAIL:
+            {
+                return {
+                    ...state,
+                    loading: false,
+                    categories_detail: payload,
+                    error: ''
+                }
+            }
+        default: return state
     }
-    
-    export default categoryReducer
+}
+
+export default categoryReducer

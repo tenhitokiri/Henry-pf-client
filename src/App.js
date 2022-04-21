@@ -12,15 +12,19 @@ import Route404 from './components/NotFound/Route404';
 import Nav from './components/Nav/Nav';
 import Cart from './components/Cart/Cart';
 import AddProductDone from './components/Products/AddProductDone';
-<<<<<<< HEAD
 import Panels from './components/User/Panels/Panels';
-=======
-import { fetchCategories } from './redux';
 import WishList from './components/WishList/WishList';
-
->>>>>>> ecae7777926a998a88797d8038a14395528a281d
+import { fetchProducts, getCartItems, fetchCategories } from './redux'
+import { useDispatch } from 'react-redux';
 
 function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchCategories())
+    dispatch(fetchProducts())
+    dispatch(getCartItems())
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className="App">
       <Header />

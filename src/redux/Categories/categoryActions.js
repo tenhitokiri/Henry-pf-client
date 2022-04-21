@@ -25,6 +25,15 @@ const fetchAllCategoriesSuccess = (Categories) => {
     }
 }
 
+//success for fetching all Categories detailed
+const fetchDetailCategoriesSuccess = (Categories) => {
+    return {
+        type: CATEGORY_ACTIONS.FETCH_CATEGORIES_DETAIL,
+        payload: Categories
+    }
+}
+
+
 //Fetch all Categories
 export const fetchCategories = () => {
     return (dispatch) => {
@@ -35,6 +44,24 @@ export const fetchCategories = () => {
             .then(response => {
                 const Categories = response.data
                 dispatch(fetchAllCategoriesSuccess(Categories))
+            })
+            .catch(error => {
+                const msg = error.message
+                dispatch(actionCategoriesFailure(msg))
+            })
+    }
+}
+
+//Fetch all Categories/detailed
+
+export const fetchDetailCategories = () => {
+    return (dispatch) => {
+        dispatch(actionCategoriesRequest())
+        let api = backendUrl + 'category'
+        axios.get(api)
+            .then(response => {
+                const Categories = response.data
+                dispatch(fetchDetailCategoriesSuccess(Categories))
             })
             .catch(error => {
                 const msg = error.message

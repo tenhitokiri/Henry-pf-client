@@ -92,7 +92,7 @@ const ProductDetail = ({ favoriteProducts }) => {
             )
     }
 
-    const image = images[0] || 'https://via.placeholder.com/150'
+    const image = images || 'https://via.placeholder.com/150'
 
     return (
         <div className={styles.background}>
