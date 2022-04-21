@@ -1,7 +1,7 @@
 import React from 'react'
 import useCounter from '../../hooks/UseCounter';
 import { useDispatch } from 'react-redux'
-import { updateCartItem, removeFromCart } from '../../redux'
+import { addToCart, removeFromWL } from '../../redux'
 import { FormatMoney } from 'format-money-js';
 import styles from './Cart.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,54 +9,57 @@ import { faCircleMinus, faCircleXmark, faCirclePlus } from '@fortawesome/free-so
 import { Link } from 'react-router-dom';
 
 
-function CartProduct({ product }) {
+function WishListProduct({ product }) {
     const {
         product_id, name,
-        stock, price,
-        image, itemsToBuy
+        inventoryQty, price,
+        image, rating
     } = product
 
     //const itemsToBuy = product.quantity;
 
-    let inventoryQty = 'no';
-    if (stock) {
-        inventoryQty = stock
-    }
+    /*     let inventoryQty = '0';
+        if (stock) {
+            inventoryQty = stock
+        } */
 
 
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseInt(price)) || price
 
-    let newCount = itemsToBuy
+    let itemsToBuy = product.itemsToBuy || 0;
     const dispatch = useDispatch()
-    const updateCart = () => {
+
+    const addCart = () => {
         const payload = {
-            product_id,
-            price,
-            itemsToBuy: newCount
+            product_id, name,
+            inventoryQty, price,
+            image,
+            rating, itemsToBuy
         }
-        dispatch(updateCartItem(payload))
+        dispatch(addToCart(payload))
     }
-    const removeCartItem = () => {
+
+    const removeWishListItem = () => {
         const payload = {
             product_id
         }
-        dispatch(removeFromCart(payload))
+        dispatch(removeFromWL(payload))
     }
 
     const Buttons = ({ initialCount, value, max }) => {
         const [count, increment, decrement, reset] = useCounter(initialCount, value, max)
         const add = () => {
             increment()
-            newCount = count + value > max ? max : count + value
+            itemsToBuy = count + value > max ? max : count + value
         }
         const remove = () => {
             decrement()
-            newCount = count - value < 0 ? 0 : count - value
+            itemsToBuy = count - value < 0 ? 0 : count - value
         }
         const resetCount = () => {
             reset()
-            newCount = 0
+            itemsToBuy = 0
         }
         return (
             <div className={styles.buttonGroup}>
@@ -65,7 +68,7 @@ function CartProduct({ product }) {
                     <span className={styles.badge} >{count}</span>
                     <button className={`${styles.buttonAdd}`} onClick={add} ><FontAwesomeIcon icon={faCirclePlus} /></button>
                 </div >
-                <button className={`${styles.buttonReset}`} onClick={removeCartItem} ><FontAwesomeIcon icon={faCircleXmark} /></button>
+                <button className={`${styles.buttonReset}`} onClick={removeWishListItem} ><FontAwesomeIcon icon={faCircleXmark} /></button>
             </div >
         )
     }
@@ -91,10 +94,10 @@ function CartProduct({ product }) {
                         <span className={styles.available}>({inventoryQty} available)</span>
                     </div>
                     <Buttons initialCount={itemsToBuy} value={1} max={inventoryQty} />
-                    <button className={`${styles.buttonSuccess}`} onClick={updateCart}>Update cart</button>
+                    <button className={`${styles.buttonSuccess}`} onClick={addCart}>Add to cart</button>
                 </div>
             </div>
         </div>
     )
 }
-export default CartProduct
+export default WishListProduct
