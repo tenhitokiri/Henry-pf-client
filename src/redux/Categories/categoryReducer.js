@@ -27,8 +27,18 @@ const categoryReducer = (state = categoryState, action) => {
                 numberOfCategories: payload.length,
                 error: ''
             }
-            default: return state
-        }
+        case CATEGORY_ACTIONS.FETCH_CATEGORIES_DETAIL:
+            {
+                return {
+                    ...state,
+                    loading: false,
+                    categories: payload,
+                    numberOfCategories: payload.length,
+                    error: ''
+                }
+            }
+        default: return state
     }
-    
-    export default categoryReducer
+}
+
+export default categoryReducer

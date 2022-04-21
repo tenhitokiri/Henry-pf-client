@@ -1,14 +1,20 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Inputs from '../Inputs/Inputs'
 import { addPRODUCT } from '../../redux/Products/productActions'
 import styles from './productForm.module.css'
 import TextArea from '../Inputs/TextArea'
+import { fetchDetailCategories } from '../../redux/Categories/categoryActions'
 
 const ProductForm = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const categories = useSelector(state => state.categories.categories)
+
+    useEffect(() => {
+        dispatch(fetchDetailCategories())
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const validation = {
         name: /^[A-Za-z0-9\s.,]+$/,
@@ -17,6 +23,7 @@ const ProductForm = () => {
     const [data, setData] = useState({
         name: '',
         description: '',
+        category_id: '',
         images: [],
         imgOnScreen: ''
     })
@@ -24,24 +31,36 @@ const ProductForm = () => {
     const [nameError, setNameError] = useState('')
     const [descriptionError, setDescriptionError] = useState('')
     const [imageError, setImagetError] = useState('')
+    const [categoryError, setCategoryError] = useState(true)
+    const [toggle, setToggle] = useState(false)
 
     const onClear = () => {
         setData({
             name: '',
             description: '',
+            category_id: '',
             images: [],
             imgOnScreen: ''
         })
     }
+    const onToggle = () => {
+        setToggle(!toggle)
+    }
+    const onCategory = (e) => {
+        setToggle()
+        setData({ ...data, category_id: e.target.id })
+        setCategoryError(false)
+    }
+
 
     const onSubmit = (e) => {
         e.preventDefault();
-        if (!nameError && !descriptionError && !imageError) {
-
+        if (!nameError && !descriptionError && !imageError && !categoryError) {
             setData({ ...data, images: data.images.push(data.imgOnScreen) })
             dispatch(addPRODUCT(data))
             onClear()
             navigate('/add-produc/done')
+            console.log(data)
         }
     }
     return (
@@ -63,7 +82,26 @@ const ProductForm = () => {
                                 validation={validation.name}
                                 value={data.name}
                             />
-                            <div className={styles.categories}>categories</div>
+                            <label
+                                className={styles.categories}
+                                onClick={onToggle}
+                            >
+                                categories
+                                <ul>
+                                    {
+                                        toggle &&
+                                        categories.map(e => (
+                                            <li
+                                                key={e.category_id}
+                                                id={e.category_id}
+                                                onClick={onCategory}
+                                            >
+                                                {e.name}
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
+                            </label>
                         </div>
                         <TextArea
                             className={styles.description}
@@ -99,7 +137,6 @@ const ProductForm = () => {
                     </div>
                 </div>
                 <div className={styles.butContent}>
-
                     {
                         (
                             !nameError
@@ -108,6 +145,7 @@ const ProductForm = () => {
                             && data.name !== ''
                             && data.description !== ''
                             && data.imgOnScreen !== ''
+                            && !categoryError
                         ) ?
                             <button className={styles.butSave} type='submit'>save</button>
                             :
