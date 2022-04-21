@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchProductById } from '../../redux/Products/productActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,11 +8,12 @@ import { faStar as starReg } from '@fortawesome/free-regular-svg-icons'
 import styles from './productDetail.module.css'
 import ProductCarrousel from '../Carrousel/ProductCarrousel'
 import usePaginate from '../../hooks/usePaginate'
-import { addToCart, removeFromCart } from '../../redux/Cart/cartActions'
+import { addToCart, addToWL, removeFromWL, removeFromCart } from '../../redux'
+
 import { generateRandomInt } from '../../utils'
 
 
-const ProductDetail = () => {
+const ProductDetail = ({ favoriteProducts }) => {
     const dispatch = useDispatch();
     const { id } = useParams()
     const related = useSelector(state => state.products.products)
@@ -57,7 +58,7 @@ const ProductDetail = () => {
             const payload = {
                 product_id, name,
                 inventoryQty, price,
-                image: images[0],
+                image,
                 rating, itemsToBuy: counter
             }
             dispatch(addToCart(payload))
@@ -67,9 +68,31 @@ const ProductDetail = () => {
     }
 
     /////////////////
-    const addWish = () => {
-
+    const addWL = () => {
+        const payload = {
+            product_id, name,
+            inventoryQty, price,
+            image, rating
+        }
+        dispatch(addToWL(payload))
     }
+    const removeWL = () => {
+        const payload = {
+            product_id, name,
+            inventoryQty, price,
+            image, rating
+        }
+        dispatch(removeFromWL(payload))
+    }
+
+    const isFavorite = (id) => {
+        const isFav = favoriteProducts && favoriteProducts.find(item => item.product_id === id)
+        return isFav ? (<button className={styles.wish} onClick={removeWL}>Delete From wishlist</button>)
+            : (<button className={styles.wish} onClick={addWL}>Add to wishlist</button>
+            )
+    }
+
+    const image = images || 'https://via.placeholder.com/150'
 
     return (
         <div className={styles.background}>
@@ -113,7 +136,10 @@ const ProductDetail = () => {
                                 <button className={styles.increment} onClick={increment}>+</button>
                             </div>
                             <button className={styles.cart} onClick={addCart}>Add to cart</button>
+                            {isFavorite(product_id)}
+                            {/* 
                             <button className={styles.wish}>Add to wishlist</button>
+ */}
                         </div>
                     </div>
                 </div>
@@ -137,4 +163,8 @@ const ProductDetail = () => {
     )
 }
 
-export default ProductDetail
+const mapStateToProps = state => ({
+    favoriteProducts: state.wishList.wishListItems,
+})
+
+export default connect(mapStateToProps)(ProductDetail)

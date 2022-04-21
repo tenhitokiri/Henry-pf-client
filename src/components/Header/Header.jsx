@@ -4,20 +4,18 @@ import styles from '../Header/Header.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
 import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons'
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { fetchProducts, getCartItems } from '../../redux'
 
 
-const Header = ({ getCartItems, numberOfCartItems, numberOfProducts }) => {
+const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWishListItems }) => {
     useEffect(() => {
         if (numberOfProducts === 0) {
-            console.log("fetching products")
             fetchProducts()
         }
         getCartItems()
-        console.log('Header component rendered')
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
@@ -30,7 +28,12 @@ const Header = ({ getCartItems, numberOfCartItems, numberOfProducts }) => {
             </div>
             <div className={styles.iconsContainer}>
                 <div className={styles.icons}>
-                    <FontAwesomeIcon className={styles.icon} icon={faHeart} size="2x" />
+                    <div className={styles.cart}>
+                        <Link to='/wishlist'>
+                            <FontAwesomeIcon className={styles.icon} icon={faHeart} size="2x" />
+                            {numberOfWishListItems > 0 && <span className={styles.cartItems}>{numberOfWishListItems}</span>}
+                        </Link>
+                    </div>
                     <div className={styles.cart}>
                         <Link to='/cart'>
                             <FontAwesomeIcon className={styles.icon} icon={faCartArrowDown} size="2x" />
@@ -52,6 +55,7 @@ const Header = ({ getCartItems, numberOfCartItems, numberOfProducts }) => {
 
 const mapStateToProps = state => ({
     numberOfCartItems: state.cart.numberOfItems,
+    numberOfWishListItems: state.wishList.numberOfItems,
     numberOfProducts: state.products.numberOfProducts,
     productLoading: state.products.loading,
     productError: state.products.error,

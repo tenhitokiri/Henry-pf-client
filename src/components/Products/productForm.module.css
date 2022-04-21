@@ -5,12 +5,23 @@
 
 .path {
     display: flex;
-    margin-bottom: 1vw;
+    margin-bottom: 20px;
+    background-color: #EDF1F2;
+    width: 100%;
 }
-
+.pathContainer {
+    max-width: 1300px;
+    margin: 0 auto;
+    float: left;
+    text-align: left;
+    width: 1300px;
+    font-size: 0.9rem;
+    padding: 6px 0;
+}
 .form {
     max-width: 1300px;
     margin: 0 auto;
+    padding: 0 3%;
 }
 
 .formContent {
@@ -18,31 +29,50 @@
     position: relative;
     width: 100%;
     margin: 0;
-    flex-direction: row-reverse;
+    flex-direction: row;
     justify-content: space-between;
 }
 
-.content {
+.rightContainer {
     display: flex;
     height: 100%;
-    width: 900px;
+    width: 65%;
     flex-direction: column;
+    text-align: left;
+    float: left;
 }
-
+.leftContainer {
+    display: flex;
+    width: 30%;
+    height: 400px;
+    flex-direction: column;
+    justify-content: flex-end;
+    float: left;
+    text-align: left;
+}
+.leftContainer div {
+    float: left;
+    width: 100%;
+}
+.contentNameCat {
+    float: left;
+}
 .img {
     margin: 0 auto;
     max-width: 400px;
     max-height: 350px;
+    width: 100%;
 
 }
-
-.catName {
+.name {
     display: flex;
-
 }
-
 .categories {
-    margin: 0 10vw;
+    float: left;
+    width: 40%;
+}
+.description {
+    margin: 20px;
 }
 
 
@@ -54,44 +84,66 @@
     justify-content: flex-end;
     align-items: flex-end;
 }
-
 .butContent {
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 50px;
 }
-
-.butSave {
-    width: 10vw;
-    height: 1.5vw;
-    border: transparent;
-    border-radius: 3px;
+.buttonSave {
+    padding: 8px 30px;
+    width: fit-content;
+    border: none;
     background-color: #F9C801;
-    margin: 0 2vw;
-    transition: 0.2s ease-in-out;
-}
-
-.butSave:hover {
-    background-color: #d4aa05;
-}
-
-.butClear {
-    width: 10vw;
-    height: 1.5vw;
-    background-color: #02354A;
-    color: #FFFFFF;
     border-radius: 3px;
-    transition: 0.2s ease-in-out;
-    border: transparent;
-}
+    cursor: pointer;
+    text-transform: capitalize;
+    margin-top: 6px;
 
+    transition: 0.2s;
+}
+.buttonSave:hover {
+    background-color: #dcb003;
+}
+.butClear {
+    padding: 8px 30px;
+    width: fit-content;
+    border: none;
+    background-color: #02354A;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: capitalize;
+    margin-top: 6px;
+    color: white;
+    margin-left: 20px;
+
+    transition: 0.2s;
+}
 .butClear:hover {
     background-color: #555555;
 }
-
 .butDisabled {
-    width: 10vw;
-    height: 1.5vw;
+    padding: 8px 30px;
+    width: fit-content;
+    border: none;
+    background-color: #F9C801;
     border-radius: 3px;
-    transition: 0.2s ease-in;
-    border: 1px solid #555555;
+    text-transform: capitalize;
+    margin-top: 6px;
+}
+@media screen and (max-width: 1000px) {
+    .rightContainer {
+        width: 100%;
+    }
+    .leftContainer {
+        width: 100%;
+    }
+    .leftContainer input {
+        width: 95%;
+    }
+    .formContent {
+        display: block;
+    }
+    .butContent {
+        float: left;
+    }
 }
