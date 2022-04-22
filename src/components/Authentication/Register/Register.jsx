@@ -21,13 +21,15 @@ function checkErrors(post){
     if(!post.password){
         errors.password = 'Please provide a password'
     }
-    
+    if(post.password !== post.confirm) {
+        errors.confirm = "Password does not match"
+    }   
     return errors;
 }
 
 
 export default function Register() {
-
+    
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({})
@@ -35,10 +37,14 @@ export default function Register() {
         name: '',
         email:'',
         password:'',
+        confirm:'',
     })
-
+    
     function handleSubmit(e){
         e.preventDefault();
+        if(post.password !== post.confirm) {
+            return alert("Password does not match")
+        }    
         if(Object.values(errors).length>0) return alert('Please provide the required info');
         else if(!post.name || !post.password) return alert('Please provide the required info');
         else{
@@ -63,23 +69,30 @@ export default function Register() {
         <div className={styles.signUp}>
                 <h2 className={styles.titleSignUp}>Create account</h2>
                     <form className={styles.formm} onSubmit = {(e) => handleSubmit(e)}>
-                        <div>
-                            <label >Name</label>
+                        <div className={styles.input_text}>
+                            <label className={styles.labelR}>Name</label>
                             <input type="text" onChange={(e) => handleInputChange(e)} value={post.name} name="name"/>
                             {
                                 errors.name && (<p>{errors.name}</p>)
                             }
                         </div>
-                        <div>
-                            <label >Email</label>
+                        <div className={styles.input_text}>
+                            <label className={styles.labelR} >Email</label>
                             <input  onChange={(e) => handleInputChange(e)} value= {post.email} name = 'email'/>
                             {
                                 errors.email && (<p>{errors.email}</p>)
                             }
                         </div>
-                        <div>
-                            <label >Password</label>
+                        <div className={styles.input_text}>
+                            <label className={styles.labelR} >Password</label>
                             <input  onChange={(e) => handleInputChange(e)} value= {post.password} name = 'password'/>
+                            {
+                                errors.password && (<p>{errors.password}</p>)
+                            }
+                        </div>
+                        <div className={styles.input_text}>
+                            <label className={styles.labelR} >Re-enter password</label>
+                            <input  onChange={(e) => handleInputChange(e)} value= {post.confirm} name = 'confirm'/>
                             {
                                 errors.password && (<p>{errors.password}</p>)
                             }
@@ -87,9 +100,6 @@ export default function Register() {
                         
                         <button type ='submit'>Continue</button>
                     </form>
-                    <Link to="/">
-                        <button className={styles.btn}>Home</button>
-                    </Link>
                </div>
 
     )

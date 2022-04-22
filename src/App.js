@@ -12,19 +12,19 @@ import Route404 from './components/NotFound/Route404';
 import Nav from './components/Nav/Nav';
 import Cart from './components/Cart/Cart';
 import AddProductDone from './components/Products/AddProductDone';
+import Register from './components/Authentication/Register/Register'
+import Login from './components/Authentication/Login/Login'
+import Verify from './components/Authentication/Verify/Verify'
+import PasswordRecover from './components/Authentication/PasswordRecover'
+// <<<<<<< HEAD
 import Panels from './components/User/Panels/Panels';
+// =======
+import { fetchCategories } from './redux';
 import WishList from './components/WishList/WishList';
-import { fetchProducts, getCartItems, fetchCategories } from './redux'
-import { useDispatch } from 'react-redux';
+
+// >>>>>>> ecae7777926a998a88797d8038a14395528a281d
 
 function App() {
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(fetchCategories())
-    dispatch(fetchProducts())
-    dispatch(getCartItems())
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className="App">
       <Header />
@@ -40,6 +40,11 @@ function App() {
         <Route path='/wishlist' element={<WishList />} />
         <Route path='/admin/add-category' element={<AddCategory />} />
         <Route path='/panels' element={<Panels />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/passwordRecover' element={<PasswordRecover />} />
+        <Route path='/verify/:id' element={<Verify />} />
+
         <Route path="*" element={<Route404 />} />
       </Routes>
       <Footer />

@@ -43,8 +43,8 @@ const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWis
                     <FontAwesomeIcon className={styles.icon} icon={faUser} size="2x" />
                 </div>
                 <div className={styles.login}>
-                    <div className={styles.loginLink}>Login in</div>
-                    <div className={styles.registerLink}>Register</div>
+                    <Link to ='login' className={styles.loginLink}>Login in</Link>
+                    <Link to ='register' className={styles.registerLink}>Register</Link>
                 </div>
             </div>
         </div>

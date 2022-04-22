@@ -1,3 +1,26 @@
+.signUp {
+    border: 1px solid rgb(155, 155, 155);
+    margin: 70px auto 50px;
+    width: 330px;
+    height: 380px;
+    border-radius:10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.titleSignUp {
+    border: 1px solid black;
+    display:flex;
+    justify-content: flex-start;
+    padding-left: 1rem;
+}
+.input_text {
+    border: 1px solid black;
+    display: inline-block;
+
+}
+
+
 /* .btn{
     display:inline-block;
     justify-content: space-between;
