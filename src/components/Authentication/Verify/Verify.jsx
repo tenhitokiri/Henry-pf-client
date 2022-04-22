@@ -11,7 +11,7 @@ export default function Verify(){
     console.log(id,'aqui estoy')
 
     function handleOnClick(e){
-        e.preventDefault();
+        // e.preventDefault();
         console.log('entre al handle') 
         dispatch(fetchToken(id));
         navigate('/');
