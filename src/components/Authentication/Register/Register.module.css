@@ -1,0 +1,46 @@
+.signUp {
+    border: 1px solid rgb(155, 155, 155);
+    margin: 70px auto 50px;
+    width: 330px;
+    height: 380px;
+    border-radius:10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.titleSignUp {
+    border: 1px solid black;
+    display:flex;
+    justify-content: flex-start;
+    padding-left: 1rem;
+}
+.input_text {
+    border: 1px solid black;
+    display: inline-block;
+
+}
+
+
+/* .btn{
+    display:inline-block;
+    justify-content: space-between;
+    margin-left:10rem;
+    margin-bottom:-5rem;;
+    font-size: 4rem;
+    color:white;
+
+    align-items: center;
+    cursor: pointer;
+
+    padding: 0.25rem;
+    border-radius:50%;
+    border: 3px solid transparent;
+    background-color: transparent;
+    transition: 250ms;
+    width:10rem;
+}
+
+.btn:hover {
+    background-color: rgba(240, 230, 230, 0.623);
+    color:rgb(63, 43, 43);
+} */
