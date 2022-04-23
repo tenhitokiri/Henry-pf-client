@@ -27,10 +27,10 @@ export const addCUSTOMER = (Customer) => {
     return (dispatch) => {
         dispatch(actionCustomerRequest())
         let api = backendUrl + 'auth/register'
-        console.log(`Signing up a customer: ${api}`)
         axios.post(api, Customer)
             .then(response => {
-                dispatch(addCustomerSuccess(Customer.id))
+                dispatch(addCustomerSuccess(response.data))
+
             })
             .catch(error => {
                 const msg = error.message

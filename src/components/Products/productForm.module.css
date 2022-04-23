@@ -9,6 +9,7 @@
     background-color: #EDF1F2;
     width: 100%;
 }
+
 .pathContainer {
     max-width: 1300px;
     margin: 0 auto;
@@ -18,6 +19,7 @@
     font-size: 0.9rem;
     padding: 6px 0;
 }
+
 .form {
     max-width: 1300px;
     margin: 0 auto;
@@ -41,6 +43,7 @@
     text-align: left;
     float: left;
 }
+
 .leftContainer {
     display: flex;
     width: 30%;
@@ -50,13 +53,16 @@
     float: left;
     text-align: left;
 }
+
 .leftContainer div {
     float: left;
     width: 100%;
 }
+
 .contentNameCat {
     float: left;
 }
+
 .img {
     margin: 0 auto;
     max-width: 400px;
@@ -64,13 +70,16 @@
     width: 100%;
 
 }
+
 .name {
     display: flex;
 }
+
 .categories {
     float: left;
     width: 40%;
 }
+
 .description {
     margin: 20px;
 }
@@ -84,11 +93,13 @@
     justify-content: flex-end;
     align-items: flex-end;
 }
+
 .butContent {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 50px;
 }
+
 .buttonSave {
     padding: 8px 30px;
     width: fit-content;
@@ -101,9 +112,11 @@
 
     transition: 0.2s;
 }
+
 .buttonSave:hover {
     background-color: #dcb003;
 }
+
 .butClear {
     padding: 8px 30px;
     width: fit-content;
@@ -118,9 +131,11 @@
 
     transition: 0.2s;
 }
+
 .butClear:hover {
     background-color: #555555;
 }
+
 .butDisabled {
     padding: 8px 30px;
     width: fit-content;
@@ -130,19 +145,24 @@
     text-transform: capitalize;
     margin-top: 6px;
 }
+
 @media screen and (max-width: 1000px) {
     .rightContainer {
         width: 100%;
     }
+
     .leftContainer {
         width: 100%;
     }
+
     .leftContainer input {
         width: 95%;
     }
+
     .formContent {
         display: block;
     }
+
     .butContent {
         float: left;
     }

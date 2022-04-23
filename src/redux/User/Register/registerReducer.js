@@ -1,16 +1,15 @@
 import REGISTER_ACTIONS from './registerTypes';
 
 const registerState = {
-    name:'',
-    email:'',
-    loading:'',
-    password:'', 
-    error:''
+
+    loading: '',
+    error: '',
+    succes: ''
 }
 
 const registerReducer = (state = registerState, action) => {
     const { type, payload } = action
-    switch(type){
+    switch (type) {
         case REGISTER_ACTIONS.REGISTER_CUSTOMER_INFO:
             return {
                 ...state,
@@ -27,10 +26,9 @@ const registerReducer = (state = registerState, action) => {
             {
                 return {
                     ...state,
-                    name: payload.name,
-                    email: payload.email,
-                    password: payload.password,
-                    error:''
+                    loading: false,
+                    error: false,
+                    succes: true
                 }
             }
 
