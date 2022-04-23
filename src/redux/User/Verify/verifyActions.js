@@ -8,6 +8,7 @@ const actionVerifyRequest = () => {
         type: VERIFY_ACTIONS.ACTION_VERIFY_REQUEST
     }
 }
+
 //Failure for action
 const actionVerifyFailure = (error) => {
     return {
@@ -22,10 +23,33 @@ const fetchTokenSuccess = (Token) => {
         payload: Token
     }
 }
+
+//succes permission
+const permissionRequest = () => {
+    return {
+        type: VERIFY_ACTIONS.PERMISSION_REQUEST
+    }
+}
+
+const permissionFailure = (e) => {
+    return {
+        type: VERIFY_ACTIONS.ACTION_VERIFY_FAILURE,
+        payload: e
+    }
+}
+
+const permissionSucces = (payload) => {
+    return {
+        type: VERIFY_ACTIONS.PERMISSION_SUCCES,
+        payload
+    }
+}
+
+//activar cuenta
 export const fetchToken = (tkn) => {
-    return (dispatch) => {
-        dispatch(actionVerifyRequest())
-        let api = backendUrl + 'auth/verify/'+tkn
+    return dispatch => {
+        //dispatch(actionVerifyRequest())
+        let api = backendUrl + 'auth/verify/' + tkn
         console.log(`fetchToken: ${api}`)
         axios.get(api)
             .then(response => {
@@ -38,3 +62,26 @@ export const fetchToken = (tkn) => {
             })
     }
 }
+
+//permissions
+
+export const permission = (token) => {
+    return dispatch => {
+        dispatch(permissionRequest())
+        let api = backendUrl + 'auth/is-verify'
+        axios.get(api, {
+            headers: {
+                'token': token
+            }
+        })
+            .then(response => {
+                console.log(response.data, '---------------------')
+                dispatch(permissionSucces(response.data))
+            })
+            .catch(error => {
+                const msg = error.message
+                dispatch(permissionFailure(msg))
+            })
+    }
+}
+

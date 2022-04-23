@@ -1,5 +1,6 @@
 import LOGIN_ACTIONS from './loginTypes';
 import axios from 'axios';
+
 import { backendUrl } from '../../../env';
 
 
@@ -46,16 +47,12 @@ export const signIn = (Customers) => {
         let api = backendUrl + 'auth/login'
         axios.post(api, Customers)
             .then(response => {
-                dispatch(actionLoginSuccess(response))
+
+                dispatch(actionLoginSuccess(response.data))
             })
             .catch(error => {
                 const msg = error.message
                 dispatch(actionLoginFailure(msg))
             })
-
-
     }
-
-
-
 }

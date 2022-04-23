@@ -1,16 +1,21 @@
 import LOGIN_ACTIONS from './loginTypes';
+import jwt from 'jwt-decode';
+
 
 const loginState = {
-    loading:'',
-    email:'',
-    password:'', 
-    token:'',
-    error:''
+    loading: '',
+    name: '',
+    email: '',
+    isAdmin: '',
+    isProvider: '',
+    token: '',
+    error: ''
 }
+
 
 const loginReducer = (state = loginState, action) => {
     const { type, payload } = action
-    switch(type){
+    switch (type) {
         case LOGIN_ACTIONS.LOGIN_CUSTOMER_INFO:
             return {
                 ...state,
@@ -25,14 +30,19 @@ const loginReducer = (state = loginState, action) => {
             }
         case LOGIN_ACTIONS.ACTION_LOGIN_SUCCESS:
             {
+                const data = jwt(payload)
+                window.localStorage.setItem('token', payload)
                 return {
                     ...state,
-                    email: payload.email,
-                    token:payload.token,
-                    error:''
+                    loading: false,
+                    name: data.name,
+                    token: payload,
+                    email: data.email,
+                    isAdmin: data.isAdmin,
+                    isProvider: data.isProvider,
+                    error: false
                 }
             }
-
         default: return state
     }
 }

@@ -1,8 +1,10 @@
 import REGISTER_ACTIONS from './registerTypes';
 
 const registerState = {
+
     loading: '',
-    error: ''
+    error: '',
+    succes: ''
 }
 
 const registerReducer = (state = registerState, action) => {
@@ -25,7 +27,8 @@ const registerReducer = (state = registerState, action) => {
                 return {
                     ...state,
                     loading: false,
-                    error: false
+                    error: false,
+                    succes: true
                 }
             }
 
