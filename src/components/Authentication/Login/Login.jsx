@@ -33,14 +33,6 @@ export default function Login() {
         email: '',
         password: '',
     })
-    //probando
-    useEffect(() => {
-        return () => {
-            const token = window.localStorage.getItem('token')
-            console.log(token)
-            dispatch(permission(token))
-        }
-    }, [])
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -48,7 +40,9 @@ export default function Login() {
         else if (!post.email || !post.password) return alert('Please fill in the entire form :/');
         else {
             dispatch(signIn(post))
-            console.log(tokenU, 'estoy logueado')
+            const token = window.localStorage.getItem('token')
+            console.log(token)
+            dispatch(permission(token))
             navigate('/')
         }
     }
