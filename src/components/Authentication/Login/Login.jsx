@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
 import { signIn } from '../../../redux/User/Login/loginActions';
 import styles from '../../Authentication/Login/Login.module.css'
+import { permission } from '../../../redux/'
 
 function checkErrors(post) {
+
     let errors = {};
 
     if (!post.email) {
@@ -21,6 +23,8 @@ function checkErrors(post) {
 
 export default function Login() {
 
+
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const tokenU = useSelector((state) => state.name)
@@ -29,6 +33,14 @@ export default function Login() {
         email: '',
         password: '',
     })
+    //probando
+    useEffect(() => {
+        return () => {
+            const token = window.localStorage.getItem('token')
+            console.log(token)
+            dispatch(permission(token))
+        }
+    }, [])
 
     function handleSubmit(e) {
         e.preventDefault();

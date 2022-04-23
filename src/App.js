@@ -22,13 +22,16 @@ import Panels from './components/User/Panels/Panels';
 import { fetchCategories, fetchProducts, getCartItems } from './redux';
 import WishList from './components/WishList/WishList';
 import { useDispatch } from 'react-redux';
+import { permission } from './redux'
 
 // >>>>>>> ecae7777926a998a88797d8038a14395528a281d
 
 function App() {
-
+  const token = window.localStorage.getItem('token')
   const dispatch = useDispatch()
+
   useEffect(() => {
+    dispatch(permission(token))
     dispatch(fetchCategories())
     dispatch(fetchProducts())
     dispatch(getCartItems())
