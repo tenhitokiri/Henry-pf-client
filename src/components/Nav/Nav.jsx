@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './nav.module.css'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { fetchProductByCategory, fetchProducts } from '../../redux/Products/productActions'
+import { fetchProductByCategory, fetchDetailCategories, fetchProducts } from '../../redux'
+
 
 const Nav = () => {
-    const categories = useSelector(state => state.categories)
+    const categories = useSelector(state => state.categories.categories_detail)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [toggle, setToggle] = useState(false)
@@ -15,7 +16,7 @@ const Nav = () => {
     }
     const onCategory = (e) => {
         onClick()
-        dispatch(fetchProductByCategory(e.target.id.toString()))
+        dispatch(fetchProductByCategory(e.target.id))
         navigate('/products')
     }
     const onCategoryReset = () => {
@@ -33,8 +34,9 @@ const Nav = () => {
                         toggle &&
                         <ul className={styles.ul}>
                             {
-                                categories.categories.map(e => (
-                                    <li onClick={onCategory} id={e} key={e} className={styles.li}>{e}</li>
+                                categories.map(e => (
+                                    <li onClick={onCategory} id={e.name} key={e} className={styles.li}>{e.name}</li>
+
                                 ))
                             }
                             <li className={styles.li} onClick={onCategoryReset}>all</li>

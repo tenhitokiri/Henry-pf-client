@@ -19,7 +19,7 @@ import PasswordRecover from './components/Authentication/PasswordRecover'
 // <<<<<<< HEAD
 import Panels from './components/User/Panels/Panels';
 // =======
-import { fetchCategories, fetchProducts, getCartItems } from './redux';
+import { fetchDetailCategories, fetchProducts, getCartItems } from './redux';
 import WishList from './components/WishList/WishList';
 import { useDispatch } from 'react-redux';
 import { permission } from './redux'
@@ -32,7 +32,7 @@ function App() {
 
   useEffect(() => {
     dispatch(permission(token))
-    dispatch(fetchCategories())
+    dispatch(fetchDetailCategories())
     dispatch(fetchProducts())
     dispatch(getCartItems())
   }, []) // eslint-disable-line react-hooks/exhaustive-deps

@@ -15,9 +15,9 @@ const CategoriesList = ({ fetchCategories, categoryList, loading, error, setCate
         <div>{error}</div>
     ) : (
         categoryList.map(category => (
-            category === selectedCategory ? (
-                <li key={category.id} onClick={() => setCategory("")} className={styles.selected}> {`> ${category}`} </li>) : (
-                <li key={category.id} onClick={() => setCategory(category)}>{category}</li>
+            category.name === selectedCategory.name || category.parent_name === selectedCategory.name ? (
+                <li key={category.name} onClick={() => setCategory("")} className={styles.selected}> {`> ${category.name}`} </li>) : (
+                <li key={category.name} onClick={() => setCategory(category)}>{category.name}</li>
             )
         ))
     )
