@@ -68,40 +68,77 @@ export default function Register() {
 
     return (
         <div className={styles.signUp}>
-            <h2 className={styles.titleSignUp}>Create account</h2>
-            <form className={styles.formm} onSubmit={(e) => handleSubmit(e)}>
-                <div className={styles.input_text}>
-                    <label className={styles.labelR}>Name</label>
-                    <input type="text" onChange={(e) => handleInputChange(e)} value={post.name} name="name" />
-                    {
-                        errors.name && (<p>{errors.name}</p>)
-                    }
-                </div>
-                <div className={styles.input_text}>
-                    <label className={styles.labelR} >Email</label>
-                    <input onChange={(e) => handleInputChange(e)} value={post.email} name='email' />
-                    {
-                        errors.email && (<p>{errors.email}</p>)
-                    }
-                </div>
-                <div className={styles.input_text}>
-                    <label className={styles.labelR} >Password</label>
-                    <input onChange={(e) => handleInputChange(e)} value={post.password} name='password' />
-                    {
-                        errors.password && (<p>{errors.password}</p>)
-                    }
-                </div>
-                <div className={styles.input_text}>
-                    <label className={styles.labelR} >Re-enter password</label>
-                    <input onChange={(e) => handleInputChange(e)} value={post.confirm} name='confirm' />
-                    {
-                        errors.password && (<p>{errors.password}</p>)
-                    }
-                </div>
 
-                <button type='submit'>Continue</button>
-            </form>
-        </div>
+                <h2 className={styles.titleSignUp}>Create account</h2>
+                    <form className={styles.formm} onSubmit = {(e) => handleSubmit(e)}>
+                        <div className={styles.box_text}>
+                            <label className={styles.labelR}>Your name</label>
+                            <input className={styles.input_text} type="text" onChange={(e) => handleInputChange(e)} value={post.name} name="name"/>
+                            {
+                                errors.name && (<p>{errors.name}</p>)
+                            }
+                        </div>
+                        <div className={styles.box_text}>
+                            <label className={styles.labelR} >Your email</label>
+                            <input className={styles.input_text}  onChange={(e) => handleInputChange(e)} value= {post.email} name = 'email'/>
+                            {
+                                errors.email && (<p>{errors.email}</p>)
+                            }
+                        </div>
+                        <div className={styles.box_text}>
+                            <label className={styles.labelR} >Password</label>
+                            <input className={styles.input_text}  onChange={(e) => handleInputChange(e)} value= {post.password} name = 'password'/>
+                            {
+                                errors.password && (<p>{errors.password}</p>)
+                            }
+                        </div>
+                        <div className={styles.box_text}>
+                            <label className={styles.labelR} >Re-enter password</label>
+                            <input className={styles.input_text}  onChange={(e) => handleInputChange(e)} value= {post.confirm} name = 'confirm'/>
+                            {
+                                errors.password && (<p>{errors.password}</p>)
+                            }
+                        </div>
+                        
+                        <button className={styles.btn}  type ='submit'>Continue</button>
+                    </form>
+               </div>
+// =======
+//             <h2 className={styles.titleSignUp}>Create account</h2>
+//             <form className={styles.formm} onSubmit={(e) => handleSubmit(e)}>
+//                 <div className={styles.input_text}>
+//                     <label className={styles.labelR}>Name</label>
+//                     <input type="text" onChange={(e) => handleInputChange(e)} value={post.name} name="name" />
+//                     {
+//                         errors.name && (<p>{errors.name}</p>)
+//                     }
+//                 </div>
+//                 <div className={styles.input_text}>
+//                     <label className={styles.labelR} >Email</label>
+//                     <input onChange={(e) => handleInputChange(e)} value={post.email} name='email' />
+//                     {
+//                         errors.email && (<p>{errors.email}</p>)
+//                     }
+//                 </div>
+//                 <div className={styles.input_text}>
+//                     <label className={styles.labelR} >Password</label>
+//                     <input onChange={(e) => handleInputChange(e)} value={post.password} name='password' />
+//                     {
+//                         errors.password && (<p>{errors.password}</p>)
+//                     }
+//                 </div>
+//                 <div className={styles.input_text}>
+//                     <label className={styles.labelR} >Re-enter password</label>
+//                     <input onChange={(e) => handleInputChange(e)} value={post.confirm} name='confirm' />
+//                     {
+//                         errors.password && (<p>{errors.password}</p>)
+//                     }
+//                 </div>
+
+//                 <button type='submit'>Continue</button>
+//             </form>
+//         </div>
+// >>>>>>> 7eb313990a673856f14cf9bc7497f91ce94bda3d
 
     )
 }

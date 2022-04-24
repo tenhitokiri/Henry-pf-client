@@ -9,6 +9,11 @@ export default function Verify() {
     const dispatch = useDispatch();
     let { id } = useParams();
 
+// <<<<<<< HEAD
+//     function handleOnClick(e){
+//         // e.preventDefault();
+//         console.log('entre al handle') 
+// =======
     function handleOnClick(e) {
         e.preventDefault();
         dispatch(fetchToken(id));
