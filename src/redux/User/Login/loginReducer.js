@@ -9,7 +9,9 @@ const loginState = {
     isAdmin: '',
     isProvider: '',
     token: '',
-    error: ''
+    error: '',
+    userGoogleData: [],
+    userCredentials: [],
 }
 
 
@@ -43,6 +45,16 @@ const loginReducer = (state = loginState, action) => {
                     error: false
                 }
             }
+        case LOGIN_ACTIONS.ACTION_LOGIN_GOOGLE:
+            return {
+                ...state,
+                userGoogleData:[...state.userGoogleData,payload]
+            } 
+        case LOGIN_ACTIONS.ACTION_GET_CREDENTIALS:
+            return {
+                ...state,
+                userCredentials:payload
+            }       
         default: return state
     }
 }

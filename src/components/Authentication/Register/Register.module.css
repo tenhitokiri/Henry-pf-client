@@ -37,7 +37,7 @@
 .btn{
     display:inline-block;
     justify-content: space-between;
-    /* margin-bottom:-5rem; */
+
     background-color:var(--fontSeccondary);
 
     align-items: center;
