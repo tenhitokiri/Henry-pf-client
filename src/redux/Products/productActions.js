@@ -82,7 +82,7 @@ export const fetchProductById = (id) => {
 }
 
 
-//Fetch one  PRODUCTs by ID
+//Fetch one  search
 export const fetchProductByName = (search) => {
     return (dispatch) => {
         dispatch(actionProductsRequest())
@@ -180,7 +180,7 @@ export const clearSearchedProducts = () => {
 export const fetchProductByCategory = (category) => {
     return dispatch => {
         dispatch(actionProductsRequest())
-        let api = backendUrl + 'products/categories/?type=' + category;
+        let api = backendUrl + 'products/categories/?name=' + category;
         axios(api)
             .then(response => {
                 const products = response.data

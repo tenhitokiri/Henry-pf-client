@@ -12,7 +12,7 @@ const ProductList = ({ productList }) => {
     const [order, setOrder] = React.useState('')
     const [category, setCategory] = React.useState('')
 
-    let productsPerCategory = category.length > 0 ? productList.filter(product => product.category === category) : productList
+    let productsPerCategory = category.length > 0 ? productList.filter(product => product.category_name === category) : productList
 
     let filteredProducts = search.length === 0 ? productsPerCategory :
         productsPerCategory.filter(product => product.name.toLowerCase().includes(search.toLowerCase()))

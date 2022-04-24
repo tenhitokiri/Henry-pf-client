@@ -5,7 +5,7 @@ import Inputs from '../Inputs/Inputs'
 import { addPRODUCT } from '../../redux/Products/productActions'
 import styles from './productForm.module.css'
 import TextArea from '../Inputs/TextArea'
-import { fetchDetailCategories } from '../../redux/Categories/categoryActions'
+import { fetchCategories } from '../../redux'
 
 const ProductForm = () => {
     const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const ProductForm = () => {
     const categories = useSelector(state => state.categories.categories_detail)
 
     useEffect(() => {
-        dispatch(fetchDetailCategories())
+        dispatch(fetchCategories())
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const validation = {
