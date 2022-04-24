@@ -5,44 +5,18 @@ import ProductCard from './ProductCard'
 import CategoriesList from '../Categories/CategoriesList'
 import Pagination from '../Paginate/Pagination'
 import { PRODUCTS_PER_PAGE } from '../../env'
-import { useSelector } from 'react-redux'
-
 
 const ProductList = ({ productList }) => {
-    const categoryList = useSelector(state => state.categories.categories_detail)
 
     const [search, setSearch] = React.useState('')
     const [order, setOrder] = React.useState('')
     const [category, setCategory] = React.useState('')
 
-    const foundParentName = (element) => {
-        const result = categoryList.find(e => {
-            return e.name === element
-        })
-        return result
-    }
-    console.log(categoryList, '< cat list')
-
-    let productsPerCategory = category?.name?.length > 0 ? productList.filter(product => {
-
-        console.log('<---------------------')
-        console.log(product.name, product.category_name,)
-        console.log(foundParentName(product.category_name))
-        console.log('<---------------------')
-        return (
-            product.category_name === category.name
-            ||
-            foundParentName(product.category_name) === category.parent_name)
-
-    })
-        : productList
-
-
+    let productsPerCategory = category.length > 0 ? productList.filter(product => product.category_name === category) : productList
 
     let filteredProducts = search.length === 0 ? productsPerCategory :
         productsPerCategory.filter(product => product.name.toLowerCase().includes(search.toLowerCase()))
 
-    console.log(productsPerCategory, '<---------')
     switch (order) {
         case 'nameAsc':
             filteredProducts = filteredProducts.sort((a, b) => orderBy(a.name.toLowerCase(), b.name.toLowerCase()))

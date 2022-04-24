@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
+
 //redux
 import { connect } from 'react-redux'
-import { fetchCategories } from '../../redux'
+import { fetchDetailCategories } from '../../redux'
 import styles from '../Categories/CategoriesList.module.css'
 
-const CategoriesList = ({ fetchCategories, categoryList, loading, error, setCategory, selectedCategory }) => {
+const CategoriesList = ({ fetchDetailCategories, categoryList, loading, error, setCategory, selectedCategory }) => {
     // useEffect(() => {
-    //     fetchCategories()
+    //     fetchDetailCategories()
     // }, []) //eslint-disable-line
 
     const categoryMarkup = loading ? (
@@ -15,12 +16,16 @@ const CategoriesList = ({ fetchCategories, categoryList, loading, error, setCate
         <div>{error}</div>
     ) : (
         categoryList.map((category, id) => (
-            category.name === selectedCategory.name || category.parent_name === selectedCategory.name ? (
+            category.name === selectedCategory ? (
                 <li key={id} onClick={() => setCategory("")} className={styles.selected}> {`> ${category.name}`} </li>) : (
-                <li key={id} onClick={() => setCategory(category)}>{category.name}</li>
+                <li key={id} onClick={() => setCategory(category.name)}>{category.name}</li>
             )
         ))
     )
+
+    console.log(categoryList, 'category list.jsx')
+    console.log(selectedCategory, '<-------selectedCategory------')
+
 
     return (
         <div className={styles.container}>
@@ -39,7 +44,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchCategories: () => dispatch(fetchCategories())
+    fetchDetailCategories: () => dispatch(fetchDetailCategories())
 })
 
 
