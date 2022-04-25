@@ -119,7 +119,7 @@ const ProductDetail = ({ favoriteProducts }) => {
                     <div className={styles.detail}>
                         {
                             images.length > 1 ? images.map((e, i) => (
-                                <img key={i} alt='' src={images[i]} />
+                                <img className={styles.img} key={i} alt='' src={images[i]} />
 
                             )) :
                                 <img className={styles.img} src={images[0]} alt='' />

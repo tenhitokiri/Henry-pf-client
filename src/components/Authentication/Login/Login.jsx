@@ -121,7 +121,7 @@ export default function Login() {
                         </div>
                         <div>
                             <label>Password</label>
-                            <input onChange={(e) => handleInputChange(e)} value={post.password} name='password' />
+                            <input type='password' onChange={(e) => handleInputChange(e)} value={post.password} name='password' />
                             {
                                 errors.password && (<p>{errors.password}</p>)
                             }
