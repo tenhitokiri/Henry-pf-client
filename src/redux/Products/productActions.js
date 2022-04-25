@@ -134,9 +134,10 @@ export const addStock = (product) => {
         dispatch(actionProductsRequest())
         let api = backendUrl + 'stock'
         console.log(`Adding STOCK to: ${api}`)
+        console.log(product)
         axios.post(api, product)
             .then(response => {
-                console.log(response.data, 'data stock')
+                console.log(response.data, '---data stock')
                 dispatch(addStockSucces())
             })
             .catch(console.error)
