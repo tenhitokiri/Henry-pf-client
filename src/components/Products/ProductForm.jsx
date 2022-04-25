@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Inputs from '../Inputs/Inputs'
-import { addPRODUCT, updateProduct } from '../../redux/'
+import { addPRODUCT } from '../../redux/'
 import styles from './productForm.module.css'
 import TextArea from '../Inputs/TextArea'
 import jwt from 'jwt-decode'
-import { addStock } from '../../redux'
+import { addStock, fetchProducts } from '../../redux'
 
 // import { fetchCategories } from '../../redux'
 
@@ -83,13 +83,19 @@ const ProductForm = () => {
         unit_price: ''
     });
 
-    const onSubmitTwo = (e) => {
-        e.preventDefault();
+    useEffect(() => {
         setStock({
             ...stock,
             product_id: productId
         })
+    }, [stock.quantity])
+
+
+    const onSubmitTwo = (e) => {
+        e.preventDefault();
         dispatch(addStock(stock))
+        dispatch(fetchProducts())
+        navigate('/add-produc/done')
     }
     const onPrice = ({ target }) => {
         const { value } = target
@@ -199,9 +205,9 @@ const ProductForm = () => {
                 <form className={styles.contentStock} onSubmit={onSubmitTwo}>
                     <div className={styles.contentQuantity}>
                         <span className={styles.span}>Quantity</span>
-                        <input type='button' className={styles.butStock} onClick={decrement}>-</input>
+                        <input type='button' className={styles.butStock} onClick={decrement} value='-' />
                         <span className={styles.quantity}>{stock.quantity}</span>
-                        <input type='button' className={styles.butStock} onClick={increment}>+</input>
+                        <input type='button' className={styles.butStock} onClick={increment} value='' />
                     </div>
                     <input className={styles.unitPrice} type='number' onChange={onPrice} placeholder='unit_price' value={stock.unit_price}></input>
                     <button type='submit' className={styles.submitStock}>save</button>
