@@ -27,7 +27,7 @@ const ProductForm = () => {
         name: '',
         description: '',
         category_name: '',
-        images: [],
+        image: [],
         imgOnScreen: ''
     })
 
@@ -61,7 +61,7 @@ const ProductForm = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         if (!nameError && !descriptionError && !imageError && !categoryError) {
-            setData({ ...data, images: data.images.push(data.imgOnScreen) })
+            setData({ ...data, image: data.image.push(data.imgOnScreen) })
             dispatch(addPRODUCT(data))
             setToggle(true)
             onClear()

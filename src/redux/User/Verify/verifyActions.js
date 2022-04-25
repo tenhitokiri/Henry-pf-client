@@ -1,7 +1,7 @@
 import VERIFY_ACTIONS from './verifyTypes'
 import axios from 'axios';
 import { backendUrl } from '../../../env.js';
-
+import jwt from 'jwt-decode'
 //Request for action
 const actionVerifyRequest = () => {
     return {
@@ -68,6 +68,7 @@ export const fetchToken = (tkn) => {
 export const permission = (token) => {
     return dispatch => {
         dispatch(permissionRequest())
+        const data_user = jwt(token)
         let api = backendUrl + 'auth/is-verify'
         axios.get(api, {
             headers: {
@@ -75,8 +76,7 @@ export const permission = (token) => {
             }
         })
             .then(response => {
-                console.log(response.data, '---------------------')
-                dispatch(permissionSucces(response.data))
+                dispatch(permissionSucces(data_user.name))
             })
             .catch(error => {
                 const msg = error.message

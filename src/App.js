@@ -27,14 +27,23 @@ import { permission } from './redux'
 // >>>>>>> ecae7777926a998a88797d8038a14395528a281d
 
 function App() {
-  const token = window.localStorage.getItem('token')
+
+
+
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(permission(token))
+
     dispatch(fetchDetailCategories())
     dispatch(fetchProducts())
     dispatch(getCartItems())
+    try {
+      const token = window.localStorage.getItem('token')
+      dispatch(permission(token))
+
+    } catch (e) { return console.error }
+
+
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className="App">

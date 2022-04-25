@@ -118,6 +118,7 @@ export const addPRODUCT = (product) => {
         dispatch(actionProductsRequest())
         let api = backendUrl + 'products'
         console.log(`Adding PRODUCT to: ${api}`)
+        console.log(product, '<------ add product')
         axios.post(api, product)
             .then(response => {
                 dispatch(addProductSuccess(response.data.product_id))

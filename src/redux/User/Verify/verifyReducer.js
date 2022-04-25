@@ -2,6 +2,7 @@ import VERIFY_ACTIONS from './verifyTypes';
 
 const verifyState = {
     loading: "",
+    name: '',
     token: "",
     verified: "",
     permission: 'denegade',
@@ -58,6 +59,7 @@ const verifyReducer = (state = verifyState, action) => {
                 return {
                     ...state,
                     loading: false,
+                    name: payload,
                     error: '',
                     permission: 'aprobbed'
                 }
