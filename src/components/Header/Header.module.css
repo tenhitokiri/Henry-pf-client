@@ -9,31 +9,25 @@
     align-items: center;
     margin: 0 auto;
 }
-
 .logo {
     float: left;
     width: 225px;
     height: fit-content;
 }
-
 .logoContainer {
     width: fit-content;
 }
-
 .searchBar {
     float: left;
 }
-
 .iconsContainer {
     float: left;
 }
-
 .icons { 
     float: left;
     display: flex;
     flex-direction: row;
 }
-
 .icon {
     color: black;
     margin: 0 10px;
@@ -41,34 +35,28 @@
 
     transition: 0.2s;
 }
-
 .icon:hover {
     color: #F9C801;
 }
-
 .login {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
-
 .loginLink {
     color: #02354A;
     cursor: pointer;
 
     transition: 0.2s;
 }
-
 .loginLink:hover {
     color: #8C8C8C;
 }
-
 .registerLink {
     color: #8C8C8C;
     cursor: pointer;
 }
-
 .registerLink:hover {
     color: #02354A;
 }
@@ -88,6 +76,27 @@
     font-size: 0.9rem;
     line-height: 20px;
     font-weight: 500;
+}
+.btn {
+    padding: 5px;
+    width: 50%;
+    border: none;
+    background-color: #F9C801;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: capitalize;
+    margin-top: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+
+    transition: 0.2s;
+}
+.btn:hover {
+    background-color: #dcb003;
+}
+.logoutContainer {
+    float: left;
 }
 @media screen and (max-width: 650px) {
     .container {

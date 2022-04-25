@@ -4,26 +4,25 @@
     display: flex;
     flex-direction: column;
 }
-
 .content {
     margin: 0 auto;
     max-width: 1300px;
 }
-
 .detail {
     display: flex;
     margin-top: 1.2vw;
     justify-content: space-between;
     width: 1300px;
 }
-
 .img {
+    display: none;
+}
+.img:first-child {
     object-fit: contain;
     width: 400px;
     height: 400px;
+    display: block;
 }
-
-
 .contentPSD {
     display: flex;
     width: 700px;
@@ -31,11 +30,9 @@
     align-items: flex-start;
     margin: 0 2vw;
 }
-
 .price {
     font-size: 1.2vw;
 }
-
 .description {
     display: flex;
     margin-top: 1.2vw;
@@ -43,59 +40,44 @@
     width: 100%;
     text-align: justify;
 }
-
-
-
-
-
 .category {
     display: flex
 }
-
 .title {
     display: flex;
 }
-
 .rate {
     display: flex;
 }
-
 .related {
     display: flex;
     position: static;
     align-items: center;
     justify-content: center;
 }
-
 .carrousel {
     max-width: 1300px;
     display: flex;
 }
-
 .prev {
     height: 3vw;
     width: 3vw;
     transition: 0.16s;
 }
-
 .prev:hover {
     color: var(--background);
 }
-
 .next {
     height: 3vw;
     width: 3vw;
     transition: 0.16s;
 }
-
 .next:hover {
     color: var(--background);
 }
-
 .add {
     width: 100px;
 }
-
 .box {
     width: 100%;
     justify-content: center;
@@ -106,11 +88,9 @@
     margin: 0.5vw auto;
     border-radius: 3px;
 }
-
 .counter {
     width: 30%;
 }
-
 .increment {
     width: 25%;
     margin: 3px auto;
@@ -118,12 +98,10 @@
     border: transparent;
     border-radius: 3px;
 }
-
 .increment:hover {
     background-color: #daaf05;
     box-shadow: 1px 1px 1px 1px #D0D9DC;
 }
-
 .decrement {
     width: 25%;
     margin: 3px auto;
@@ -131,12 +109,10 @@
     border: transparent;
     border-radius: 3px;
 }
-
 .decrement:hover {
     background-color: #daaf05;
     box-shadow: 1px 1px 1px 1px #D0D9DC;
 }
-
 .cart {
     width: 100%;
     color: var(--fontPrimary);
@@ -147,12 +123,10 @@
     border: transparent;
     border-radius: 3px;
 }
-
 .cart:hover {
     background-color: #daaf05;
     box-shadow: 1px 1px 1px 1px #D0D9DC;
 }
-
 .wish {
     width: 100%;
     color: var(--fontPrimary);
@@ -163,7 +137,6 @@
     border: transparent;
     border-radius: 3px;
 }
-
 .wish:hover {
     background-color: #daaf05;
     box-shadow: 1px 1px 1px 1px #D0D9DC;

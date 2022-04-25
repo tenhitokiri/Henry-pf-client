@@ -12,7 +12,7 @@
     padding: 30px;
 }
 .titleSignUp {
-    /* border: 1px solid black; */
+    color: #02354B;
     display:flex;
     justify-content: flex-start;
     padding-left: 1rem;
