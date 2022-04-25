@@ -55,7 +55,6 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/passwordRecover' element={<PasswordRecover />} />
         <Route path='/verify/:id' element={<Verify />} />
-
         <Route path="*" element={<Route404 />} />
       </Routes>
       <Footer />
