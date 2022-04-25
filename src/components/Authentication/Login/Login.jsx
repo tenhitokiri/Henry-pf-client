@@ -8,7 +8,8 @@ import GoogleLogin from 'react-google-login';
 import { loginGoogle } from '../../../redux/User/Login/loginActions';
 import { CLIENT_ID_GOOGLE } from '../../../env';
 import imgGoogle from '../../../assets/google.png'
-
+import { faWindowRestore } from '@fortawesome/free-solid-svg-icons';
+import { mainPage } from '../../../env'
 function checkErrors(post) {
 
     let errors = {};
@@ -47,7 +48,7 @@ export default function Login() {
             const token = window.localStorage.getItem('token')
             console.log(token)
             dispatch(permission(token))
-            navigate('/')
+            window.location.href = mainPage
         }
     }
 
@@ -67,15 +68,15 @@ export default function Login() {
     };
 
     const respuestaGoogle = (respuesta) => {
-        console.log(respuesta,'soy respuesta de google');
+        console.log(respuesta, 'soy respuesta de google');
         // console.log(respuesta.profileObj),'soy profileobj';
         let userData = {
-          firstName: respuesta.profileObj,
-          image: respuesta.profileObj.imageUrl,
-          email: respuesta.profileObj.email,
-          tokenId: respuesta.tokenId,
+            firstName: respuesta.profileObj,
+            image: respuesta.profileObj.imageUrl,
+            email: respuesta.profileObj.email,
+            tokenId: respuesta.tokenId,
         };
-        console.log(userData,'soy user data de google');
+        console.log(userData, 'soy user data de google');
         localStorage.setItem("user", JSON.stringify(userData));
         navigate("/");
         return dispatch(loginGoogle(userData));
@@ -84,56 +85,56 @@ export default function Login() {
     return (
         <div className='login'>
             <h1 className='loginTitle'>Sign in here</h1>
-                <div className='wrapper'>
-                    <div className='left'>
-                        <div className='loginButton google'>                            
-                            <GoogleLogin
+            <div className='wrapper'>
+                <div className='left'>
+                    <div className='loginButton google'>
+                        <GoogleLogin
                             clientId={CLIENT_ID_GOOGLE}
-                                //   render={(renderProps) => (
-                                    //     <button
-                                    //       type="button"
-                                    //       onClick={renderProps.onClick}
-                                    //       disabled={renderProps.disabled}
-                                    //       className={styles.login-section_google-login-btn}
-                                //     >
-                                //       Iniciar sesión con Google
-                                //     </button>
-                                //   )}
-                                buttonText="Log in with Google"
-                                onSuccess={respuestaGoogle}
-                                onFailure={respuestaGoogle}
-                                cookiePolicy="single_host_origin"
-                                // className='loginButton google'
-                            />  
-                        </div>
-                    </div>            
-                    <div className='center'>
-                        <div className='line'/>
-                        <div className='or'>Or</div>
-                    </div>   
-                    <div className='right'>
-                        <form className='formm' onSubmit={(e) => handleSubmit(e)}>
-                            <div>
-                                <label >Email</label>
-                                <input onChange={(e) => handleInputChange(e)} value={post.email} name='email' />
-                                {
-                                    errors.email && (<p>{errors.email}</p>)
-                                }
-                            </div>
-                            <div>
-                                <label >Password</label>
-                                <input onChange={(e) => handleInputChange(e)} value={post.password} name='password' />
-                                {
-                                    errors.password && (<p>{errors.password}</p>)
-                                }
-                            </div>
-
-                            {/* <Link to="/passwordRecover">Forgot your password?</Link> */}
-
-                            <button type='submit'>Continue</button>
-                        </form>
+                            //   render={(renderProps) => (
+                            //     <button
+                            //       type="button"
+                            //       onClick={renderProps.onClick}
+                            //       disabled={renderProps.disabled}
+                            //       className={styles.login-section_google-login-btn}
+                            //     >
+                            //       Iniciar sesión con Google
+                            //     </button>
+                            //   )}
+                            buttonText="Log in with Google"
+                            onSuccess={respuestaGoogle}
+                            onFailure={respuestaGoogle}
+                            cookiePolicy="single_host_origin"
+                        // className='loginButton google'
+                        />
                     </div>
                 </div>
+                <div className='center'>
+                    <div className='line' />
+                    <div className='or'>Or</div>
+                </div>
+                <div className='right'>
+                    <form className='formm' onSubmit={(e) => handleSubmit(e)}>
+                        <div>
+                            <label >Email</label>
+                            <input onChange={(e) => handleInputChange(e)} value={post.email} name='email' />
+                            {
+                                errors.email && (<p>{errors.email}</p>)
+                            }
+                        </div>
+                        <div>
+                            <label >Password</label>
+                            <input onChange={(e) => handleInputChange(e)} value={post.password} name='password' />
+                            {
+                                errors.password && (<p>{errors.password}</p>)
+                            }
+                        </div>
+
+                        {/* <Link to="/passwordRecover">Forgot your password?</Link> */}
+
+                        <button type='submit'>Continue</button>
+                    </form>
+                </div>
+            </div>
         </div>
 
     )
