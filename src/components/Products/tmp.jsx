@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Inputs from '../Inputs/Inputs'
-import { addPRODUCT } from '../../redux/Products/productActions'
+import { addPRODUCT, updateProduct } from '../../redux/'
 import styles from './productForm.module.css'
 import TextArea from '../Inputs/TextArea'
-import { fetchDetailCategories } from '../../redux/Categories/categoryActions'
+import jwt from 'jwt-decode'
+import { addStock } from '../../redux'
+
+// import { fetchCategories } from '../../redux'
 
 const ProductForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const categories = useSelector(state => state.categories.categories)
+    const categories = useSelector(state => state.categories.categories_detail)
 
-    useEffect(() => {
-        dispatch(fetchDetailCategories())
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    // useEffect(() => {
+    //     dispatch(fetchCategories())
+    // }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const validation = {
         name: /^[A-Za-z0-9\s.,]+$/,
@@ -23,7 +26,7 @@ const ProductForm = () => {
     const [data, setData] = useState({
         name: '',
         description: '',
-        category_id: '',
+        category_name: '',
         images: [],
         imgOnScreen: ''
     })
@@ -38,18 +41,20 @@ const ProductForm = () => {
         setData({
             name: '',
             description: '',
-            category_id: '',
+            category_name: '',
             images: [],
             imgOnScreen: ''
         })
     }
-    const onToggle = () => {
-        setToggle(!toggle)
-    }
+
     const onCategory = (e) => {
-        setToggle()
-        setData({ ...data, category_id: e.target.id })
-        setCategoryError(false)
+        // setToggle()
+        if (e.target.value !== 'category') {
+            setData({ ...data, category_name: e.target.value })
+            setCategoryError(false)
+        } else {
+            setCategoryError(true)
+        }
     }
 
 
@@ -58,13 +63,60 @@ const ProductForm = () => {
         if (!nameError && !descriptionError && !imageError && !categoryError) {
             setData({ ...data, images: data.images.push(data.imgOnScreen) })
             dispatch(addPRODUCT(data))
+            setToggle(true)
             onClear()
-            navigate('/add-produc/done')
-            console.log(data)
+
         }
     }
+
+    //-----------------------submitTwo
+
+    const dataEncode = localStorage.getItem('token')
+    const userId = jwt(dataEncode).user_id
+
+    const productId = useSelector(state => state.products.product_id)
+
+    const [stock, setStock] = useState({
+        user_id: userId,
+        product_id: '',
+        quantity: 0,
+        unit_price: ''
+    });
+
+    const onSubmitTwo = (e) => {
+        e.preventDefault();
+        setStock({
+            ...stock,
+            product_id: productId
+        })
+        dispatch(addStock(stock))
+    }
+    const onPrice = ({ target }) => {
+        const { value } = target
+        setStock({
+            ...stock,
+            unit_price: value
+        })
+    }
+
+    const decrement = () => {
+        if (stock.quantity > 0) {
+            setStock({
+                ...stock,
+                quantity: stock.quantity - 1
+            })
+        }
+    }
+    const increment = () => {
+        setStock({
+            ...stock,
+            quantity: stock.quantity + 1
+        })
+    }
+
+
     return (
-        <div className={styles.background}>
+        <div className={styles.background} >
             <form className={styles.form} autoComplete="off" onSubmit={onSubmit}>
                 <div className={styles.path}>Home / Sell / Add-Product</div>
                 <div className={styles.formContent}>
@@ -82,26 +134,14 @@ const ProductForm = () => {
                                 validation={validation.name}
                                 value={data.name}
                             />
-                            <label
-                                className={styles.categories}
-                                onClick={onToggle}
-                            >
-                                categories
-                                <ul>
-                                    {
-                                        toggle &&
-                                        categories.map(e => (
-                                            <li
-                                                key={e.category_id}
-                                                id={e.category_id}
-                                                onClick={onCategory}
-                                            >
-                                                {e.name}
-                                            </li>
-                                        ))
-                                    }
-                                </ul>
-                            </label>
+                            <select onChange={onCategory}>
+                                <option> category </option>
+                                {
+                                    categories.map(e => (
+                                        <option key={e.name} value={e.name}>{e.name}</option>
+                                    ))
+                                }
+                            </select>
                         </div>
                         <TextArea
                             className={styles.description}
@@ -154,7 +194,20 @@ const ProductForm = () => {
                     <button className={styles.butClear} onClick={onClear}>clear</button>
                 </div>
             </form>
-        </div>
+            {
+                toggle &&
+                <form className={styles.contentStock} onSubmit={onSubmitTwo}>
+                    <div className={styles.contentQuantity}>
+                        <span className={styles.span}>Quantity</span>
+                        <input type='button' className={styles.butStock} onClick={decrement}>-</input>
+                        <span className={styles.quantity}>{stock.quantity}</span>
+                        <input type='button' className={styles.butStock} onClick={increment}>+</input>
+                    </div>
+                    <input className={styles.unitPrice} type='number' onChange={onPrice} placeholder='unit_price' value={stock.unit_price}></input>
+                    <button type='submit' className={styles.submitStock}>save</button>
+                </form>
+            }
+        </div >
     )
 }
 

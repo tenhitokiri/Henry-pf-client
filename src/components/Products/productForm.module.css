@@ -109,7 +109,6 @@
     cursor: pointer;
     text-transform: capitalize;
     margin-top: 6px;
-
     transition: 0.2s;
 }
 
@@ -145,6 +144,66 @@
     text-transform: capitalize;
     margin-top: 6px;
 }
+
+.contentStock {
+    display: flex;
+    margin: 6.5vw auto;
+    max-width: 1300px;
+}
+
+.contentQuantity {
+    display: flex;
+    align-items: center;
+}
+
+.submitStock {
+
+    padding: 8px 30px;
+    width: fit-content;
+    border: none;
+    background-color: #F9C801;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: capitalize;
+    margin-top: 6px;
+    transition: 0.2s;
+}
+
+.submitStock:hover {
+    background-color: #dcb003;
+}
+
+.butStock {
+    height: 30px;
+    width: 30px;
+    border: none;
+    background-color: #02354A;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: capitalize;
+    color: white;
+    transition: 0.2s;
+}
+
+.quantity {
+    text-align: center;
+    width: 30px;
+}
+
+.span {
+    margin-right: 10px;
+}
+
+.butStock:hover {
+    background-color: #555555;
+}
+
+.unitPrice {
+    display: flex;
+    margin: 0 auto;
+}
+
+
 
 @media screen and (max-width: 1000px) {
     .rightContainer {

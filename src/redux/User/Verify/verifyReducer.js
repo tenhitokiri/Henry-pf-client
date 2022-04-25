@@ -59,7 +59,7 @@ const verifyReducer = (state = verifyState, action) => {
                     ...state,
                     loading: false,
                     error: '',
-                    permission: payload
+                    permission: 'aprobbed'
                 }
             }
         default: return state

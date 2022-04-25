@@ -2,6 +2,7 @@ import PRODUCT_ACTIONS from './productTypes'
 
 const productState = {
     products: [],
+    product_id: '',
     foundProducts: [],
     loading: "",
     error: "",
@@ -61,10 +62,17 @@ const productReducer = (state = productState, action) => {
                     ...state,
                     loading: false,
                     products: [...state.products, payload],
+                    product_id: payload,
                     numberOfProducts: state.numberOfProducts + 1,
                     error: ''
                 }
             }
+
+        case PRODUCT_ACTIONS.ADD_STOCK:
+            {
+                return state
+            }
+
         case PRODUCT_ACTIONS.UPDATE_PRODUCT_SUCCESS:
             {
                 const updatedProducts = state.products.map(product => {
