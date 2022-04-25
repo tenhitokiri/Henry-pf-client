@@ -27,7 +27,7 @@ const ProductCard = ({ product, favoriteProducts }) => {
     const inventoryQty = product.inventoryQty || generateRandomInt(100) + 1;
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(price)) || price
-    const image = images[0] || 'https://via.placeholder.com/150'
+    const image = images?.[0] || 'https://via.placeholder.com/150'
 
     const dispatch = useDispatch()
     let itemsToBuy = 0

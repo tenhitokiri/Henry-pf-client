@@ -8,7 +8,7 @@ import { connect, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { fetchProducts, getCartItems } from '../../redux'
-
+import { mainPage } from '../../env'
 
 const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWishListItems }) => {
     const user = useSelector(state => state.loggin.verify.name)
@@ -22,7 +22,7 @@ const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWis
 
     const onLogOut = () => {
         window.localStorage.removeItem('token')
-        window.location.href = 'https://hubazar.vercel.app/'
+        window.location.href = mainPage
     }
 
     return (

@@ -33,13 +33,17 @@ function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    try {
-      const token = window.localStorage.getItem('token')
-      dispatch(permission(token))
-    } catch (e) { return console.error }
+
     dispatch(fetchDetailCategories())
     dispatch(fetchProducts())
     dispatch(getCartItems())
+    try {
+      const token = window.localStorage.getItem('token')
+      dispatch(permission(token))
+
+    } catch (e) { return console.error }
+
+
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className="App">
