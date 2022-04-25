@@ -4,19 +4,26 @@ import styles from '../Header/Header.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
 import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { fetchProducts, getCartItems } from '../../redux'
 
 
 const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWishListItems }) => {
+    const user = useSelector(state => state.loggin.verify.name)
+
     useEffect(() => {
         if (numberOfProducts === 0) {
             fetchProducts()
         }
         getCartItems()
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+    const onLogOut = () => {
+        window.localStorage.removeItem('token')
+        window.location.href = 'https://hubazar.vercel.app/'
+    }
 
     return (
         <div className={styles.container}>
@@ -42,10 +49,13 @@ const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWis
                     </div>
                     <FontAwesomeIcon className={styles.icon} icon={faUser} size="2x" />
                 </div>
-                <div className={styles.login}>
-                    <Link to ='login' className={styles.loginLink}>Login in</Link>
-                    <Link to ='register' className={styles.registerLink}>Register</Link>
-                </div>
+                {
+                    user ? (<div> Hola {user} <input type='submit' onClick={() => onLogOut()} value='Logout' /></div>) :
+                        <div className={styles.login}>
+                            <Link to='login' className={styles.loginLink}>Login in</Link>
+                            <Link to='register' className={styles.registerLink}>Register</Link>
+                        </div>
+                }
             </div>
         </div>
     )

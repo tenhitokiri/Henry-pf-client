@@ -27,7 +27,7 @@ const ProductForm = () => {
         name: '',
         description: '',
         category_name: '',
-        images: [],
+        image: [],
         imgOnScreen: ''
     })
 
