@@ -35,7 +35,7 @@ const Nav = () => {
                         <ul className={styles.ul}>
                             {
                                 categories.map(e => (
-                                    <li onClick={onCategory} id={e.name} key={e} className={styles.li}>{e.name}</li>
+                                    <li onClick={onCategory} id={e.name} key={e.name} className={styles.li}>{e.name}</li>
 
                                 ))
                             }

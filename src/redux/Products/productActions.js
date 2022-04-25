@@ -100,26 +100,46 @@ export const fetchProductByName = (search) => {
 }
 
 //add the PRODUCT
-const addProductSuccess = (Products) => {
+const addProductSuccess = (product_id) => {
     return {
         type: PRODUCT_ACTIONS.ADD_PRODUCT_SUCCESS,
-        payload: Products
+        payload: product_id
     }
 }
 
-export const addPRODUCT = (Product) => {
+const addStockSucces = () => {
+    return {
+        type: PRODUCT_ACTIONS.ADD_STOCK
+    }
+}
+
+export const addPRODUCT = (product) => {
     return (dispatch) => {
         dispatch(actionProductsRequest())
         let api = backendUrl + 'products'
         console.log(`Adding PRODUCT to: ${api}`)
-        axios.post(api, Product)
+        axios.post(api, product)
             .then(response => {
-                dispatch(addProductSuccess(Product.id))
+                dispatch(addProductSuccess(response.data.product_id))
             })
             .catch(error => {
                 const msg = error.message
                 dispatch(actionProductsFailure(msg))
             })
+    }
+}
+
+export const addStock = (product) => {
+    return dispatch => {
+        dispatch(actionProductsRequest())
+        let api = backendUrl + 'stock'
+        console.log(`Adding STOCK to: ${api}`)
+        axios.post(api, product)
+            .then(response => {
+                console.log(response.data, 'data stock')
+                dispatch(addStockSucces())
+            })
+            .catch(console.error)
     }
 }
 
