@@ -22,7 +22,9 @@ import Panels from './components/User/Panels/Panels';
 import { fetchDetailCategories, fetchProducts, getCartItems } from './redux';
 import WishList from './components/WishList/WishList';
 import { useDispatch } from 'react-redux';
-import { permission } from './redux'
+import { permission, loginFromLocalStorage } from './redux'
+import jwt from 'jwt-decode';
+
 
 // >>>>>>> ecae7777926a998a88797d8038a14395528a281d
 
@@ -39,7 +41,10 @@ function App() {
     dispatch(getCartItems())
     try {
       const token = window.localStorage.getItem('token')
+      const userData = jwt(token);
+      console.log(userData, "userData")
       dispatch(permission(token))
+      dispatch(loginFromLocalStorage(token))
 
     } catch (e) { return console.error }
 

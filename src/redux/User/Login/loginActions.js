@@ -47,7 +47,7 @@ export const signIn = (Customers) => {
         let api = backendUrl + 'auth/login'
         axios.post(api, Customers)
             .then(response => {
-
+                console.log(response, "login success?")
                 dispatch(actionLoginSuccess(response.data))
             })
             .catch(error => {
@@ -59,18 +59,26 @@ export const signIn = (Customers) => {
 
 export const getUserCredentials = () => {
     return async (dispatch) => {
-      const credentials = JSON.parse(localStorage.getItem("userCredentials"));
-      dispatch({
-        type: LOGIN_ACTIONS.ACTION_GET_CREDENTIALS,
-        payload: credentials,
-      });
+        const credentials = JSON.parse(localStorage.getItem("userCredentials"));
+        dispatch({
+            type: LOGIN_ACTIONS.ACTION_GET_CREDENTIALS,
+            payload: credentials,
+        });
     };
-  };
-  
-  export const loginGoogle = (userData) => async (dispatch) => {
+};
+
+export const loginGoogle = (userData) => async (dispatch) => {
     const data = await axios.post("/user/loginGoogle", userData);
     return dispatch({
-      type: LOGIN_ACTIONS.ACTION_LOGIN_GOOGLE,
-      payload: data,
+        type: LOGIN_ACTIONS.ACTION_LOGIN_GOOGLE,
+        payload: data,
     });
-  };
+};
+
+export const loginFromLocalStorage = () => async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+        return dispatch(actionLoginSuccess(token))
+
+    }
+}
