@@ -7,9 +7,28 @@ import Pagination from '../Paginate/Pagination'
 import { PRODUCTS_PER_PAGE } from '../../env'
 import { useSelector } from 'react-redux'
 
-
 const ProductList = ({ productList }) => {
     const categoryList = useSelector(state => state.categories.categories_detail)
+    const [listCategoriesWithProducts, setListCategoriesWithProducts] = React.useState([])
+
+    React.useEffect(() => {
+        let listOfCategories = {}
+
+        productList.length > 0 && categoryList.filter(category => {
+            return productList.some(product => {
+                if (product.category_name === category.name) {
+                    listOfCategories[category.name] = 1;
+                    if (category.parent_name !== null) {
+                        listOfCategories[category.parent_name] = 1;
+                    }
+                }
+                return product.category_name === category.name || product.category_name === category.parent_name
+            }
+            )
+        })
+        setListCategoriesWithProducts(listOfCategories)
+    }, [productList, categoryList])
+
 
     const [search, setSearch] = React.useState('')
     const [order, setOrder] = React.useState('')
@@ -22,19 +41,19 @@ const ProductList = ({ productList }) => {
         return result
     }
 
-    //console.log(category, '<- selected category')
     let childrenCategories = findChildrenCategories(category?.name)
-    //console.log(childrenCategories, '<- children category')
     let parentAndChildrenCategories = [category, ...childrenCategories]
-    //console.log(parentAndChildrenCategories, '<- parent and children category')
-
     let productsPerCategory = category?.name?.length > 0 ? productList.filter(product =>
         parentAndChildrenCategories.some(category => product.category_name === category.name)) : productList
 
     let filteredProducts = search.length === 0 ? productsPerCategory :
         productsPerCategory.filter(product => product.name.toLowerCase().includes(search.toLowerCase()))
 
-    console.log(productsPerCategory, '<--------- Filter by category and name')
+    //productList.length > 0 && console.log(categoriesWithProducts, '<- Categories With Products')
+    //console.log(parentAndChildrenCategories, '<- parent and children category')
+    //console.log(category, '<- selected category')
+    //console.log(childrenCategories, '<- children category')
+    //console.log(productsPerCategory, '<--------- Filter by category and name')
     switch (order) {
         case 'nameAsc':
             filteredProducts = filteredProducts.sort((a, b) => orderBy(a.name.toLowerCase(), b.name.toLowerCase()))
@@ -68,7 +87,7 @@ const ProductList = ({ productList }) => {
                     <input
                         name="search"
                         type="text"
-                        placeholder="Search by name"
+                        placeholder="Filter by name"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
@@ -83,7 +102,7 @@ const ProductList = ({ productList }) => {
                         <option value="priceDesc">Price Descending</option>
                     </select>
                 </div>
-                <CategoriesList selectedCategory={category} setCategory={setCategory} />
+                <CategoriesList selectedCategory={category} setCategory={setCategory} listOfCategories={listCategoriesWithProducts} />
             </div>
 
             <div className={styles.productsContainer}>

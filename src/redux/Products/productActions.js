@@ -40,6 +40,8 @@ export const fetchProducts = () => {
         axios.get(api)
             .then(response => {
                 const products = response.data
+                //TODO: generate random price
+
                 dispatch(fetchAllProductsSuccess(products))
             })
             .catch(error => {
