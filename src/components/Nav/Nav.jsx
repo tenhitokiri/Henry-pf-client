@@ -17,7 +17,7 @@ const Nav = () => {
     const onCategory = (e) => {
         onClick()
         dispatch(fetchProductByCategory(e.target.id))
-        navigate('/products')
+        navigate('/find-product')
     }
     const onCategoryReset = () => {
         dispatch(fetchProducts())

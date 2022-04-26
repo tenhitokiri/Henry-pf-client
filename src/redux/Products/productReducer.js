@@ -107,7 +107,7 @@ const productReducer = (state = productState, action) => {
             return {
                 ...state,
                 loading: false,
-                products: payload,
+                foundProducts: payload,
                 numberOfFoundProducts: payload.length,
                 error: ''
             }
