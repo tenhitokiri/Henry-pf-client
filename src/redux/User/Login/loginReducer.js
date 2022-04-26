@@ -5,6 +5,7 @@ import jwt from 'jwt-decode';
 const loginState = {
     loading: '',
     name: '',
+    id: '',
     email: '',
     isAdmin: '',
     isProvider: '',
@@ -33,11 +34,14 @@ const loginReducer = (state = loginState, action) => {
         case LOGIN_ACTIONS.ACTION_LOGIN_SUCCESS:
             {
                 const data = jwt(payload)
+                console.log(payload, "login success")
+                console.log(data, "data")
                 window.localStorage.setItem('token', payload)
                 return {
                     ...state,
                     loading: false,
                     name: data.name,
+                    id: data.user_id,
                     token: payload,
                     email: data.email,
                     isAdmin: data.isAdmin,
@@ -48,13 +52,13 @@ const loginReducer = (state = loginState, action) => {
         case LOGIN_ACTIONS.ACTION_LOGIN_GOOGLE:
             return {
                 ...state,
-                userGoogleData:[...state.userGoogleData,payload]
-            } 
+                userGoogleData: [...state.userGoogleData, payload]
+            }
         case LOGIN_ACTIONS.ACTION_GET_CREDENTIALS:
             return {
                 ...state,
-                userCredentials:payload
-            }       
+                userCredentials: payload
+            }
         default: return state
     }
 }
