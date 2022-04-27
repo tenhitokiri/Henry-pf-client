@@ -1,17 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../SearchBar/SearchBar.module.css'
 import { fetchProductByName } from '../../redux/Products/productActions'
 import { useNavigate } from 'react-router-dom';
 
+
 export default function SearchBar() {
     const [input, setInput] = useState('');
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [suggestions, setSuggestions] = useState([])
+    const [products, setProducts] = useState([]);
+    const productList = useSelector(state => state.products.products)
 
-    const onChange = (e) => {
-        e.preventDefault();
-        setInput(e.target.value)
+    const suggestionHandler = (text, id) => {
+        setInput("")
+        setSuggestions([])
+        navigate(`/product/${id}`)
+    }
+
+    const onChangeHandler = (text) => {
+        let matches = []
+        if (text.length > 0) {
+            matches = products.filter(product => {
+                const regex = new RegExp(`${text}`, "gi")
+                return product.name.match(regex)
+            })
+        }
+        setSuggestions(matches)
+        setInput(text)
     }
 
     const onSubmit = (e) => {
@@ -20,26 +37,40 @@ export default function SearchBar() {
         navigate('/find-product')
     }
 
-    const onkeyIntro = (e) => {
+    const onKeyIntro = (e) => {
         if (e.keyCode === 13) {
             onSubmit(e)
             navigate('/find-product')
         }
     }
 
-
+    useEffect(() => {
+        setProducts(productList)
+    }, [productList])
     return (
         <div className={styles.container}>
             <form onSubmit={onSubmit}>
                 <input
-                    onChange={onChange}
-                    onKeyDown={onkeyIntro}
+                    onChange={e => onChangeHandler(e.target.value)}
+                    onKeyDown={onKeyIntro}
                     value={input}
                     type='text'
                     placeholder='What are you looking for...'
                 />
                 <button type='submit'>Search</button>
             </form>
+            <div className={styles.suggestions}>
+                <ul>
+
+                    {suggestions && suggestions.map((suggestion, i) =>
+                        <li key={i}
+                            onClick={(name, id) => { suggestionHandler(suggestion.name, suggestion.product_id) }}>
+                            {suggestion.name.length > 40 ? (suggestion.name.substring(0, 40) + "...") : suggestion.name}
+                        </li>
+                    )}
+                </ul>
+
+            </div>
         </div>
     )
 }

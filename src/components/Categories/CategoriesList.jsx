@@ -3,17 +3,21 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styles from '../Categories/CategoriesList.module.css'
 
-const CategoriesList = ({ fetchCategories, categoryList, loading, error, setCategory, selectedCategory }) => {
+const CategoriesList = ({ categoryList, loading, error, setCategory, selectedCategory, listOfCategories }) => {
     const categoryMarkup = loading ? (
         <div>Loading...</div>
     ) : error ? (
         <div>{error}</div>
     ) : (
+
         categoryList.map((category, id) => (
-            category.name === selectedCategory.name || category.parent_name === selectedCategory.name ? (
+            //category.name === selectedCategory.name || category.parent_name === selectedCategory.name ? (
+            listOfCategories[category.name] === 1 ? category.name === selectedCategory.name ? (
                 <li key={id} onClick={() => setCategory("")} className={styles.selected}> {`> ${category.name}`} </li>) : (
                 <li key={id} onClick={() => setCategory(category)}>{category.name}</li>
             )
+                : null
+
         ))
     )
 

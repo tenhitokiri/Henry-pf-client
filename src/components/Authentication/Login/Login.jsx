@@ -33,7 +33,7 @@ export default function Login() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const tokenU = useSelector((state) => state.name)
+    //const tokenU = useSelector((state) => state.name)
     const [errors, setErrors] = useState({})
     const [post, setPost] = useState({
         email: '',
@@ -47,7 +47,7 @@ export default function Login() {
         else {
             dispatch(signIn(post))
             const token = window.localStorage.getItem('token')
-            console.log(token)
+            //console.log(token, "token")
             dispatch(permission(token))
             window.location.href = mainPage
         }
