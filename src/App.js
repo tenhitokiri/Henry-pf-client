@@ -17,6 +17,7 @@ import Login from './components/Authentication/Login/Login'
 import Verify from './components/Authentication/Verify/Verify'
 import PasswordRecover from './components/Authentication/PasswordRecover'
 import NeedLogginOrRegister from './components/Authentication/NeedLogginOrRegister'
+import './App.css';
 // <<<<<<< HEAD
 import Panels from './components/User/Panels/Panels';
 // =======
@@ -51,26 +52,28 @@ function App() {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className="App">
-      <Header />
-      <Nav />
-      <Routes>
-        <Route exact path='/' element={<Home />} />
-        <Route path='/products' element={<ProductGetAll />} />
-        <Route path='/product/:id' element={<ProductDetail />} />
-        <Route path='/add-product' element={<ProductForm />} />
-        <Route path='/add-produc/done' element={<AddProductDone />} />
-        <Route path='/find-product' element={<ProductSearch />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/wishlist' element={<WishList />} />
-        <Route path='/admin/add-category' element={<AddCategory />} />
-        <Route path='/panels' element={<Panels />} />
-        <Route path='/need-authenticated' element={<NeedLogginOrRegister />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/passwordRecover' element={<PasswordRecover />} />
-        <Route path='/verify/:id' element={<Verify />} />
-        <Route path="*" element={<Route404 />} />
-      </Routes>
+      <div className="wrapperMain">
+        <Header />
+        <Nav />
+        <Routes>
+          <Route exact path='/' element={<Home />} />
+          <Route path='/products' element={<ProductGetAll />} />
+          <Route path='/product/:id' element={<ProductDetail />} />
+          <Route path='/add-product' element={<ProductForm />} />
+          <Route path='/add-produc/done' element={<AddProductDone />} />
+          <Route path='/find-product' element={<ProductSearch />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/wishlist' element={<WishList />} />
+          <Route path='/admin/add-category' element={<AddCategory />} />
+          <Route path='/panels' element={<Panels />} />
+          <Route path='/need-authenticated' element={<NeedLogginOrRegister />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/passwordRecover' element={<PasswordRecover />} />
+          <Route path='/verify/:id' element={<Verify />} />
+          <Route path="*" element={<Route404 />} />
+        </Routes>
+      </div>
       <Footer />
     </div>
   );

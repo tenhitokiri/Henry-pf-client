@@ -2,12 +2,10 @@
     width: 1300px;
     height: 240px;
 }
-
 .detailLink {
     text-decoration: none;
     color: var(--fontPrimary);
 }
-
 .img {
     position: relative;
     height: calc(100%);
@@ -15,16 +13,12 @@
     width: calc(100%);
     object-fit: scale-down;
 }
-
 .name {
     font-size: 1em;
-
 }
-
 .price {
     font-size: 1.2em;
 }
-
 .rate {
     display: flex;
     justify-content: center;
