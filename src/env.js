@@ -1,4 +1,4 @@
-export const backendUrl = process.env.API || "https://hubazar.herokuapp.com/" // 'http://localhost:5000/' //
+export const backendUrl = process.env.API || 'http://localhost:5000/' //"https://hubazar.herokuapp.com/" // 
 export const mainPage = process.env.MAIN_PAGE || 'http://localhost:3000/'  // "https://hubazar.vercel.app/" //
 export const PRODUCTS_PER_PAGE = 6
 

@@ -9,7 +9,7 @@ import styles from './productDetail.module.css'
 import ProductCarrousel from '../Carrousel/ProductCarrousel'
 import usePaginate from '../../hooks/usePaginate'
 import { addToCart, addToWL, removeFromWL, removeFromCart } from '../../redux'
-
+import ModalOptions from './ModalOptions'
 import { generateRandomInt } from '../../utils'
 
 
@@ -19,13 +19,24 @@ const ProductDetail = ({ favoriteProducts }) => {
     const related = useSelector(state => state.products.products)
     const { prevPage, nextPage, items } = usePaginate(related, 10)
     const [render, setRender] = useState(false)
+    const [modalOptions, setModalOptions] = useState(false)
 
 
     useEffect(() => {
         dispatch(fetchProductById(id))
     }, [render])
 
-    let { product_id, name, description, stock, rating, amount_sold, price, images, category, inventoryQty } = useSelector(state => state.products.foundProducts)
+    let {
+        product_id,
+        name,
+        description,
+        stock,
+        rating,
+        amount_sold,
+        price,
+        images,
+        category,
+        inventoryQty } = useSelector(state => state.products.foundProducts)
 
     inventoryQty = inventoryQty || generateRandomInt(100) + 1;
 
@@ -118,11 +129,11 @@ const ProductDetail = ({ favoriteProducts }) => {
                     }
                     <div className={styles.detail}>
                         {
-                            images.length > 1 ? images.map((e, i) => (
-                                <img className={styles.img} key={i} alt='' src={images[i]} />
+                            // images.length > 1 ? images.map((e, i) => (
+                            //     <img className={styles.img} key={i} alt='' src={images[i]} />
 
-                            )) :
-                                <img className={styles.img} src={images[0]} alt='' />
+                            // )) :
+                            <img className={styles.img} src={images[0]} alt='' />
                         }
                         <div className={styles.contentPSD}>
                             <div className={styles.price}>${price}</div>
@@ -136,10 +147,12 @@ const ProductDetail = ({ favoriteProducts }) => {
                                 <button className={styles.increment} onClick={increment}>+</button>
                             </div>
                             <button className={styles.cart} onClick={addCart}>Add to cart</button>
+
                             {isFavorite(product_id)}
                             {/* 
                             <button className={styles.wish}>Add to wishlist</button>
  */}
+                            <button className={styles.options} onClick={(e) => { setModalOptions(true) }}>See all buying options</button>
                         </div>
                     </div>
                 </div>
@@ -158,7 +171,16 @@ const ProductDetail = ({ favoriteProducts }) => {
                 </div>
                 <FontAwesomeIcon className={styles.next} onClick={nextPage} icon={faAngleRight} />
             </div>
-
+            {
+                modalOptions &&
+                <ModalOptions
+                    modalOptions={setModalOptions}
+                    product_id={product_id}
+                    name={name}
+                    image={images}
+                    rating={rating}
+                />
+            }
         </div>
     )
 }
