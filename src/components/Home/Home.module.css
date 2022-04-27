@@ -1,29 +1,25 @@
 .background {
     width: 100%
 }
-
 .carrousels {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     margin: 0 auto;
     max-width: 1300px;
 }
-
 .titleContein {
     display: flex;
     justify-content: space-around;
 }
-
 .ftTitle {
-    margin: 0 0 8px 0;
+    margin: 0 0 30px 0;
     font-size: 1.2em;
 }
-
-.link {}
-
 .ft {
     display: flex;
-    height: 255px;
-    width: 50%;
+    height: auto;
+    width: 45%;
     justify-content: space-evenly;
     margin-right: 1vw;
     animation-name: slide;
@@ -35,31 +31,26 @@
 @keyframes slide {
     0% {
         opacity: 0%;
-
     }
-
     10% {
         opacity: 100%;
     }
-
     85% {
         opacity: 100%;
     }
-
     100% {
         opacity: 0%;
     }
 }
 
 .ltTitle {
-    margin: 0 0 8px 0;
+    margin: 0 0 30px 0;
     font-size: 1.2em;
 }
-
 .lt {
     display: flex;
-    width: 50%;
-    height: 255px;
+    width: 45%;
+    height: auto;
     justify-content: space-evenly;
     margin-left: 1vw;
     animation-name: slide;
@@ -67,16 +58,13 @@
     animation-iteration-count: infinite;
     animation-direction: normal;
 }
-
-
 .iconsContainer {
-    margin: 10px auto 10px;
+    margin: 70px auto 60px;
     width: 1000px;
     display: flex;
     justify-content: space-around;
     flex-direction: row;
 }
-
 .iconText {
     float: left;
     padding-right: 50px;
@@ -85,18 +73,21 @@
     border-right: 2px solid #666;
     width: fit-content;
 }
-
 .icon {
     margin-right: 20px;
 }
-
 .iconText div {
     padding: 5px 0;
 }
-
 .textGrey {
     font-size: 0.85rem;
     color: #666666;
+}
+.displayDesktop {
+    display: flex;
+}
+.displayMobile {
+    display: none;
 }
 
 @media screen and (max-width: 1000px) {
@@ -105,7 +96,6 @@
         padding-right: 0;
         border-right: 0;
     }
-
     .iconsContainer {
         width: 80%;
         padding-left: 5px;
@@ -114,12 +104,17 @@
 }
 
 @media screen and (max-width:650px) {
+    .displayDesktop {
+        display: none;
+    }
+    .displayMobile {
+        display: block;
+    }
     .carrousels {
         display: flex;
         flex-direction: column;
     }
-
-    .ft {
+    .ft, .lt {
         display: flex;
         width: 100%;
         position: relative;
@@ -127,8 +122,13 @@
         justify-content: space-evenly;
         margin-right: 1vw;
     }
-
     .lt {
-        position: relative;
+        margin-top: 50px;
+    }
+    .sliderMain div div div div div {
+        background-position: center;
+    }
+    .sliderMain button {
+        padding: 20px !important;
     }
 }

@@ -68,7 +68,9 @@ const Home = () => {
 
     return (
         <div className={styles.background}>
-            <Slider />
+            <div className={styles.sliderMain}>
+                <Slider />
+            </div>
             <div className={styles.iconsContainer}>
                 <div className={styles.iconText}>
                     <FontAwesomeIcon className={styles.icon} icon={faRocket} size="3x" />
@@ -95,12 +97,13 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <div className={styles.titleContein}>
+            <div className={`${styles.titleContein} ${styles.displayDesktop}`}>
                 <div className={styles.ftTitle}>Featured Products</div>
                 <div className={styles.ltTitle}>Latest Products</div>
             </div>
             <div className={styles.carrousels}>
                 <div className={styles.ft}>
+                <div className={`${styles.ftTitle} ${styles.displayMobile}`}>Featured Products</div>
                     {
                         rFtProducts ? rFtProducts.map((e, index) => (
                             <ProductCarrousel
@@ -114,6 +117,7 @@ const Home = () => {
                     }
                 </div>
                 <div className={styles.lt}>
+                <div className={`${styles.ltTitle} ${styles.displayMobile}`}>Latest Products</div>
                     {
                         rLtProducts ? rLtProducts.map((e, index) => (
                             <ProductCarrousel
