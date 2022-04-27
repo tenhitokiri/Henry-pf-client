@@ -66,7 +66,6 @@ const ProductForm = () => {
             setToggle(true)
             document.getElementById('formOne').style.display = "none";
             onClear()
-
         }
     }
 
