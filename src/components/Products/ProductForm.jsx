@@ -64,6 +64,7 @@ const ProductForm = () => {
             setData({ ...data, image: data.image.push(data.imgOnScreen) })
             dispatch(addPRODUCT(data))
             setToggle(true)
+            document.getElementById('formOne').style.display = "none";
             onClear()
         }
     }
@@ -121,99 +122,108 @@ const ProductForm = () => {
 
 
     return (
-        <div className={styles.background} >
-            <form className={styles.form} autoComplete="off" onSubmit={onSubmit}>
-                <div className={styles.path}>Home / Sell / Add-Product</div>
-                <div className={styles.formContent}>
-                    <div className={styles.content}>
-                        <div className={styles.catName}>
+        <>
+            <div className={styles.pathContainer}>
+                <div className={styles.path}>
+                    Home / Sell / Add-Product
+                </div>
+            </div>
+            <div className={styles.container} >
+                <form id='formOne' className={styles.form} autoComplete="off" onSubmit={onSubmit}>
+                    <div className={styles.formContent}>
+                    <div className={styles.leftContainer}>
+                            {
+                                !imageError && <img alt='' className={styles.img} src={data.imgOnScreen} />
+                            }
+                            <span className={styles.labels}>Product Image</span>
                             <Inputs
-                                error={nameError}
-                                setError={setNameError}
+                                className={styles.imgInput}
+                                error={imageError}
+                                setError={setImagetError}
+                                data={data}
+                                setData={setData}
+                                type='url'
+                                placeholder='Url Image'
+                                name='imgOnScreen'
+                                textError='Product image needs to be a Valid URL'
+                                validation={validation.image}
+                                value={data.imgOnScreen}
+                            />
+                        </div>
+                        <div className={styles.rightContainer}>
+                            <div className={styles.catName}>
+                            <span className={styles.labels}>Product Name</span>
+                                <Inputs
+                                    error={nameError}
+                                    setError={setNameError}
+                                    data={data}
+                                    setData={setData}
+                                    type='text'
+                                    placeholder='Product Name'
+                                    name='name'
+                                    textError='Product name needs to be at least 50 characters long.letters and numbers'
+                                    validation={validation.name}
+                                    value={data.name}
+                                />
+                                <span className={styles.labels}>Product Category</span>
+                                <select onChange={onCategory}>
+                                    <option>Category</option>
+                                    {
+                                        categories.map(e => (
+                                            <option key={e.name} value={e.name}>{e.name}</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                            <span className={styles.labelsLast}>Product Description</span>
+                            <TextArea
+                                className={styles.description}
+                                error={descriptionError}
+                                setError={setDescriptionError}
                                 data={data}
                                 setData={setData}
                                 type='text'
-                                placeholder='title'
-                                name='name'
-                                textError='product name needs to be at least 50 characters long.letters and numbers'
+                                placeholder='Description'
+                                name='description'
+                                textError='only letters and numbers'
                                 validation={validation.name}
-                                value={data.name}
+                                value={data.description}
                             />
-                            <select onChange={onCategory}>
-                                <option> category </option>
-                                {
-                                    categories.map(e => (
-                                        <option key={e.name} value={e.name}>{e.name}</option>
-                                    ))
-                                }
-                            </select>
                         </div>
-                        <TextArea
-                            className={styles.description}
-                            error={descriptionError}
-                            setError={setDescriptionError}
-                            data={data}
-                            setData={setData}
-                            type='text'
-                            placeholder='description'
-                            name='description'
-                            textError='only letters and numbers'
-                            validation={validation.name}
-                            value={data.description}
-                        />
                     </div>
-                    <div className={styles.imgInContent}>
+                    <div className={styles.butContent}>
                         {
-                            !imageError && <img alt='' className={styles.img} src={data.imgOnScreen} />
+                            (
+                                !nameError
+                                && !descriptionError
+                                && !imageError
+                                && data.name !== ''
+                                && data.description !== ''
+                                && data.imgOnScreen !== ''
+                                && !categoryError
+                            ) ?
+                                <button className={styles.butSaveOne} type='submit'>save</button>
+                                :
+                                <button className={styles.butDisabled} type='submit' disabled>save</button>
                         }
-                        <Inputs
-                            className={styles.imgInput}
-                            error={imageError}
-                            setError={setImagetError}
-                            data={data}
-                            setData={setData}
-                            type='url'
-                            placeholder='url image'
-                            name='imgOnScreen'
-                            textError='product image needs to be a Valid URL'
-                            validation={validation.image}
-                            value={data.imgOnScreen}
-                        />
+                        <button className={styles.butClear} onClick={onClear}>clear</button>
                     </div>
-                </div>
-                <div className={styles.butContent}>
-                    {
-                        (
-                            !nameError
-                            && !descriptionError
-                            && !imageError
-                            && data.name !== ''
-                            && data.description !== ''
-                            && data.imgOnScreen !== ''
-                            && !categoryError
-                        ) ?
-                            <button className={styles.butSave} type='submit'>save</button>
-                            :
-                            <button className={styles.butDisabled} type='submit' disabled>save</button>
-                    }
-                    <button className={styles.butClear} onClick={onClear}>clear</button>
-                </div>
-            </form>
-            {
-                toggle &&
-                <form className={styles.contentStock} onSubmit={onSubmitTwo}>
-                    <div className={styles.contentQuantity}>
-                        <span className={styles.span}>Quantity</span>
-                        <input type='button' className={styles.butStock} onClick={decrement} value='-' />
-                        <span className={styles.quantity}>{stock.quantity}</span>
-                        <input type='button' className={styles.butStock} onClick={increment} value='' />
-                    </div>
-                    <input className={styles.unitPrice} type='number' onChange={onPrice} placeholder='unit_price' value={stock.unit_price}></input>
-                    <button type='submit' className={styles.submitStock}>save</button>
                 </form>
-            }
-
-        </div >
+                {
+                    toggle &&
+                    <form className={styles.contentStock} onSubmit={onSubmitTwo}>
+                        <div className={styles.contentQuantity}>
+                            <span className={styles.span}>Quantity</span>
+                            <input type='button' className={styles.butStock} onClick={decrement} value='-' />
+                            <span className={styles.quantity}>{stock.quantity}</span>
+                            <input type='button' className={styles.butStock} onClick={increment} value='+' />
+                        </div>
+                        <input className={styles.unitPrice} type='number' onChange={onPrice} placeholder='unit_price' value={stock.unit_price}></input>
+                        <button type='submit' className={styles.submitStock}>save</button>
+                    </form>
+                }
+            </div >
+        </>
     )
 }
 

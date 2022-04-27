@@ -52,7 +52,7 @@ const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWis
                     <FontAwesomeIcon className={styles.icon} icon={faUser} size="2x" />
                 </div>
                 {
-                    user ? (<div className={styles.logoutContainer}> Hola {user} <input className={styles.btn} type='submit' onClick={() => onLogOut()} value='Logout' /></div>) :
+                    user ? (<div className={styles.logoutContainer}> Hola {user} <input className={styles.btnLogout} type='submit' onClick={() => onLogOut()} value='Logout' /></div>) :
                         <div className={styles.login}>
                             <Link to='login' className={styles.loginLink}>Login in</Link>
                             <Link to='register' className={styles.registerLink}>Register</Link>
