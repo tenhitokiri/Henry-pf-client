@@ -23,21 +23,19 @@
 }
 
 .suggestions{
-    position: relative;
-    top: 100%;
-    left: 0;
-    width: 100%;
+    position: absolute;
     background-color: #fff;
     border: 1px solid #ccc;
     border-top: none;
     z-index: 1;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0 15px;
 }
 
 .suggestions ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 5px 0;
 }
 
 

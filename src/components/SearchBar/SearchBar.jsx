@@ -65,7 +65,7 @@ export default function SearchBar() {
                     {suggestions && suggestions.map((suggestion, i) =>
                         <li key={i}
                             onClick={(name, id) => { suggestionHandler(suggestion.name, suggestion.product_id) }}>
-                            {suggestion.name}
+                            {suggestion.name.length > 40 ? (suggestion.name.substring(0, 40) + "...") : suggestion.name}
                         </li>
                     )}
                 </ul>
