@@ -1,0 +1,134 @@
+.backgroundModal {
+    background-color: rgba(29, 28, 28, 0.467);
+    opacity: 90%;
+    width: 100%;
+    height: 82vh;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    overflow: hidden;
+    animation-name: background;
+    animation-duration: 0.5s;
+}
+
+@keyframes background {
+    0% {
+        opacity: 0%;
+    }
+
+    100% {
+        opacity: 90%;
+    }
+}
+
+.modalContent {
+    background-color: var(--background);
+    box-shadow: -5px 0px 15px 5px var(--fontSeccondary);
+    border-top-left-radius: 3px;
+    width: 30vw;
+    height: 100%;
+    max-width: 1300px;
+    position: absolute;
+    right: 0;
+    animation-name: slide;
+    animation-duration: 0.5s;
+    animation-direction: normal;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(500px);
+    }
+
+
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+
+.closeModal {
+    border: transparent;
+    border-radius: 2px;
+    justify-content: center;
+    align-items: center;
+    background-color: #F9340A;
+    display: flex;
+    width: 1.2vw;
+    height: 1.2vw;
+}
+
+.closeModal:hover {
+    background-color: #cc3010;
+    color: #ffff;
+}
+
+.optionSeller {
+    color: var(--fontSeccondary);
+    padding-bottom: 0.5vh;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin-left: 0.5vw;
+    background-color: aliceblue;
+    animation-name: slide;
+    animation-duration: 0.5s;
+    animation-direction: normal;
+}
+
+.optionSeller:hover {
+    color: var(--fontPrimary);
+    box-shadow: 5px 5px 5px 0px var(--fontSeccondary);
+}
+
+.cardSeller {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--fontSeccondary);
+    padding-bottom: 1vh;
+    width: 80%;
+    margin: 10px auto;
+
+}
+
+.sellerName {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    font-size: 20px;
+}
+
+.contentCount {
+    display: flex;
+}
+
+.incDec {
+    border: transparent;
+    border-radius: 2.5px;
+    background-color: var(--fontSeccondary);
+    width: 20px;
+    height: 20px;
+}
+
+.incDec:hover {
+    background-color: black;
+    color: aliceblue;
+}
+
+.count {
+    width: 20px;
+    height: 20px;
+}
+
+.cart {
+    color: var(--fontPrimary);
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: var(--background);
+    border: transparent;
+    border-radius: 3px;
+}
+
+.cart:hover {
+    background-color: #daaf05;
+    box-shadow: 1px 1px 1px 1px #D0D9DC;
+}

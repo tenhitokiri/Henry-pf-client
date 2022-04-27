@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './nav.module.css'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { fetchProductByCategory, fetchDetailCategories, fetchProducts } from '../../redux'
+import { fetchProductByCategory, fetchProducts } from '../../redux'
 
 
 const Nav = () => {
     const categories = useSelector(state => state.categories.categories_detail)
+    const auth = useSelector(state => state.loggin.verify.permission)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [toggle, setToggle] = useState(false)
@@ -43,9 +44,16 @@ const Nav = () => {
                         </ul>
                     }
                 </label>
-
-                <NavLink className={styles.link} to={'/add-product'}>Sell</NavLink>
-                <NavLink className={styles.link} to={'/panels'}>User</NavLink>
+                {
+                    auth === "aprobbed" ?
+                        <NavLink className={styles.link} to={'/add-product'}>Sell</NavLink> :
+                        <NavLink className={styles.link} to={'/need-authenticated'}>Sell</NavLink>
+                }
+                {
+                    auth === "aprobbed" ?
+                        <NavLink className={styles.link} to={'/panels'}>User</NavLink> :
+                        <NavLink className={styles.link} to={'/need-authenticated'}>User</NavLink>
+                }
             </div>
         </div>
     )
