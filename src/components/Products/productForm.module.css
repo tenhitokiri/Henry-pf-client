@@ -1,31 +1,28 @@
-.background {
+.container {
+    margin: 1rem auto;
     width: 100%;
-    height: 100%;
+    max-width: 1300px;
+    height: auto;
 }
-
-.path {
-    display: flex;
+.pathContainer {
     margin-bottom: 20px;
     background-color: #EDF1F2;
     width: 100%;
+    height: 30px;
 }
-
-.pathContainer {
+.path {
     max-width: 1300px;
     margin: 0 auto;
-    float: left;
     text-align: left;
     width: 1300px;
     font-size: 0.9rem;
     padding: 6px 0;
 }
-
 .form {
     max-width: 1300px;
     margin: 0 auto;
     padding: 0 3%;
 }
-
 .formContent {
     display: flex;
     position: relative;
@@ -34,7 +31,6 @@
     flex-direction: row;
     justify-content: space-between;
 }
-
 .rightContainer {
     display: flex;
     height: 100%;
@@ -43,48 +39,69 @@
     text-align: left;
     float: left;
 }
-
 .leftContainer {
     display: flex;
     width: 30%;
-    height: 400px;
+    height: auto;
     flex-direction: column;
     justify-content: flex-end;
     float: left;
     text-align: left;
 }
-
 .leftContainer div {
     float: left;
     width: 100%;
 }
-
+.labels {
+    margin: 6px 0;
+    font-weight: 500;
+    float: left;
+}
+.labelsLast {
+    margin: 26px 0 6px 0;
+    font-weight: 500;
+    float: left;
+}
+.container input, .container select {
+    width: calc(100% - 20px);
+    height: 37px;
+    padding: 0 10px;
+    border-radius:4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    margin-bottom: 5px;
+ }
+ .container select {
+    width: 100%;
+}
+.container textarea {
+    width: calc(100% - 20px);
+    padding: 0;
+    border-radius:4px;
+    border: 1px solid #ccc;
+    font-family: 'Work Sans', sans-serif !important;
+    font-size: 1rem;
+    padding: 10px;
+}
 .contentNameCat {
     float: left;
 }
-
 .img {
     margin: 0 auto;
     max-width: 400px;
     max-height: 350px;
     width: 100%;
-
 }
-
 .name {
     display: flex;
 }
-
 .categories {
     float: left;
     width: 40%;
 }
-
 .description {
     margin: 20px;
 }
-
-
 .imgInContent {
     display: flex;
     width: 400px;
@@ -93,31 +110,28 @@
     justify-content: flex-end;
     align-items: flex-end;
 }
-
 .butContent {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 50px;
 }
-
-.buttonSave {
-    padding: 8px 30px;
+.butSaveOne {
+    padding: 10px 30px;
     width: fit-content;
     border: none;
     background-color: #F9C801;
     border-radius: 3px;
-    cursor: pointer;
     text-transform: capitalize;
     margin-top: 6px;
+    cursor: pointer;
+
     transition: 0.2s;
 }
-
-.buttonSave:hover {
+.butSaveOne:hover {
     background-color: #dcb003;
 }
-
 .butClear {
-    padding: 8px 30px;
+    padding: 10px 30px;
     width: fit-content;
     border: none;
     background-color: #02354A;
@@ -130,13 +144,11 @@
 
     transition: 0.2s;
 }
-
 .butClear:hover {
     background-color: #555555;
 }
-
 .butDisabled {
-    padding: 8px 30px;
+    padding: 10px 30px;
     width: fit-content;
     border: none;
     background-color: #F9C801;
@@ -144,38 +156,35 @@
     text-transform: capitalize;
     margin-top: 6px;
 }
-
 .contentStock {
     display: flex;
     margin: 6.5vw auto;
-    max-width: 1300px;
+    max-width: 350px;
 }
-
 .contentQuantity {
     display: flex;
     align-items: center;
 }
-
 .submitStock {
-
-    padding: 8px 30px;
+    padding: 10px 30px;
+    margin-top: 0px;
     width: fit-content;
+    height: 37px;
     border: none;
     background-color: #F9C801;
     border-radius: 3px;
     cursor: pointer;
     text-transform: capitalize;
-    margin-top: 6px;
+
     transition: 0.2s;
 }
-
 .submitStock:hover {
     background-color: #dcb003;
 }
-
 .butStock {
-    height: 30px;
-    width: 30px;
+    width: 26px !important;
+    height: 23px !important;
+    padding: 0 !important;
     border: none;
     background-color: #02354A;
     border-radius: 3px;
@@ -184,32 +193,28 @@
     color: white;
     transition: 0.2s;
 }
-
 .quantity {
     text-align: center;
-    width: 30px;
+    width: 24px;
+    border: 1px solid #ccc;
+    margin: -5px 2px 0 2px;
 }
-
 .span {
-    margin-right: 10px;
+    margin-right: 8px;
+    margin-bottom: 5px;
 }
-
 .butStock:hover {
     background-color: #555555;
 }
-
 .unitPrice {
-    display: flex;
-    margin: 0 auto;
+    margin: 0 10px;
+    width: 100px !important;
 }
-
-
 
 @media screen and (max-width: 1000px) {
     .rightContainer {
         width: 100%;
     }
-
     .leftContainer {
         width: 100%;
     }
@@ -217,12 +222,16 @@
     .leftContainer input {
         width: 95%;
     }
-
     .formContent {
         display: block;
     }
-
     .butContent {
         float: left;
+    }
+    .unitPrice {
+        width: 69px !important;
+    }
+    .submitStock {
+        padding: 10px 20px;
     }
 }
