@@ -65,7 +65,6 @@ const ProductForm = () => {
             dispatch(addPRODUCT(data))
             setToggle(true)
             onClear()
-
         }
     }
 
@@ -213,6 +212,7 @@ const ProductForm = () => {
                     <button type='submit' className={styles.submitStock}>save</button>
                 </form>
             }
+
         </div >
     )
 }

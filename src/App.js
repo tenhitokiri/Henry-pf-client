@@ -16,6 +16,7 @@ import Register from './components/Authentication/Register/Register'
 import Login from './components/Authentication/Login/Login'
 import Verify from './components/Authentication/Verify/Verify'
 import PasswordRecover from './components/Authentication/PasswordRecover'
+import NeedLogginOrRegister from './components/Authentication/NeedLogginOrRegister'
 // <<<<<<< HEAD
 import Panels from './components/User/Panels/Panels';
 // =======
@@ -29,8 +30,6 @@ import jwt from 'jwt-decode';
 // >>>>>>> ecae7777926a998a88797d8038a14395528a281d
 
 function App() {
-
-
 
   const dispatch = useDispatch()
 
@@ -65,6 +64,7 @@ function App() {
         <Route path='/wishlist' element={<WishList />} />
         <Route path='/admin/add-category' element={<AddCategory />} />
         <Route path='/panels' element={<Panels />} />
+        <Route path='/need-authenticated' element={<NeedLogginOrRegister />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/passwordRecover' element={<PasswordRecover />} />
