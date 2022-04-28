@@ -53,8 +53,10 @@ function App() {
   return (
     <div className="App">
       <div className="wrapperMain">
-        <Header />
-        <Nav />
+        <div className="stickyHeader">
+          <Header />
+          <Nav />
+        </div>
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route path='/products' element={<ProductGetAll />} />

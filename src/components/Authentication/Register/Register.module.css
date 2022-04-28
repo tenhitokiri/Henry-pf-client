@@ -60,6 +60,12 @@
 .btn:hover {
     background-color: #dcb003;
 }
+.haveAccount {
+    float: right;
+}
+.haveAccount:hover {
+    text-decoration: underline;
+}
 
 @media screen and (max-width: 650px) {
     .container {

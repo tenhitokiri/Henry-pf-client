@@ -87,6 +87,7 @@ export default function Login() {
         <div className={styles.container}>
             <h2 className={styles.loginTitle}>Sign in here</h2>
             <div className={styles.login}>
+                <Link to='/register'><span className={styles.noAccount}>No account? Sign up!</span></Link>
                 <div className={styles.left}>
                     <GoogleLogin
                         clientId={CLIENT_ID_GOOGLE}
