@@ -9,6 +9,7 @@ import { CLIENT_ID_GOOGLE } from '../../../env';
 // import { faWindowRestore } from '@fortawesome/free-solid-svg-icons';
 import { mainPage } from '../../../env'
 import styles from './Login.module.css'
+import ModalLoginFailure from '../../Modal/ModalLoginFailure'
 
 function checkErrors(post) {
 
@@ -38,8 +39,6 @@ export default function Login() {
             setError(msjError.split(' ').pop())
         }
     }, [msjError])
-
-    console.log(error, 'error??')
 
     useEffect(() => {
         if (dependencyRedirect !== '')
@@ -148,23 +147,11 @@ export default function Login() {
             </div>
             {
                 error === '401' &&
-                <div className={styles.modalError}>
-                    <div className={styles.background}>
-                        <span className={styles.textError}>
-                            the password or email is invalid
-                        </span>
-                    </div>
-                </div>
+                <ModalLoginFailure msgError={'the password or email is invalid'} />
             }
             {
                 error === '403' &&
-                <div className={styles.modalError}>
-                    <div className={styles.background}>
-                        <span className={styles.textError}>
-                            you need validate your account first
-                        </span>
-                    </div>
-                </div>
+                <ModalLoginFailure msgError={'you need validate your account first'} />
             }
         </div>
 

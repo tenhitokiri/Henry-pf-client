@@ -1,25 +1,31 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import AdminPanel from './AdminPanel'
 import ProviderPanel from './ProviderPanel'
 import UserPanel from './UserPanel'
 
 const Panels = () => {
-    const actualUser = 'admin' // user // provider // admin
-    const [typeUser, setTypeUser] = useState()
+  const dataUser = useSelector(state => state.loggin.loggin)
+  let actualUser = '';  // 'admin' // user // provider // admin
+  if (dataUser.isAdmin) actualUser = 'admin';
+  if (dataUser.isProvider) actualUser = 'provider'
+  if (!dataUser.isAdmin && !dataUser.isProvider) actualUser = 'user';
 
-    useEffect(() => {
-        setTypeUser(actualUser);
-      });
+  const [typeUser, setTypeUser] = useState()
 
-    return (
-        <>
-            {
-              typeUser === 'admin' ? (<AdminPanel />) :
-              typeUser === 'provider' ? (<ProviderPanel />) :
-              typeUser === 'user' ? (<UserPanel />) : null
-            }
-        </>
-    )
+  useEffect(() => {
+    setTypeUser(actualUser);
+  });
+
+  return (
+    <>
+      {
+        typeUser === 'admin' ? (<AdminPanel />) :
+          typeUser === 'provider' ? (<ProviderPanel />) :
+            typeUser === 'user' ? (<UserPanel name={dataUser.name} email={dataUser.email} />) : null
+      }
+    </>
+  )
 }
 
 export default Panels
