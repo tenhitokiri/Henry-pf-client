@@ -69,6 +69,7 @@ export default function Register() {
     return (
         <div className={styles.container}>
             <div className={styles.signUp}>
+                <Link to='/login'><span className={styles.haveAccount}>Do you have an account?</span></Link>
                 <h2 className={styles.titleSignUp}>Create account</h2>
                 <form className={styles.formm} onSubmit = {(e) => handleSubmit(e)}>
                     <div className={styles.box_text}>

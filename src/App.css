@@ -11,6 +11,19 @@
   height: auto;
   position: relative;
 }
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: auto;
+  background: white;
+
+  -webkit-box-shadow: 0px 2px 5px 1px rgba(0,0,0,0.34);
+  -moz-box-shadow: 0px 2px 5px 1px rgba(0,0,0,0.34);
+  box-shadow: 0px 2px 5px 1px rgba(0,0,0,0.34);
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
