@@ -44,7 +44,6 @@ const ProductCard = ({ product, favoriteProducts }) => {
             stock, price,
             image, rating, seller_id
         }
-        console.log(payload, 'add payload');
         dispatch(addToWL(payload, user_id))
     }
 
@@ -52,7 +51,7 @@ const ProductCard = ({ product, favoriteProducts }) => {
         const payload = {
             product_id, name,
             stock, price,
-            image, rating
+            image, rating, seller_id
         }
         dispatch(removeFromWL(payload, user_id))
     }
