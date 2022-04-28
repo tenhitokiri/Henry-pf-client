@@ -41,8 +41,8 @@ function App() {
     dispatch(getCartItems())
     try {
       const token = window.localStorage.getItem('token')
-      const userData = jwt(token);
-      console.log(userData, "userData")
+      //    const userData = jwt(token);
+      //      console.log(userData, "userData")
       dispatch(permission(token))
       dispatch(loginFromLocalStorage(token))
 

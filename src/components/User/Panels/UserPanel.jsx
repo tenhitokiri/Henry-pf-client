@@ -1,8 +1,14 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import ItemsOrdered from './ItemsOrdered/ItemsOrdered';
 import styles from './Panels.module.css'
+import { useSelector } from 'react-redux';
 
 const UserPanel = () => {
+    const data = useSelector(state => state.loggin.loggin)
+
+
+    const auth = useSelector(state => state.loggin.verify.permission)
+    console.log(auth)
     const [info, setInfo] = useState('myAccountInfo')
 
     const updateInfo = (e) => {
@@ -11,6 +17,7 @@ const UserPanel = () => {
 
     return (
         <>
+            <h1>{console.log('<-------dataUser')}</h1>
             <div className={styles.pageTitleWrapper}>
                 {
                     info === 'myAccountInfo' ? (
@@ -19,7 +26,7 @@ const UserPanel = () => {
                         <h1 className={styles.pageTitle}>My Orders</h1>
                     ) : info === 'myWishList' ? (
                         <h1 className={styles.pageTitle}>My Wish List</h1>
-                    ) : null 
+                    ) : null
                 }
             </div>
             <div className={styles.container}>
@@ -61,15 +68,15 @@ const UserPanel = () => {
                                     <div className={styles.boxInformation}>
                                         <span className={styles.boxTitle}>
                                             <span>Contact Information</span>
-                                        </span> 
+                                        </span>
                                         <div className={styles.blockContent}>
-                                            <p>Jon Doe<br/> jondoe@gmail.com<br/></p>
+                                            <p>Jon Doe<br /> jondoe@gmail.com<br /></p>
                                         </div>
                                     </div>
                                     <div className={styles.boxUserType}>
                                         <span className={styles.boxTitle}>
                                             <span>Buyer user</span>
-                                        </span> 
+                                        </span>
                                         <div className={styles.blockContent}>
                                             <p><a href='#'>Do you want to Sell?</a></p>
                                         </div>
@@ -84,13 +91,13 @@ const UserPanel = () => {
                                     <thead>
                                         <tr>
                                             <th>Order #</th>
-                                            <th>Date</th> 
+                                            <th>Date</th>
                                             <th>Ship To</th>
                                             <th>Order Total</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody> 
+                                    <tbody>
                                         {/* START - BLOCK FOR EACH ORDER /////////////*/}
                                         <tr>
                                             <td>
@@ -99,11 +106,11 @@ const UserPanel = () => {
                                                     11000000071
                                                 </a>
                                             </td>
-                                            <td><span>Date: </span>4/19/22</td>     
+                                            <td><span>Date: </span>4/19/22</td>
                                             <td><span>Ship To: </span>Jon Doe</td>
                                             <td><span>Order Total: </span><span className={styles.price}>$550.00</span></td>
                                             <td>
-                                            <span>Status: </span><a href='#' name='itemsOrdered' onClick={e => updateInfo(e)}>Pending</a>
+                                                <span>Status: </span><a href='#' name='itemsOrdered' onClick={e => updateInfo(e)}>Pending</a>
                                             </td>
                                         </tr>
                                         {/* END - BLOCK FOR EACH ORDER /////////////*/}
@@ -118,7 +125,7 @@ const UserPanel = () => {
                                 <a href='#' name='myOrdersInfo' onClick={e => updateInfo(e)}>Back to My Orders</a>
                             </div>
                         </div>
-                        ) : info === 'myWishList' ? (
+                    ) : info === 'myWishList' ? (
                         <div className={styles.info}>
                             My wish list info
                         </div>

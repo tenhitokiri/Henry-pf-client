@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
 import { signIn } from '../../../redux/User/Login/loginActions';
-import { permission } from '../../../redux/';
 import GoogleLogin from 'react-google-login';
 import { loginGoogle } from '../../../redux/User/Login/loginActions';
 import { CLIENT_ID_GOOGLE } from '../../../env';
-import imgGoogle from '../../../assets/google.png'
-import { faWindowRestore } from '@fortawesome/free-solid-svg-icons';
+// import imgGoogle from '../../../assets/google.png'
+// import { faWindowRestore } from '@fortawesome/free-solid-svg-icons';
 import { mainPage } from '../../../env'
 import styles from './Login.module.css'
 
@@ -30,6 +29,22 @@ function checkErrors(post) {
 export default function Login() {
 
     const [seePassword, setSeePassword] = useState(false);
+    const dependencyRedirect = useSelector(state => state.loggin.loggin.token)
+    const msjError = useSelector(state => state.loggin.loggin.error)
+    const [error, setError] = useState('')
+
+    useEffect(() => {
+        if (msjError !== '') {
+            setError(msjError.split(' ').pop())
+        }
+    }, [msjError])
+
+    console.log(error, 'error??')
+
+    useEffect(() => {
+        if (dependencyRedirect !== '')
+            window.location.href = mainPage
+    }, [dependencyRedirect])
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -47,7 +62,6 @@ export default function Login() {
         else if (!post.email || !post.password) return alert('Please fill in the entire form :/');
         else {
             dispatch(signIn(post))
-            window.location.href = mainPage
         }
     }
 
@@ -132,6 +146,26 @@ export default function Login() {
                     </form>
                 </div>
             </div>
+            {
+                error === '401' &&
+                <div className={styles.modalError}>
+                    <div className={styles.background}>
+                        <span className={styles.textError}>
+                            the password or email is invalid
+                        </span>
+                    </div>
+                </div>
+            }
+            {
+                error === '403' &&
+                <div className={styles.modalError}>
+                    <div className={styles.background}>
+                        <span className={styles.textError}>
+                            you need validate your account first
+                        </span>
+                    </div>
+                </div>
+            }
         </div>
 
     )
