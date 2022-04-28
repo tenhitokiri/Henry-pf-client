@@ -111,6 +111,14 @@ const productReducer = (state = productState, action) => {
                 numberOfFoundProducts: payload.length,
                 error: ''
             }
+        case PRODUCT_ACTIONS.CLEAR_FILTER_CATEGORY:
+            return {
+                ...state,
+                loading: false,
+                foundProducts: state.products,
+                numberOfFoundProducts: state.products.length,
+                error: ''
+            }
         default: return state
     }
 }

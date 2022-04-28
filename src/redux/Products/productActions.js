@@ -217,3 +217,8 @@ export const fetchProductByCategory = (category) => {
     }
 }
 
+export const clearFilterCategory = () => {
+    return {
+        type: PRODUCT_ACTIONS.CLEAR_FILTER_CATEGORY
+    }
+}

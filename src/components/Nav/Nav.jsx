@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './nav.module.css'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { fetchProductByCategory, fetchProducts } from '../../redux'
+import { fetchProductByCategory, clearFilterCategory } from '../../redux'
 
 
 const Nav = () => {
@@ -21,7 +21,7 @@ const Nav = () => {
         navigate('/find-product')
     }
     const onCategoryReset = () => {
-        dispatch(fetchProducts())
+        dispatch(clearFilterCategory())
     }
 
 
@@ -37,7 +37,6 @@ const Nav = () => {
                             {
                                 categories.map(e => (
                                     <li onClick={onCategory} id={e.name} key={e.name} className={styles.li}>{e.name}</li>
-
                                 ))
                             }
                             <li className={styles.li} onClick={onCategoryReset}>all</li>

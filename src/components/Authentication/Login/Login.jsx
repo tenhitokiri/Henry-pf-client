@@ -42,13 +42,11 @@ export default function Login() {
 
     function handleSubmit(e) {
         e.preventDefault();
+        console.log(e.target, 'event login')
         if (Object.values(errors).length > 0) return alert('Please fill in the entire form');
         else if (!post.email || !post.password) return alert('Please fill in the entire form :/');
         else {
             dispatch(signIn(post))
-            const token = window.localStorage.getItem('token')
-            //console.log(token, "token")
-            dispatch(permission(token))
             window.location.href = mainPage
         }
     }
