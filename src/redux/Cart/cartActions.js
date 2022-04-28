@@ -113,17 +113,17 @@ const setCartItemsSuccess = (cart) => {
 }
 
 export const getCartItems = (userId) => {
-    console.log("getting CartItems")
+    // console.log("getting CartItems")
     const savedCartItems = JSON.parse(localStorage.getItem('savedCartItems')) === true;
     let cart = [];
     if (savedCartItems) {
-        console.log("should find saved cart items");
+        // console.log("should find saved cart items");
         cart = JSON.parse(localStorage.getItem('cart'));
     }
 
     return (dispatch) => {
         if (!userId && savedCartItems) {
-            console.log("saving local cart items to redux");
+            // console.log("saving local cart items to redux");
             dispatch(setCartItemsSuccess(cart));
         }
         if (userId) {

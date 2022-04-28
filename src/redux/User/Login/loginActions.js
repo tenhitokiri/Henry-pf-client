@@ -51,6 +51,7 @@ export const signIn = (Customers) => {
                 dispatch(actionLoginSuccess(response.data))
             })
             .catch(error => {
+                console.log(error)
                 const msg = error.message
                 dispatch(actionLoginFailure(msg))
             })

@@ -34,8 +34,8 @@ const loginReducer = (state = loginState, action) => {
         case LOGIN_ACTIONS.ACTION_LOGIN_SUCCESS:
             {
                 const data = jwt(payload)
-                console.log(payload, "login success")
-                console.log(data, "data")
+                // console.log(payload, "login success")
+                // console.log(data, "data")
                 window.localStorage.setItem('token', payload)
                 return {
                     ...state,
