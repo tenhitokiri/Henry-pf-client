@@ -47,6 +47,7 @@ export default function SearchBar() {
     useEffect(() => {
         setProducts(productList)
     }, [productList])
+    console.log(suggestions, '-------<')
     return (
         <div className={styles.container}>
             <form onSubmit={onSubmit}>
@@ -59,18 +60,21 @@ export default function SearchBar() {
                 />
                 <button type='submit'>Search</button>
             </form>
-            <div className={styles.suggestions}>
-                <ul>
+            {
+                suggestions.length > 0 &&
+                <div className={styles.suggestions}>
+                    <ul>
+                        {suggestions && suggestions.slice(0, 3).map((suggestion, i) =>
+                            <li key={i}
+                                className={styles.liSuggestions}
+                                onClick={(name, id) => { suggestionHandler(suggestion.name, suggestion.product_id) }}>
+                                {suggestion.name.length > 40 ? (suggestion.name.substring(0, 35) + "...") : suggestion.name}
+                            </li>
+                        )}
+                    </ul>
+                </div>
+            }
 
-                    {suggestions && suggestions.map((suggestion, i) =>
-                        <li key={i}
-                            onClick={(name, id) => { suggestionHandler(suggestion.name, suggestion.product_id) }}>
-                            {suggestion.name.length > 40 ? (suggestion.name.substring(0, 40) + "...") : suggestion.name}
-                        </li>
-                    )}
-                </ul>
-
-            </div>
         </div>
     )
 }
