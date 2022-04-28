@@ -3,6 +3,8 @@
     width: 100%;
     max-width: 1300px;
     height: auto;
+    overflow: auto;
+
 }
 .titlePage {
     text-transform: capitalize;
@@ -42,7 +44,7 @@
 }
 .productList {
     float: right;
-    width: 67%;
+    width: 90%;
     margin-right: 3%;
 }
 .summary {

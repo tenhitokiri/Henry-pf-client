@@ -11,7 +11,7 @@ import { fetchProducts, getCartItems } from '../../redux'
 import { mainPage } from '../../env'
 
 const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWishListItems }) => {
-    const user = useSelector(state => state.loggin.verify.name)
+    const user = useSelector(state => state.loggin.loggin.name)
 
     useEffect(() => {
         if (numberOfProducts === 0) {

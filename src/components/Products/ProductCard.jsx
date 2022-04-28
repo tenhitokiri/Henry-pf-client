@@ -2,13 +2,12 @@ import React from 'react'
 import styles from './Product.module.css'
 import useCounter from '../../hooks/UseCounter';
 import { connect } from 'react-redux'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addToCart, addToWL, removeFromWL } from '../../redux'
 import { FormatMoney } from 'format-money-js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faStar as starReg } from '@fortawesome/free-regular-svg-icons'
 import { faCircleMinus, faCircleXmark, faCirclePlus, faStar, faHeart as heartFilled } from '@fortawesome/free-solid-svg-icons'
-import { generateRandomInt } from '../../utils'
 import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product, favoriteProducts }) => {
@@ -16,45 +15,46 @@ const ProductCard = ({ product, favoriteProducts }) => {
     const { product_id,
         name,
         rating,
-        price,
-        images,
+        images, sellers, stock,
     } = product;
 
-
-    //const star = Math.floor(rating.rate)
+    const user_id = useSelector(state => state.loggin.loggin.id)
     const star = Math.floor(rating)
-
-    const inventoryQty = product.inventoryQty || generateRandomInt(100) + 1;
+    const price = sellers?.[0]?.stock?.unit_price;
+    const seller_id = sellers?.[0]?.user_id
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(price)) || price
     const image = images?.[0] || 'https://via.placeholder.com/150'
-
     const dispatch = useDispatch()
     let itemsToBuy = 0
+
     const addCart = () => {
         const payload = {
             product_id, name,
-            inventoryQty, price,
+            stock, price,
             image,
-            rating, itemsToBuy
+            rating, itemsToBuy, seller_id
         }
-        dispatch(addToCart(payload))
+        dispatch(addToCart(payload, user_id))
     }
+
     const addWL = () => {
         const payload = {
             product_id, name,
-            inventoryQty, price,
-            image, rating
+            stock, price,
+            image, rating, seller_id
         }
-        dispatch(addToWL(payload))
+        console.log(payload, 'add payload');
+        dispatch(addToWL(payload, user_id))
     }
+
     const removeWL = () => {
         const payload = {
             product_id, name,
-            inventoryQty, price,
+            stock, price,
             image, rating
         }
-        dispatch(removeFromWL(payload))
+        dispatch(removeFromWL(payload, user_id))
     }
 
     const isFavorite = (id) => {
@@ -113,23 +113,19 @@ const ProductCard = ({ product, favoriteProducts }) => {
                     }
                 </div>
                 {isFavorite(product_id)}
-                {/* 
-                <FontAwesomeIcon className={styles.iconHearthFilled} icon={faHeart} onClick={addWL} />
-                 */}
                 <div className={styles.priceContainer}>
                     <span className={styles.price}>{prodPrice}</span>
-                    <span className={styles.available}>({inventoryQty} available)</span></div>
+                    <span className={styles.available}>({stock} available)</span></div>
             </div>
             <div className={styles.cardFooter}>
                 <div>
-                    <Buttons initialCount={0} value={1} max={inventoryQty} itemsToBuy={itemsToBuy} />
+                    <Buttons initialCount={0} value={1} max={stock} itemsToBuy={itemsToBuy} />
                     <button className={`${styles.buttonSuccess}`} onClick={addCart}>Add to cart</button>
                 </div>
             </div>
         </div>
     )
 }
-
 
 const mapStateToProps = state => ({
     favoriteProducts: state.wishList.wishListItems,
