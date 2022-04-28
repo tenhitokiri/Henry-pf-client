@@ -78,6 +78,12 @@
 .btn:hover {
     background-color: #dcb003;
 }
+.noAccount {
+    position: absolute;
+}
+.noAccount:hover {
+    text-decoration: underline;
+}
 
 @media screen and (max-width: 650px) {
     .login {
