@@ -37,6 +37,14 @@ const categoryReducer = (state = categoryState, action) => {
                     error: ''
                 }
             }
+        case CATEGORY_ACTIONS.POST_CATEGORY_SUCCES:
+            {
+                return {
+                    ...state,
+                    loading: false,
+                    error: ''
+                }
+            }
         default: return state
     }
 }
