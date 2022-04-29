@@ -30,26 +30,26 @@ const Pagination = ({ data, RenderComponent, pageLimit, dataLimit }) => {
     };
 
     return (
-        <div>
+        <>
             <div className={styles.listContainer}>
                 {getPaginatedData().map((d, idx) => (
                     <RenderComponent key={idx} product={d} />
                 ))}
             </div>
 
-            <div className="pagination">
+            <div className={styles.pagination}>
                 <button
                     onClick={goToPreviousPage}
-                    className={`prev ${currentPage === 1 ? 'disabled' : ''}`}
+                    className={`${styles.nextPrev} ${currentPage === 1 ? 'disabled' : ''}`}
                 >
-                    prev
+                    &#60; prev
                 </button>
 
                 {getPaginationGroup().map((item, index) => (
                     <button
                         key={index}
                         onClick={changePage}
-                        className={`paginationItem ${currentPage === item ? 'active' : null}`}
+                        className={`${styles.paginationItem} ${currentPage === item ? styles.active : null}`}
                     >
                         <span>{item}</span>
                     </button>
@@ -57,12 +57,12 @@ const Pagination = ({ data, RenderComponent, pageLimit, dataLimit }) => {
 
                 <button
                     onClick={goToNextPage}
-                    className={`next ${currentPage === pages ? 'disabled' : ''}`}
+                    className={`${styles.nextPrev} ${currentPage === pages ? 'disabled' : ''}`}
                 >
-                    next
+                    next &#62;
                 </button>
             </div>
-        </div>
+        </>
     );
 }
 export default Pagination
