@@ -1,12 +1,16 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import ItemsOrdered from './ItemsOrdered/ItemsOrdered';
 import styles from './Panels.module.css'
+import { backendUrl } from '../../../env'
+import axios from 'axios'
 
-const AdminPanel = () => {
+const AdminPanel = ({ name, email }) => {
     const [info, setInfo] = useState('myAccountInfo')
+
 
     const updateInfo = (e) => {
         setInfo(e.target.name);
+        // axios(backendUrl + 'dashboard')
     }
 
     return (
@@ -21,7 +25,7 @@ const AdminPanel = () => {
                         <h1 className={styles.pageTitle}>Created Orders</h1>
                     ) : info === 'users' ? (
                         <h1 className={styles.pageTitle}>Users</h1>
-                    ) : null 
+                    ) : null
                 }
             </div>
             <div className={styles.container}>
@@ -70,15 +74,15 @@ const AdminPanel = () => {
                                     <div className={styles.boxInformation}>
                                         <span className={styles.boxTitle}>
                                             <span>Contact Information</span>
-                                        </span> 
+                                        </span>
                                         <div className={styles.blockContent}>
-                                            <p>Jon Doe<br/> jondoe@gmail.com<br/></p>
+                                            <p>{name}<br /> {email}<br /></p>
                                         </div>
                                     </div>
                                     <div className={styles.boxUserType}>
                                         <span className={styles.boxTitle}>
                                             <span>Admin user</span>
-                                        </span> 
+                                        </span>
                                         <div className={styles.blockContent}>
                                             <p><a href='#'>Do you want to Sell?</a></p>
                                         </div>
@@ -91,7 +95,7 @@ const AdminPanel = () => {
                             <div className={styles.tableWrapper}>
                                 <form>
                                     <div className={styles.filters}>
-                                        Filter by status: &nbsp; 
+                                        Filter by status: &nbsp;
                                         <select>
                                             <option>Published</option>
                                             <option>Waiting approve</option>
@@ -102,13 +106,13 @@ const AdminPanel = () => {
                                         <thead>
                                             <tr>
                                                 <th>Product Title</th>
-                                                <th>Date Created</th> 
+                                                <th>Date Created</th>
                                                 <th>&nbsp;</th>
                                                 <th>Price</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody> 
+                                        <tbody>
                                             {/* START - BLOCK FOR EACH PRODUCT /////////////*/}
                                             <tr>
                                                 <td>
@@ -117,7 +121,7 @@ const AdminPanel = () => {
                                                         Laptop Lenovo IdeaPad 3 15"
                                                     </a>
                                                 </td>
-                                                <td><span>Date: </span>4/19/22</td>     
+                                                <td><span>Date: </span>4/19/22</td>
                                                 <td><span>&nbsp;</span>&nbsp;</td>
                                                 <td><span>Price: </span><span className={styles.price}>$550.00</span></td>
                                                 <td>
@@ -139,7 +143,7 @@ const AdminPanel = () => {
                         <div className={styles.info}>
                             <form>
                                 <div className={styles.filters}>
-                                    Filter by status: &nbsp; 
+                                    Filter by status: &nbsp;
                                     <select>
                                         <option>Created</option>
                                         <option>Processing</option>
@@ -152,7 +156,7 @@ const AdminPanel = () => {
                                         <thead>
                                             <tr>
                                                 <th>Order #</th>
-                                                <th>Date</th> 
+                                                <th>Date</th>
                                                 <th>Ship To</th>
                                                 <th>Order Total</th>
                                                 <th>Status</th>
@@ -167,12 +171,12 @@ const AdminPanel = () => {
                                                         11000000071
                                                     </a>
                                                 </td>
-                                                <td><span>Date: </span>4/19/22</td>     
+                                                <td><span>Date: </span>4/19/22</td>
                                                 <td><span>Ship To: </span>Jon Doe</td>
                                                 <td><span>Order Total: </span><span className={styles.price}>$550.00</span></td>
                                                 <td>
-                                                <span>Status: </span>
-                                                <a href='#' name='itemsOrdered' onClick={e => updateInfo(e)}>Processing</a>
+                                                    <span>Status: </span>
+                                                    <a href='#' name='itemsOrdered' onClick={e => updateInfo(e)}>Processing</a>
                                                 </td>
                                             </tr>
                                             {/* END - BLOCK FOR EACH ORDER /////////////*/}
@@ -188,11 +192,11 @@ const AdminPanel = () => {
                                 <a href='#' name='createdOrders' onClick={e => updateInfo(e)}>Back to Created Orders</a>
                             </div>
                         </div>
-                        ) : info === 'users' ? (
-                            <div className={styles.info}>
+                    ) : info === 'users' ? (
+                        <div className={styles.info}>
                             <form>
                                 <div className={styles.filters}>
-                                    Filter by type: &nbsp; 
+                                    Filter by type: &nbsp;
                                     <select>
                                         <option>User</option>
                                         <option>Provider</option>
@@ -204,7 +208,7 @@ const AdminPanel = () => {
                                         <thead>
                                             <tr>
                                                 <th>Username</th>
-                                                <th>Status</th> 
+                                                <th>Status</th>
                                                 <th>Admin?</th>
                                                 <th>Reset Password</th>
                                                 <th>Status</th>
@@ -219,14 +223,14 @@ const AdminPanel = () => {
                                                         <option>Active</option>
                                                         <option>Inactive</option>
                                                     </select>
-                                                </td>     
+                                                </td>
                                                 <td><span>Admin?: </span>
                                                     <input type='checkbox' value='isAdmin' />
                                                 </td>
                                                 <td><span>Reset Password: </span><button>Reset</button></td>
                                                 <td>
-                                                <span>Status: </span>
-                                                <a href='#' name='itemsOrdered' onClick={e => updateInfo(e)}>Processing</a>
+                                                    <span>Status: </span>
+                                                    <a href='#' name='itemsOrdered' onClick={e => updateInfo(e)}>Processing</a>
                                                 </td>
                                             </tr>
                                             {/* END - BLOCK FOR EACH USER /////////////*/}

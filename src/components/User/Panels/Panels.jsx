@@ -20,8 +20,8 @@ const Panels = () => {
   return (
     <>
       {
-        typeUser === 'admin' ? (<AdminPanel />) :
-          typeUser === 'provider' ? (<ProviderPanel />) :
+        typeUser === 'admin' ? (<AdminPanel name={dataUser.name} email={dataUser.email} />) :
+          typeUser === 'provider' ? (<ProviderPanel name={dataUser.name} email={dataUser.email} />) :
             typeUser === 'user' ? (<UserPanel name={dataUser.name} email={dataUser.email} />) : null
       }
     </>
