@@ -6,6 +6,28 @@
     display: flex;
     flex-direction: row;
 }
+
+.pagination button {
+    border: transparent;
+    margin-top: 2vh;
+    cursor: pointer;
+    width: 2vw;
+    height: 2.6vh;
+    background-color: #EDF1F2;
+    border-left: 1px solid var(--fontSeccondary);
+    border-right: 1px solid var(--fontSeccondary);
+    transition: all 0.16s;
+}
+
+.pagination button:active {
+    background-color: var(--background);
+}
+
+.pagination button:hover {
+    background-color: var(--background);
+    color: aliceblue;
+}
+
 .productsContainer {
     display: flex;
     flex-direction: column;
@@ -15,11 +37,13 @@
     height: auto;
     border-radius: 10px;
 }
+
 .background {
     display: flex;
     margin-top: 20px;
     background-color: var(--background);
 }
+
 .listContainer {
     margin: 0 auto;
     width: 100%;
