@@ -29,15 +29,15 @@
 @media screen and (max-width: 1000px) {
     .container {
         float: left;
-        width: 90%;
-        padding: 15px 5%;
+        width: calc(100% - 40px);
+        padding: 15px 20px;
     }
     .container li {
         list-style: none;
-        padding: 5px 15px 5px 0;
-        display: inline;
+        padding: 5px 10px 5px 0;
+        display: inline-block;
         border-right: 1px solid #F9C801;
-        margin-right: 15px;
-        line-height: 32px;
+        margin-right: 10px;
+        line-height: 28px;
     }
 }
