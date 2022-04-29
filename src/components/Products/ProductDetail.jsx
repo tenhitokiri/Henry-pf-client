@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector, connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchProductById } from '../../redux/Products/productActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,14 +12,17 @@ import { addToCart, addToWL, removeFromWL, removeFromCart } from '../../redux'
 import ModalOptions from './ModalOptions'
 import { generateRandomInt } from '../../utils'
 
-
-const ProductDetail = ({ favoriteProducts }) => {
+const ProductDetail = () => {
     const dispatch = useDispatch();
     const { id } = useParams()
     const related = useSelector(state => state.products.products)
+    const loading = useSelector(state => state.products.loading)
+    const error = useSelector(state => state.products.error)
+    const favoriteProducts = useSelector(state => state.wishList.wishListItems)
     const { prevPage, nextPage, items } = usePaginate(related, 10)
     const [render, setRender] = useState(false)
     const [modalOptions, setModalOptions] = useState(false)
+    const user_id = useSelector(state => state.loggin.loggin.id)
 
 
     useEffect(() => {
@@ -32,14 +35,15 @@ const ProductDetail = ({ favoriteProducts }) => {
         description,
         stock,
         rating,
-        amount_sold,
-        price,
         images,
-        category,
-        inventoryQty } = useSelector(state => state.products.foundProducts)
+        inventoryQty,
+        sellers
+    } = useSelector(state => state.products.foundProducts)
 
     inventoryQty = inventoryQty || generateRandomInt(100) + 1;
-
+    const price = sellers?.[0]?.stock?.unit_price;
+    const seller_id = sellers?.[0]?.user_id
+    const image = images || 'https://via.placeholder.com/150'
 
     if (rating) {
         var star = Math.floor(rating)
@@ -48,15 +52,10 @@ const ProductDetail = ({ favoriteProducts }) => {
     const onClick = () => {
         setRender(!render)
     }
-    /////////////////
 
     const [counter, setCounter] = useState(0)
     const increment = () => {
-        /* if ((stock - counter) > 0) {
-         }
-         */
         setCounter(counter + 1)
-
     }
     const decrement = () => {
         if (counter > 0) {
@@ -69,31 +68,30 @@ const ProductDetail = ({ favoriteProducts }) => {
             const payload = {
                 product_id, name,
                 inventoryQty, price,
-                image,
+                image, seller_id,
                 rating, itemsToBuy: counter
             }
-            dispatch(addToCart(payload))
+            dispatch(addToCart(payload, user_id))
         } else {
             dispatch(removeFromCart({ product_id }))
         }
     }
 
-    /////////////////
     const addWL = () => {
         const payload = {
             product_id, name,
             inventoryQty, price,
-            image, rating
+            image, rating, seller_id
         }
-        dispatch(addToWL(payload))
+        dispatch(addToWL(payload, user_id))
     }
     const removeWL = () => {
         const payload = {
             product_id, name,
             inventoryQty, price,
-            image, rating
+            image, rating, seller_id
         }
-        dispatch(removeFromWL(payload))
+        dispatch(removeFromWL(payload, user_id))
     }
 
     const isFavorite = (id) => {
@@ -103,90 +101,83 @@ const ProductDetail = ({ favoriteProducts }) => {
             )
     }
 
-    const image = images || 'https://via.placeholder.com/150'
 
-    return (
-        <div className={styles.background}>
-            {
-                name &&
-                <div className={styles.content}>
-                    <div className={styles.category} >category</div>
-                    <div className={styles.title}>{name}</div>
-                    {
-                        rating &&
-                        <div className={styles.rate}>
-                            {
-                                [...Array(star)].map((e, index) => {
-                                    return <FontAwesomeIcon key={index} icon={faStar} />
-                                })
-                            }
-                            {
-                                [...Array(5 - star)].map((e, index) => {
-                                    return <FontAwesomeIcon key={index.toString() + 'b'} icon={starReg} />
-                                })
-                            }
-                        </div>
-                    }
-                    <div className={styles.detail}>
+    return loading ? (
+        <div className='App-container'>
+            <div className="loader"></div>
+        </div>
+    ) : error ? (
+        <div>{error}</div>
+    ) :
+        (
+            <div className={styles.background}>
+                {
+                    name &&
+                    <div className={styles.content}>
+                        <div className={styles.category} >category</div>
+                        <div className={styles.title}>{name}</div>
                         {
-                            // images.length > 1 ? images.map((e, i) => (
-                            //     <img className={styles.img} key={i} alt='' src={images[i]} />
-
-                            // )) :
-                            <img className={styles.img} src={images[0]} alt='' />
-                        }
-                        <div className={styles.contentPSD}>
-                            <div className={styles.price}>${price}</div>
-                            <div className={styles.stock}>{stock}</div>
-                            <div className={styles.description}>{description}</div>
-                        </div>
-                        <div className={styles.add}>
-                            <div className={styles.box}>
-                                <button className={styles.decrement} onClick={decrement}>-</button>
-                                <div className={styles.counter}>{counter}</div>
-                                <button className={styles.increment} onClick={increment}>+</button>
+                            rating &&
+                            <div className={styles.rate}>
+                                {
+                                    [...Array(star)].map((e, index) => {
+                                        return <FontAwesomeIcon key={index} icon={faStar} />
+                                    })
+                                }
+                                {
+                                    [...Array(5 - star)].map((e, index) => {
+                                        return <FontAwesomeIcon key={index.toString() + 'b'} icon={starReg} />
+                                    })
+                                }
                             </div>
-                            <button className={styles.cart} onClick={addCart}>Add to cart</button>
+                        }
+                        <div className={styles.detail}>
+                            {
+                                <img className={styles.img} src={images[0]} alt='' />
+                            }
+                            <div className={styles.contentPSD}>
+                                <div className={styles.price}>${price}</div>
+                                <div className={styles.stock}>{stock} available</div>
+                                <div className={styles.description}>{description}</div>
+                            </div>
+                            <div className={styles.add}>
+                                <div className={styles.box}>
+                                    <button className={styles.decrement} onClick={decrement}>-</button>
+                                    <div className={styles.counter}>{counter}</div>
+                                    <button className={styles.increment} onClick={increment}>+</button>
+                                </div>
+                                <button className={styles.cart} onClick={addCart}>Add to cart</button>
 
-                            {isFavorite(product_id)}
-                            {/* 
-                            <button className={styles.wish}>Add to wishlist</button>
- */}
-                            <button className={styles.options} onClick={(e) => { setModalOptions(true) }}>See all buying options</button>
+                                {isFavorite(product_id)}
+                                <button className={styles.options} onClick={(e) => { setModalOptions(true) }}>See all buying options</button>
+                            </div>
                         </div>
                     </div>
+                }
+                <div className={styles.related}>
+                    <FontAwesomeIcon className={styles.prev} onClick={prevPage} icon={faAngleLeft} />
+                    <div className={styles.carrousel} onClick={onClick}>
+                        {
+                            items ? items.map((e, i) => (
+                                <ProductCarrousel key={e.name + 'asd' + i} id={e.product_id} image={e.images} name={e.name} rating={e.rating} price={e.price} />
+                            ))
+                                : <span>loading...</span>
+                        }
+                    </div>
+                    <FontAwesomeIcon className={styles.next} onClick={nextPage} icon={faAngleRight} />
                 </div>
-            }
-            <div className={styles.related}>
-                <FontAwesomeIcon className={styles.prev} onClick={prevPage} icon={faAngleLeft} />
-                <div className={styles.carrousel} onClick={onClick}>
-                    {
-                        items ? items.map((e, i) => (
-
-                            <ProductCarrousel key={e.name + 'asd' + i} id={e.product_id} image={e.images} name={e.name} rating={e.rating} price={e.price} />
-
-                        ))
-                            : <span>loading...</span>
-                    }
-                </div>
-                <FontAwesomeIcon className={styles.next} onClick={nextPage} icon={faAngleRight} />
+                {
+                    modalOptions &&
+                    <ModalOptions
+                        modalOptions={setModalOptions}
+                        product_id={product_id}
+                        name={name}
+                        image={images}
+                        rating={rating}
+                    />
+                }
             </div>
-            {
-                modalOptions &&
-                <ModalOptions
-                    modalOptions={setModalOptions}
-                    product_id={product_id}
-                    name={name}
-                    image={images}
-                    rating={rating}
-                />
-            }
-        </div>
-    )
+        )
 }
 
-const mapStateToProps = state => ({
-    favoriteProducts: state.wishList.wishListItems,
-})
-
-export default connect(mapStateToProps)(ProductDetail)
+export default ProductDetail

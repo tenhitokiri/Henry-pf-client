@@ -1,9 +1,9 @@
 import React from 'react'
 import useCounter from '../../hooks/UseCounter';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addToCart, removeFromWL } from '../../redux'
 import { FormatMoney } from 'format-money-js';
-import styles from './Cart.module.css'
+import styles from './WishList.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleMinus, faCircleXmark, faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
@@ -23,6 +23,7 @@ function WishListProduct({ product }) {
             inventoryQty = stock
         } */
 
+    const user_id = useSelector(state => state.loggin.loggin.id)
 
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseInt(price)) || price
@@ -37,14 +38,14 @@ function WishListProduct({ product }) {
             image,
             rating, itemsToBuy
         }
-        dispatch(addToCart(payload))
+        dispatch(addToCart(payload, user_id))
     }
 
     const removeWishListItem = () => {
         const payload = {
             product_id
         }
-        dispatch(removeFromWL(payload))
+        dispatch(removeFromWL(payload, user_id))
     }
 
     const Buttons = ({ initialCount, value, max }) => {

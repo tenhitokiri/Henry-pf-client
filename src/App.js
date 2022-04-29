@@ -18,14 +18,13 @@ import Verify from './components/Authentication/Verify/Verify'
 import PasswordRecover from './components/Authentication/PasswordRecover'
 import NeedLogginOrRegister from './components/Authentication/NeedLogginOrRegister'
 import './App.css';
-// <<<<<<< HEAD
 import Panels from './components/User/Panels/Panels';
-// =======
-import { fetchDetailCategories, fetchProducts, getCartItems } from './redux';
+import { fetchDetailCategories, fetchProducts, getCartItems, fetchWLItems } from './redux';
 import WishList from './components/WishList/WishList';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { permission, loginFromLocalStorage } from './redux'
-import jwt from 'jwt-decode';
+//import jwt from 'jwt-decode';
+import MPConf from './components/MercadoPago/MPConf';
 
 
 // >>>>>>> ecae7777926a998a88797d8038a14395528a281d
@@ -33,12 +32,15 @@ import jwt from 'jwt-decode';
 function App() {
 
   const dispatch = useDispatch()
+  const user_id = useSelector(state => state.loggin.loggin.id)
+
 
   useEffect(() => {
 
     dispatch(fetchDetailCategories())
     dispatch(fetchProducts())
     dispatch(getCartItems())
+
     try {
       const token = window.localStorage.getItem('token')
       //    const userData = jwt(token);
@@ -47,9 +49,13 @@ function App() {
       dispatch(loginFromLocalStorage(token))
 
     } catch (e) { return console.error }
+    console.log(user_id, "user_id")
 
 
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  user_id && dispatch(fetchWLItems(user_id))
+
   return (
     <div className="App">
       <div className="wrapperMain">
@@ -62,7 +68,7 @@ function App() {
           <Route path='/products' element={<ProductGetAll />} />
           <Route path='/product/:id' element={<ProductDetail />} />
           <Route path='/add-product' element={<ProductForm />} />
-          <Route path='/add-produc/done' element={<AddProductDone />} />
+          <Route path='/add-product/done' element={<AddProductDone />} />
           <Route path='/find-product' element={<ProductSearch />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/wishlist' element={<WishList />} />
@@ -73,6 +79,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/passwordRecover' element={<PasswordRecover />} />
           <Route path='/verify/:id' element={<Verify />} />
+          <Route path="/mp_confirmation" element={<MPConf />} />
           <Route path="*" element={<Route404 />} />
         </Routes>
       </div>
