@@ -50,9 +50,17 @@ const loginReducer = (state = loginState, action) => {
                 }
             }
         case LOGIN_ACTIONS.ACTION_LOGIN_GOOGLE:
+            const info = payload.data
             return {
                 ...state,
+                loading:false,
+                name: info.name,
+                id:info.user_id,
+                email: info.email,
+                isAdmin: info.admin,
+                isProvider: info.provider,
                 userGoogleData: [...state.userGoogleData, payload]
+
             }
         case LOGIN_ACTIONS.ACTION_GET_CREDENTIALS:
             return {

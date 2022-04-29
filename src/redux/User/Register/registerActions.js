@@ -38,3 +38,11 @@ export const addCUSTOMER = (Customer) => {
             })
     }
 }
+
+export const signUpGoogle = (userData) => async (dispatch) => {
+    const data = await axios.post("http://localhost:5000/auth/loginGoogle", userData);
+    return dispatch({
+        type: REGISTER_ACTIONS.ACTION_SIGNUP_GOOGLE,
+        payload: data,
+    });
+};
