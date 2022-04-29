@@ -3,6 +3,10 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
 import { addCUSTOMER } from '../../../redux/User/Register/registerActions';
 import styles from '../../Authentication/Register/Register.module.css';
+import GoogleLogin from 'react-google-login';
+import { signUpGoogle } from '../../../redux/User/Register/registerActions';
+import { loginGoogle } from '../../../redux/User/Login/loginActions';
+import { CLIENT_ID_GOOGLE } from '../../../env';
 
 function checkErrors(post) {
     let errors = {};
@@ -66,6 +70,22 @@ export default function Register() {
         }))
     }
 
+    const respuestaGoogle = (respuesta) => {
+        console.log(respuesta, 'soy respuesta de google');
+        // console.log(respuesta.profileObj),'soy profileobj';
+        let userData = {
+            name: respuesta.profileObj.name,
+            email: respuesta.profileObj.email,
+            tokenId: respuesta.tokenId,
+            googleId: respuesta.googleId,
+        };
+        console.log(userData, 'soy user data de google');
+        localStorage.setItem("user", JSON.stringify(userData));
+        navigate("/");
+        // return dispatch(signUpGoogle(userData));
+        return dispatch(loginGoogle(userData));
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.signUp}>
@@ -103,44 +123,15 @@ export default function Register() {
                     
                     <button className={styles.btn}  type ='submit'>Create an Account</button>
                 </form>
+                <GoogleLogin
+                        clientId={CLIENT_ID_GOOGLE}
+                        buttonText="Log in with Google"
+                        onSuccess={respuestaGoogle}
+                        onFailure={respuestaGoogle}
+                        cookiePolicy="single_host_origin"
+                />
             </div>
         </div>
-// =======
-//             <h2 className={styles.titleSignUp}>Create account</h2>
-//             <form className={styles.formm} onSubmit={(e) => handleSubmit(e)}>
-//                 <div className={styles.input_text}>
-//                     <label className={styles.labelR}>Name</label>
-//                     <input type="text" onChange={(e) => handleInputChange(e)} value={post.name} name="name" />
-//                     {
-//                         errors.name && (<p>{errors.name}</p>)
-//                     }
-//                 </div>
-//                 <div className={styles.input_text}>
-//                     <label className={styles.labelR} >Email</label>
-//                     <input onChange={(e) => handleInputChange(e)} value={post.email} name='email' />
-//                     {
-//                         errors.email && (<p>{errors.email}</p>)
-//                     }
-//                 </div>
-//                 <div className={styles.input_text}>
-//                     <label className={styles.labelR} >Password</label>
-//                     <input onChange={(e) => handleInputChange(e)} value={post.password} name='password' />
-//                     {
-//                         errors.password && (<p>{errors.password}</p>)
-//                     }
-//                 </div>
-//                 <div className={styles.input_text}>
-//                     <label className={styles.labelR} >Re-enter password</label>
-//                     <input onChange={(e) => handleInputChange(e)} value={post.confirm} name='confirm' />
-//                     {
-//                         errors.password && (<p>{errors.password}</p>)
-//                     }
-//                 </div>
-
-//                 <button type='submit'>Continue</button>
-//             </form>
-//         </div>
-// >>>>>>> 7eb313990a673856f14cf9bc7497f91ce94bda3d
 
     )
 }
