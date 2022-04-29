@@ -19,7 +19,7 @@ import PasswordRecover from './components/Authentication/PasswordRecover'
 import NeedLogginOrRegister from './components/Authentication/NeedLogginOrRegister'
 import './App.css';
 import Panels from './components/User/Panels/Panels';
-import { fetchDetailCategories, fetchProducts, getCartItems, fetchWLItems } from './redux';
+import { fetchDetailCategories, fetchProducts, getCartItems, fetchWLItems, postCartToDB } from './redux';
 import WishList from './components/WishList/WishList';
 import { useDispatch, useSelector } from 'react-redux';
 import { permission, loginFromLocalStorage } from './redux'
@@ -33,28 +33,37 @@ function App() {
 
   const dispatch = useDispatch()
   const user_id = useSelector(state => state.loggin.loggin.id)
-
+  const cartList = useSelector(state => state.cart.cartItems)
+  const savedCart = useSelector(state => state.cart.savedOnDB)
 
   useEffect(() => {
-
     dispatch(fetchDetailCategories())
     dispatch(fetchProducts())
-    dispatch(getCartItems())
 
     try {
       const token = window.localStorage.getItem('token')
-      //    const userData = jwt(token);
-      //      console.log(userData, "userData")
       dispatch(permission(token))
       dispatch(loginFromLocalStorage(token))
 
     } catch (e) { return console.error }
-    console.log(user_id, "user_id")
-
 
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  user_id && dispatch(fetchWLItems(user_id))
+  useEffect(() => {
+    if (user_id) {
+      dispatch(getCartItems(user_id))
+      dispatch(fetchWLItems(user_id))
+    }
+    else {
+      dispatch(getCartItems())
+    }
+  }, [user_id]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (user_id) {
+      dispatch(postCartToDB(cartList, user_id))
+    }
+  }, [cartList]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="App">

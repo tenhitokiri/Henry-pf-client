@@ -46,7 +46,7 @@ export const fetchCategories = () => {
     return (dispatch) => {
         dispatch(actionCategoriesRequest())
         let api = backendUrl + 'products/categories'
-        console.log(`fetchCategories: ${api}`)
+        //console.log(`fetchCategories: ${api}`)
         axios.get(api)
             .then(response => {
                 const Categories = response.data
@@ -81,7 +81,7 @@ export const fetchDetailCategories = () => {
 export const postCategory = (categoryToAdd) => {
     return (dispatch) => {
         let api = backendUrl + 'category'
-        console.log(`post to ${api} of ${categoryToAdd}`)
+        //console.log(`post to ${api} of ${categoryToAdd}`)
         axios.post(api, categoryToAdd)
             .then(response => {
                 dispatch(postCategorySucces(response.data))
