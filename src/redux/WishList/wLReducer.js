@@ -95,6 +95,10 @@ const wishListReducer = (state = initWishListState, action) => {
                 })
             }
 
+            localStorage.setItem('wishList', JSON.stringify(...wishListItems));
+            localStorage.setItem('savedWishListItems', true);
+
+
             return {
                 ...state,
                 wishListItems: payload,

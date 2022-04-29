@@ -9,7 +9,7 @@ import { faCircleMinus, faCircleXmark, faCirclePlus } from '@fortawesome/free-so
 import { Link } from 'react-router-dom';
 
 
-function WishListProduct({ product }) {
+function WishListProduct({ product, key }) {
     const {
         product_id,
         name,
@@ -46,6 +46,7 @@ function WishListProduct({ product }) {
             stock, price,
             image, rating, seller_id
         }
+        console.log(payload, "removing from wishlist");
         dispatch(removeFromWL(payload, user_id))
     }
 
@@ -76,7 +77,7 @@ function WishListProduct({ product }) {
     }
 
     return (
-        <div className={styles.cardItem} key={product_id}>
+        <div className={styles.cardItem} key={key}>
             <div className={styles.insideContainer}>
                 <div className={styles.cardHeader}>
                     <Link className={styles.link} to={`/product/${product_id}`}>

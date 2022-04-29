@@ -35,7 +35,7 @@ export const removeFromWL = (payload, userId) => {
                 seller_id: payload.seller_id,
             }
             //console.log(payload, '<--- payload data to remove from wish list')
-            console.log(backendData, '<--- backend data to remove from wish list')
+            //console.log(backendData, '<--- backend data to remove from wish list')
             axios.delete(`${backendUrl}wishlist/`, { data: backendData })
                 .then(res => {
                     //console.log(res.data, '<--- remove wish list item')
@@ -107,12 +107,12 @@ const addToWLSuccess = (wishList) => {
 
 export const fetchWLItems = (userId) => {
     return (dispatch) => {
-        console.log("fetching wish list items on user id: ", userId)
+        //console.log("fetching wish list items on user id: ", userId)
         dispatch(fetchWLItemsRequest());
         return axios.get(`${backendUrl}wishlist/?user_id=${userId}`)
             .then(response => {
                 const wishList = response.data;
-                console.log(wishList, '<--- wish list');
+                //console.log(wishList, '<--- wish list');
                 const wishListItems = wishList.map(item => {
                     return {
                         name: item.name,
@@ -124,8 +124,8 @@ export const fetchWLItems = (userId) => {
                         product_id: item.product_id,
                     }
                 })
-                localStorage.setItem('wishList', wishList);
-                localStorage.setItem('savedWishListItems', true);
+                //localStorage.setItem('wishList', wishList);
+                //localStorage.setItem('savedWishListItems', true);
                 dispatch(setWishListItemsSuccess(wishListItems));
             })
             .catch(error => dispatch(fetchWLItemsFailure(error)));
