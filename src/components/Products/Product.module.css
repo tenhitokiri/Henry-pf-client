@@ -17,6 +17,32 @@
     flex-direction: column;
 }
 
+.filters h2 {
+    text-transform: uppercase;
+    font-weight: 100;
+}
+
+.filters input,
+.filters select {
+    width: calc(100% - 20px);
+    height: 33px;
+    padding: 0 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.filters select {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.filters .buttonSuccess {
+    width: 100%;
+    margin-top: 0px;
+}
+
 .productsContainer {
     display: flex;
     flex-direction: column;
@@ -34,9 +60,8 @@
     justify-content: flex-start;
     width: 20%;
     height: auto;
-    border-radius: 10px;
+    border-radius: 3px;
     background-color: #EDF1F2;
-
 }
 
 .background {
@@ -59,7 +84,7 @@
 .cardItem {
     margin: 0.5rem 20px;
     width: 206px;
-    height: auto;
+    height: 414px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -75,7 +100,7 @@
 
 .cardHeader {
     width: 155px;
-    height: auto;
+    height: 195px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,13 +126,13 @@
 
 .buttonSuccess {
     padding: 8px 15px;
-    width: 80%;
+    width: 100%;
     border: none;
     background-color: #F9C801;
     border-radius: 3px;
     cursor: pointer;
     text-transform: capitalize;
-    margin-top: 6px;
+    margin-top: 12px;
 
     transition: 0.2s;
 }
@@ -171,20 +196,24 @@
 .link:hover {
     color: var(--fontPrimary);
     transition: 0.16s ease-out;
-    -webkit-transition: 0.16s ease-out;
-    -moz-transition: 0.16s ease-out;
-    -ms-transition: 0.16s ease-out;
-    -o-transition: 0.16s ease-out;
 }
 
 .title {
+    top: -5rem;
+    width: 100%;
+    height: 39px;
+    margin-bottom: 7px;
+    text-transform: capitalize;
+}
+
+.title a {
     font-size: 0.9rem;
     color: #666;
-    top: -5rem;
-    text-align: left;
-    width: 100%;
-    margin-bottom: 7px;
     text-decoration: none;
+}
+
+.title a:hover {
+    text-decoration: underline;
 }
 
 .img {
@@ -244,6 +273,10 @@
     .productsContainer {
         width: 100%;
     }
+
+    .menuList {
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 650px) {
@@ -254,5 +287,18 @@
     .cardBody,
     .cardFooter {
         width: 100%;
+    }
+
+    .filters {
+        width: calc(100% - 30px);
+        padding: 0 15px;
+    }
+
+    .cardItem {
+        height: 455px;
+    }
+
+    .title {
+        height: 58px;
     }
 }

@@ -5,19 +5,8 @@ import CartProduct from './CartProduct'
 import { FormatMoney } from 'format-money-js';
 import styles from './Cart.module.css'
 import { NavLink } from 'react-router-dom'
-//import useLocalStorage from '../../hooks/UseLocalStorage';
 
-/* 
-const initCartState = {
-    cart: [],
-    numberOfItems: 0,
-    totalPrice: 0.0,
-    discountCoupon: '',
-    discountAmount: 0.0
-  }
- */
 export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount, addToCart, cartItems }) => {
-    //const [cart, setCart] = useLocalStorage('cart', '');
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(totalPrice)) || totalPrice
 

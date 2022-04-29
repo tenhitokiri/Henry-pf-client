@@ -83,7 +83,7 @@ const ProductList = ({ productList }) => {
         <div className={styles.container}>
             <div className={styles.menuList}>
                 <div className={styles.filters}>
-                    <h3>FILTER</h3>
+                    <h2>FILTER</h2>
                     <input
                         name="search"
                         type="text"
@@ -91,7 +91,7 @@ const ProductList = ({ productList }) => {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
-                    <button onClick={(e) => setSearch('')}>clear</button>
+                    <button className={styles.buttonSuccess} onClick={(e) => setSearch('')}>clear</button>
                     <select name="order" onChange={(e) => setOrder(e.target.value)}>
                         <option value="">Order by...</option>
                         <option value="nameAsc">name Ascending</option>

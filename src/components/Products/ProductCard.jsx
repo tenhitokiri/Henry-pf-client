@@ -91,14 +91,16 @@ const ProductCard = ({ product, favoriteProducts }) => {
     return (
         <div className={styles.cardItem}>
             <div className={styles.cardHeader}>
-                <Link className={styles.link} to={`/product/${product_id}`}>
+                <Link to={`/product/${product_id}`}>
                     <img src={image} alt={name} className={styles.img} />
                 </Link>
             </div>
             <div className={styles.cardBody}>
-                <Link className={styles.link} to={`/product/${product_id}`}>
-                    <div className={styles.title}>{name.length > 40 ? (name.substring(0, 40) + "...") : name} </div>
-                </Link>
+                
+                    <div className={styles.title}>
+                        <Link to={`/product/${product_id}`}>{name.length > 40 ? (name.substring(0, 40) + "...") : name}</Link>
+                    </div>
+                
                 <div className={styles.rate}>
                     {
                         [...Array(star)].map((e, index) => {

@@ -69,7 +69,7 @@ export const getUserCredentials = () => {
 };
 
 export const loginGoogle = (userData) => async (dispatch) => {
-    const data = await axios.post("/user/loginGoogle", userData);
+    const data = await axios.post("http://localhost:5000/auth/loginGoogle", userData);
     return dispatch({
         type: LOGIN_ACTIONS.ACTION_LOGIN_GOOGLE,
         payload: data,

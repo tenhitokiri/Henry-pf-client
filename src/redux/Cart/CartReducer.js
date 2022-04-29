@@ -1,8 +1,11 @@
 import CART_ACTIONS from './cartTypes'
 
 const initCartState = {
+  isLoading: false,
+  error: null,
   cartItems: [],
   numberOfItems: 0,
+  savedOnDB: false,
   totalPrice: 0.0,
   discountCoupon: '',
   discountAmount: 0.0
@@ -17,17 +20,12 @@ const cartReducer = (state = initCartState, action) => {
       const total = payload.map(e => {
         return parseFloat(e.unit_price) * parseInt(e.quantity)
       })
-
       return {
         ...state,
         cartItems: payload,
         numberOfItems: payload.length,
         totalPrice: total.reduce((a, b) => { return a + b })
       }
-    //logged add-cart
-
-
-
 
     case CART_ACTIONS.ADD_TO_CART:
       {
@@ -40,9 +38,9 @@ const cartReducer = (state = initCartState, action) => {
         if (state.cartItems.length === 0) {
           localStorage.setItem('cart', JSON.stringify([payload]));
           localStorage.setItem('savedCartItems', true);
-
           return {
             ...state,
+            savedOnDB: false,
             cartItems: [payload],
             numberOfItems: parseInt(itemsToBuy),
             totalPrice: parseFloat(price) * parseInt(itemsToBuy)
@@ -74,9 +72,9 @@ const cartReducer = (state = initCartState, action) => {
         if (oldQty === 0) {
           localStorage.setItem('cart', JSON.stringify([...updatedCartItems, payload]));
           localStorage.setItem('savedCartItems', true);
-
           return {
             ...state,
+            savedOnDB: false,
             cartItems: [...updatedCartItems, payload],
             numberOfItems: newQuantity,
             totalPrice: newTotal
@@ -84,14 +82,15 @@ const cartReducer = (state = initCartState, action) => {
         }
         localStorage.setItem('cart', JSON.stringify([...updatedCartItems]));
         localStorage.setItem('savedCartItems', true);
-
         return {
           ...state,
+          savedOnDB: false,
           cartItems: updatedCartItems,
           numberOfItems: newQuantity,
           totalPrice: newTotal
         }
       }
+
     case CART_ACTIONS.UPDATE_TO_CART:
       {
         let oldQty = 0
@@ -120,9 +119,10 @@ const cartReducer = (state = initCartState, action) => {
         const newQuantity = parseInt(state.numberOfItems) + parseInt(payload.itemsToBuy) - parseInt(oldQty)
         if (oldQty === 0) {
           localStorage.setItem('cart', JSON.stringify([...updatedCartItems, payload]));
-          localStorage.setItem('savedCartItems', true);
+          localStorage.setItem('savedDBCartItems', true);
           return {
             ...state,
+            savedOnDB: false,
             cartItems: [...updatedCartItems, payload],
             numberOfItems: newQuantity,
             totalPrice: newTotal
@@ -132,6 +132,7 @@ const cartReducer = (state = initCartState, action) => {
         localStorage.setItem('savedCartItems', true);
         return {
           ...state,
+          savedOnDB: false,
           cartItems: updatedCartItems,
           numberOfItems: newQuantity,
           totalPrice: newTotal
@@ -142,7 +143,6 @@ const cartReducer = (state = initCartState, action) => {
       {
         const productToRemove = state.cartItems.find(product => product.product_id === payload.product_id)
         const { itemsToBuy, price } = productToRemove
-
         const newTotal = parseFloat(state.totalPrice) - parseFloat(itemsToBuy) * parseFloat(price)
         const updatedCartItems = state.cartItems.filter(product => product.product_id !== payload.product_id)
         const newQuantity = parseInt(state.numberOfItems) - parseInt(itemsToBuy)
@@ -150,11 +150,11 @@ const cartReducer = (state = initCartState, action) => {
         localStorage.setItem('savedCartItems', true);
         return {
           ...state,
+          savedOnDB: false,
           numberOfItems: newQuantity,
           cartItems: updatedCartItems,
           totalPrice: newTotal
         }
-
       }
 
     case CART_ACTIONS.EMPTY_CART:
@@ -163,12 +163,33 @@ const cartReducer = (state = initCartState, action) => {
         localStorage.setItem('savedCartItems', false);
         return {
           ...state,
+          savedOnDB: false,
           cartItems: [],
           numberOfItems: 0
         }
-
       }
+
     case CART_ACTIONS.SET_CART_ITEMS: {
+      let numberOfItems = 0;
+      let totalPrice = 0.0;
+      let cartItems = [];
+      if (payload?.length > 0) {
+        payload.forEach(product => {
+          numberOfItems += parseInt(product.itemsToBuy)
+          totalPrice += parseFloat(product.price) * parseFloat(product.itemsToBuy)
+          cartItems.push(product)
+        })
+      }
+      return {
+        ...state,
+        savedOnDB: false,
+        cartItems: payload,
+        numberOfItems,
+        totalPrice
+      }
+    }
+
+    case CART_ACTIONS.SET_DB_CART_ITEMS: {
       let numberOfItems = 0;
       let totalPrice = 0.0;
       let cartItems = [];
@@ -179,14 +200,37 @@ const cartReducer = (state = initCartState, action) => {
           cartItems.push(product)
         })
       }
-
       return {
         ...state,
         cartItems: payload,
         numberOfItems,
+        savedOnDB: true,
         totalPrice
       }
     }
+
+    case CART_ACTIONS.SAVE_DB_CART_ITEMS: {
+      return {
+        ...state,
+        savedOnDB: true
+      }
+    }
+
+    case CART_ACTIONS.ACTION_CART_REQUEST: {
+      return {
+        ...state,
+        isLoading: true
+      }
+    }
+
+    case CART_ACTIONS.ACTION_CART_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        error: payload
+      }
+    }
+
     default: return state
   }
 }

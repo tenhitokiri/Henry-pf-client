@@ -38,9 +38,8 @@ const Pagination = ({ data, RenderComponent, pageLimit, dataLimit }) => {
         prevPage,
         items } = usePaginate(getPaginationGroup(), 10)
 
-
     return (
-        <div>
+        <>
             <div className={styles.listContainer}>
                 {getPaginatedData().map((d, idx) => (
                     <RenderComponent key={idx} product={d} />
@@ -48,44 +47,37 @@ const Pagination = ({ data, RenderComponent, pageLimit, dataLimit }) => {
             </div>
 
             <div className={styles.pagination}>
-                <button onClick={prevPage}><FontAwesomeIcon icon={faAnglesLeft} /></button>
+                <button onClick={prevPage} className={styles.nextPrev}>
+                    <FontAwesomeIcon icon={faAnglesLeft} />
+                </button>
                 <button
                     onClick={goToPreviousPage}
-                    className={`prev ${currentPage === 1 ? 'disabled' : ''}`}
+                    className={`${styles.nextPrev} ${currentPage === 1 ? 'disabled' : ''}`}
                 >
                     <FontAwesomeIcon icon={faAngleLeft} />
                 </button>
-
-                {/* {getPaginationGroup().map((item, index) => (
-                    <button
-                        key={index}
-                        onClick={changePage}
-                        className={`paginationItem ${currentPage === item ? 'active' : null}`}
-                    >
-                        <span>{item}</span>
-                    </button>
-                ))} */}
 
                 {items.map((item, index) => (
                     <button
                         key={index}
                         onClick={changePage}
-                        className={`paginationItem ${currentPage === item ? 'active' : null}`}
+                        className={`${styles.paginationItem} ${currentPage === item ? styles.active : null}`}
                     >
                         <span>{item}</span>
                     </button>
                 ))}
 
-
                 <button
                     onClick={goToNextPage}
-                    className={`next ${currentPage === pages ? 'disabled' : ''}`}
+                    className={`${styles.nextPrev} ${currentPage === pages ? 'disabled' : ''}`}
                 >
                     <FontAwesomeIcon icon={faAngleRight} />
                 </button>
-                <button onClick={nextPage}><FontAwesomeIcon icon={faAnglesRight} /></button>
+                <button onClick={nextPage} className={styles.nextPrev}>
+                    <FontAwesomeIcon icon={faAnglesRight} />
+                </button>
             </div>
-        </div>
+        </>
     );
 }
 export default Pagination
