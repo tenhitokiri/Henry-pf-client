@@ -11,19 +11,18 @@ import { Link } from 'react-router-dom';
 
 function WishListProduct({ product }) {
     const {
-        product_id, name,
-        inventoryQty, price,
-        image, rating
+        product_id,
+        name,
+        stock,
+        featured_seller,
+        image,
+        price,
+        rating
     } = product
 
-    //const itemsToBuy = product.quantity;
-
-    /*     let inventoryQty = '0';
-        if (stock) {
-            inventoryQty = stock
-        } */
-
     const user_id = useSelector(state => state.loggin.loggin.id)
+    //const price = featured_seller?.stock?.unit_price;
+    const seller_id = featured_seller?.user_id
 
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseInt(price)) || price
@@ -34,7 +33,7 @@ function WishListProduct({ product }) {
     const addCart = () => {
         const payload = {
             product_id, name,
-            inventoryQty, price,
+            stock, price,
             image,
             rating, itemsToBuy
         }
@@ -43,7 +42,9 @@ function WishListProduct({ product }) {
 
     const removeWishListItem = () => {
         const payload = {
-            product_id
+            product_id, name,
+            stock, price,
+            image, rating, seller_id
         }
         dispatch(removeFromWL(payload, user_id))
     }
@@ -92,9 +93,9 @@ function WishListProduct({ product }) {
                 <div className={styles.cardFooter}>
                     <div className={styles.priceContainer}>
                         <span className={styles.price}>{prodPrice}</span>
-                        <span className={styles.available}>({inventoryQty} available)</span>
+                        <span className={styles.available}>({stock} available)</span>
                     </div>
-                    <Buttons initialCount={itemsToBuy} value={1} max={inventoryQty} />
+                    <Buttons initialCount={itemsToBuy} value={1} max={stock} />
                     <button className={`${styles.buttonSuccess}`} onClick={addCart}>Add to cart</button>
                 </div>
             </div>

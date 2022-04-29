@@ -10,7 +10,7 @@ import ProductCarrousel from '../Carrousel/ProductCarrousel'
 import usePaginate from '../../hooks/usePaginate'
 import { addToCart, addToWL, removeFromWL, removeFromCart } from '../../redux'
 import ModalOptions from './ModalOptions'
-import { generateRandomInt } from '../../utils'
+import { FormatMoney } from 'format-money-js';
 
 const ProductDetail = () => {
     const dispatch = useDispatch();
@@ -24,7 +24,6 @@ const ProductDetail = () => {
     const [modalOptions, setModalOptions] = useState(false)
     const user_id = useSelector(state => state.loggin.loggin.id)
 
-
     useEffect(() => {
         dispatch(fetchProductById(id))
     }, [render])
@@ -32,18 +31,21 @@ const ProductDetail = () => {
     let {
         product_id,
         name,
-        description,
-        stock,
         rating,
         images,
-        inventoryQty,
+        featured_seller,
+        stock,
+        description,
         sellers
     } = useSelector(state => state.products.foundProducts)
 
-    inventoryQty = inventoryQty || generateRandomInt(100) + 1;
-    const price = sellers?.[0]?.stock?.unit_price;
-    const seller_id = sellers?.[0]?.user_id
+    //inventoryQty = inventoryQty || generateRandomInt(100) + 1;
     const image = images || 'https://via.placeholder.com/150'
+    const price = featured_seller?.stock?.unit_price;
+    const seller_id = featured_seller?.user_id
+    const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
+    const prodPrice = formatMoney.from(parseFloat(price)) || price
+
 
     if (rating) {
         var star = Math.floor(rating)
@@ -67,9 +69,8 @@ const ProductDetail = () => {
         if (counter !== 0) {
             const payload = {
                 product_id, name,
-                inventoryQty, price,
-                image, seller_id,
-                rating, itemsToBuy: counter
+                stock, price,
+                image, rating, seller_id
             }
             dispatch(addToCart(payload, user_id))
         } else {
@@ -80,7 +81,7 @@ const ProductDetail = () => {
     const addWL = () => {
         const payload = {
             product_id, name,
-            inventoryQty, price,
+            stock, price,
             image, rating, seller_id
         }
         dispatch(addToWL(payload, user_id))
@@ -88,7 +89,7 @@ const ProductDetail = () => {
     const removeWL = () => {
         const payload = {
             product_id, name,
-            inventoryQty, price,
+            stock, price,
             image, rating, seller_id
         }
         dispatch(removeFromWL(payload, user_id))
@@ -136,7 +137,7 @@ const ProductDetail = () => {
                                 <img className={styles.img} src={images[0]} alt='' />
                             }
                             <div className={styles.contentPSD}>
-                                <div className={styles.price}>${price}</div>
+                                <div className={styles.price}>{prodPrice}</div>
                                 <div className={styles.stock}>{stock} available</div>
                                 <div className={styles.description}>{description}</div>
                             </div>

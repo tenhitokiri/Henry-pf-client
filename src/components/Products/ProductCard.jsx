@@ -15,13 +15,13 @@ const ProductCard = ({ product, favoriteProducts }) => {
     const { product_id,
         name,
         rating,
-        images, sellers, stock,
+        images, featured_seller, stock,
     } = product;
 
     const user_id = useSelector(state => state.loggin.loggin.id)
     const star = Math.floor(rating)
-    const price = sellers?.[0]?.stock?.unit_price;
-    const seller_id = sellers?.[0]?.user_id
+    const price = featured_seller?.stock?.unit_price;
+    const seller_id = featured_seller?.user_id
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(price)) || price
     const image = images?.[0] || 'https://via.placeholder.com/150'
