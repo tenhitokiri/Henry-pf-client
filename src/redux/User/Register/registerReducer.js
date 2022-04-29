@@ -31,7 +31,15 @@ const registerReducer = (state = registerState, action) => {
                     succes: true
                 }
             }
-
+        case REGISTER_ACTIONS.ACTION_SIGNUP_GOOGLE:
+            {
+                return {
+                    ...state,
+                    loading:false,
+                    error:false,
+                    succes:true
+                }
+            }    
         default: return state
     }
 }

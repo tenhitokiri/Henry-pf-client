@@ -83,10 +83,10 @@ export default function Login() {
         console.log(respuesta, 'soy respuesta de google');
         // console.log(respuesta.profileObj),'soy profileobj';
         let userData = {
-            firstName: respuesta.profileObj,
-            image: respuesta.profileObj.imageUrl,
+            name: respuesta.profileObj.name,
             email: respuesta.profileObj.email,
             tokenId: respuesta.tokenId,
+            googleId: respuesta.googleId,
         };
         console.log(userData, 'soy user data de google');
         localStorage.setItem("user", JSON.stringify(userData));
@@ -102,21 +102,10 @@ export default function Login() {
                 <div className={styles.left}>
                     <GoogleLogin
                         clientId={CLIENT_ID_GOOGLE}
-                        //   render={(renderProps) => (
-                        //     <button
-                        //       type="button"
-                        //       onClick={renderProps.onClick}
-                        //       disabled={renderProps.disabled}
-                        //       className={styles.login-section_google-login-btn}
-                        //     >
-                        //       Iniciar sesión con Google
-                        //     </button>
-                        //   )}
                         buttonText="Log in with Google"
                         onSuccess={respuestaGoogle}
                         onFailure={respuestaGoogle}
                         cookiePolicy="single_host_origin"
-                    // className={`${styles.loginButton} ${styles.google}`}'
                     />
                 </div>
                 <div className={styles.center}>
