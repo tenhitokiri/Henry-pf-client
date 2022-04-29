@@ -1,15 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import styles from './modalLoginFailure.module.css'
 
 const ModalLoginFailure = ({ msgError }) => {
+    const dependency = useSelector(state => state.loggin.loggin.loading)
+    const [displayNone, setDisplayNone] = useState({ opacity: '100%', transition: 'all 1s' })
+
+    useEffect(() => {
+        setTimeout(() => {
+            setDisplayNone({ opacity: '0%', transition: 'all 1s' })
+        }, 3000)
+    }, [])
+
+
     return (
-        <div className={styles.modalError}>
-            <div className={styles.background}>
-                <span className={styles.textError}>
-                    {msgError}
-                </span>
-            </div>
-        </div>
+        <>
+            {
+                <div style={displayNone}>
+                    <div className={styles.modalError}>
+                        <div className={styles.background}>
+                            <span className={styles.textError}>
+                                {msgError}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </>
     )
 }
 
