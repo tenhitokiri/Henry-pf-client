@@ -6,6 +6,7 @@
     overflow: auto;
 
 }
+
 .titlePage {
     text-transform: capitalize;
     font-weight: 100;
@@ -13,6 +14,7 @@
     margin-bottom: 40px;
     text-align: right;
 }
+
 .titleSummary {
     text-align: left;
     text-transform: capitalize;
@@ -20,13 +22,16 @@
     font-size: 1.5em;
     margin-bottom: 20px;
 }
+
 .titleSummary span {
     float: right;
 }
+
 .addProducts {
     margin-bottom: 300px;
     padding-top: 70px;
 }
+
 .button {
     padding: 8px 15px;
     width: fit-content;
@@ -39,20 +44,24 @@
 
     transition: 0.2s;
 }
+
 .button:hover {
     background-color: #dcb003;
 }
+
 .productList {
     float: right;
     width: 90%;
     margin-right: 3%;
 }
+
 .summary {
     float: right;
     width: 26%;
     background-color: #EDF1F2;
     padding: 2%;
 }
+
 .cardItem {
     width: 100%;
     height: auto;
@@ -65,11 +74,13 @@
     border-left: none;
     border-right: none;
 }
+
 .insideContainer {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
+
 .cardName {
     display: block;
     margin-left: 20px;
@@ -79,9 +90,11 @@
 
     transition: 0.2s;
 }
+
 .cardName:hover {
     color: #F9C801;
 }
+
 .productsContainer {
     display: flex;
     flex-direction: column;
@@ -91,11 +104,13 @@
     height: auto;
     border-radius: 10px;
 }
+
 .background {
     display: flex;
     margin-top: 20px;
     background-color: var(--background);
 }
+
 .listContainer {
     margin: 0 auto;
     width: 100%;
@@ -106,6 +121,7 @@
     justify-content: space-around;
     flex-flow: wrap;
 }
+
 .pagination {
     margin: 0 auto;
     width: 100%;
@@ -116,11 +132,12 @@
     justify-content: space-between;
     padding: 0.5rem 0;
     margin: 0.5rem;
-    border: 1px solid var(--background);    
+    border: 1px solid var(--background);
     flex-flow: row wrap;
     overflow: auto;
     border-radius: 10px;
 }
+
 .cardHeader {
     width: 100px;
     height: auto;
@@ -128,21 +145,25 @@
     align-items: center;
     justify-content: center;
     padding: 0 20px;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
 }
+
 .cardBody {
     width: 195px;
     height: auto;
 }
+
 .cardFooter {
     width: 195px;
     height: auto;
     padding: 0 0.5rem;
 }
+
 .buttonGroup {
     width: fit-content;
     margin: 0 auto;
 }
+
 .buttonSuccess {
     padding: 8px 15px;
     width: 80%;
@@ -155,13 +176,16 @@
 
     transition: 0.2s;
 }
+
 .buttonSuccess:hover {
     background-color: #dcb003;
 }
+
 .continue {
     width: fit-content;
     margin-top: 20px;
 }
+
 .buttonReset {
     width: fit-content;
     float: left;
@@ -171,12 +195,14 @@
     margin-left: 5px;
     cursor: pointer;
 }
+
 .buttonsStock {
     border: 1px solid #D0D9DC;
     border-radius: 3px;
     width: fit-content;
     float: left;
 }
+
 .buttonRemove {
     height: 22px;
     background: none;
@@ -185,6 +211,7 @@
     padding: 2px 8px;
     cursor: pointer;
 }
+
 .buttonAdd {
     height: 22px;
     background: none;
@@ -193,12 +220,16 @@
     padding: 2px 10px;
     cursor: pointer;
 }
-.buttonAdd:hover, .buttonRemove:hover {
+
+.buttonAdd:hover,
+.buttonRemove:hover {
     color: black;
 }
+
 .badge {
     padding: 2px 10px;
 }
+
 .link {
     position: relative;
     color: var(--fontSeccondary);
@@ -206,18 +237,7 @@
     text-decoration: none;
     cursor: pointer;
 }
-.link:before {
-    content: "";
-    height: 3px;
-    width: 0%;
-    background: var(--fontPrimary);
-    position: absolute;
-    bottom: 140%;
-    transition: 0.4s ease-out;
-}
-.link:hover::before {
-    width: 100%;
-}
+
 .link:hover {
     color: var(--fontPrimary);
     transition: 0.16s ease-out;
@@ -226,49 +246,59 @@
     -ms-transition: 0.16s ease-out;
     -o-transition: 0.16s ease-out;
 }
+
 .img {
-    width:100%;
+    width: 100%;
     max-width: calc(100%);
     max-height: 10rem;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
+
 .rate {
     float: left;
     text-align: left;
 }
+
 .stars {
     float: left;
     width: 15px;
     color: var(--background);
 }
+
 .iconHearth {
     float: right;
 }
+
 .priceContainer {
     width: 100%;
     float: left;
     text-align: left;
     margin: 5px 0 10px 0;
 }
+
 .price {
     font-size: 1.3rem;
     font-weight: 500;
 }
+
 .available {
     margin-left: 5px;
     font-size: 0.9rem;
 }
+
 @media screen and (max-width: 1000px) {
     .productList {
         width: 96%;
         margin-right: 0;
         padding: 0 2%;
     }
+
     .summary {
         width: 96%;
     }
+
     .cardItem {
         flex-direction: column;
     }

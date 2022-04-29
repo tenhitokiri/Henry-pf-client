@@ -41,10 +41,10 @@ const Home = () => {
 
     //latest products - most saled
     const ltProducts = products.sort((a, b) => {
-        if (a.amount_sold < b.amount_sold) {
+        if (a.added < b.added) {
             return 1;
         }
-        if (a.amount_sold > b.amount_sold) {
+        if (a.added > b.added) {
             return -1;
         }
         return 0;
@@ -103,7 +103,7 @@ const Home = () => {
             </div>
             <div className={styles.carrousels}>
                 <div className={styles.ft}>
-                <div className={`${styles.ftTitle} ${styles.displayMobile}`}>Featured Products</div>
+                    <div className={`${styles.ftTitle} ${styles.displayMobile}`}>Featured Products</div>
                     {
                         rFtProducts ? rFtProducts.map((e, index) => (
                             <ProductCarrousel
@@ -117,7 +117,7 @@ const Home = () => {
                     }
                 </div>
                 <div className={styles.lt}>
-                <div className={`${styles.ltTitle} ${styles.displayMobile}`}>Latest Products</div>
+                    <div className={`${styles.ltTitle} ${styles.displayMobile}`}>Latest Products</div>
                     {
                         rLtProducts ? rLtProducts.map((e, index) => (
                             <ProductCarrousel
