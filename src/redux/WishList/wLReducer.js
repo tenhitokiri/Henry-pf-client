@@ -1,21 +1,5 @@
 import WISH_LIST_ACTIONS from './wLTypes'
 
-
-/* 
-{
-    ADD_TO_WISH_LIST: 'ADD_TO_WISH_LIST',
-    UPDATE_TO_WISH_LIST: 'UPDATE_TO_WISH_LIST',
-    REMOVE_FROM_WISH_LIST: 'REMOVE_FROM_WISH_LIST',
-    EMPTY_WISH_LIST: 'EMPTY_WISH_LIST',
-    ACTION_WISH_LIST_SUCCESS: 'ACTION_WISH_LIST_SUCCESS',
-    ACTION_WISH_LIST_FAILURE: 'ACTION_WISH_LIST_FAILURE',
-    ACTION_WISH_LIST_REQUEST: 'ACTION_WISH_LIST_REQUEST',
-    FETCH_WISH_LIST_ITEMS: 'FETCH_WISH_LIST_ITEMS',
-    SET_WISH_LIST_ITEMS: 'SET_WISH_LIST_ITEMS',
-}
-
- */
-
 const initWishListState = {
     wishListItems: [],
     numberOfItems: 0,
@@ -102,6 +86,22 @@ const wishListReducer = (state = initWishListState, action) => {
 
             }
         case WISH_LIST_ACTIONS.SET_CART_ITEMS: {
+            let numberOfItems = 0;
+            let wishListItems = [];
+            if (payload.length > 0) {
+                payload.forEach(product => {
+                    numberOfItems += 1
+                    wishListItems.push(product)
+                })
+            }
+
+            return {
+                ...state,
+                wishListItems: payload,
+                numberOfItems,
+            }
+        }
+        case WISH_LIST_ACTIONS.SET_WISH_LIST_ITEMS: {
             let numberOfItems = 0;
             let wishListItems = [];
             if (payload.length > 0) {

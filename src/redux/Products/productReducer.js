@@ -76,7 +76,7 @@ const productReducer = (state = productState, action) => {
         case PRODUCT_ACTIONS.UPDATE_PRODUCT_SUCCESS:
             {
                 const updatedProducts = state.products.map(product => {
-                    if (product.id === payload.id) {
+                    if (product.product_id === payload.product_id) {
                         return payload
                     }
                     return product
@@ -92,7 +92,7 @@ const productReducer = (state = productState, action) => {
             }
         case PRODUCT_ACTIONS.DELETE_PRODUCT_SUCCESS:
             {
-                const updatedProducts = state.products.filter(product => product.id !== payload.id)
+                const updatedProducts = state.products.filter(product => product.product_id !== payload.product_id)
                 return {
                     ...state,
                     loading: false,

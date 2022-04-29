@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { addToCart } from '../../redux'
 import WishListProduct from './WlProduct'
-import styles from './Cart.module.css'
+import styles from './WishList.module.css'
 import { NavLink } from 'react-router-dom'
 
 export const Wishlist = ({ numberOfWishListItems, wishListItems }) => {

@@ -1,6 +1,7 @@
 import PRODUCT_ACTIONS from './productTypes'
 import axios from 'axios';
 import { backendUrl } from '../../env.js';
+import { generateRandomInt } from '../../utils'
 
 //Request for action
 const actionProductsRequest = () => {
@@ -24,8 +25,8 @@ const fetchAllProductsSuccess = (Products) => {
         payload: Products
     }
 }
-//succes for fetching product by category
-const fetchProductsCategorySucces = (products) => {
+//success for fetching product by category
+const fetchProductsCategorySuccess = (products) => {
     return {
         type: PRODUCT_ACTIONS.FETCH_PRODUCT_CATEGORY_SUCCES,
         payload: products
@@ -42,7 +43,15 @@ export const fetchProducts = () => {
                 const products = response.data
                 //TODO: generate random price
 
-                dispatch(fetchAllProductsSuccess(products))
+                const productWithQty = products.map(product => {
+                    const stock = product.stock || generateRandomInt(100) + 1;
+                    return {
+                        ...product,
+                        stock
+                    }
+                })
+
+                dispatch(fetchAllProductsSuccess(productWithQty))
             })
             .catch(error => {
                 const msg = error.message
@@ -73,8 +82,14 @@ export const fetchProductById = (id) => {
         let api = backendUrl + `products/?product_id=${id}`
         axios.get(api)
             .then(response => {
-                const Products = response.data
-                dispatch(fetchProductByIdSuccess(Products))
+                const products = response.data
+                //TODO: generate random price
+                const stock = products.stock || generateRandomInt(100) + 1;
+                const productWithQty = {
+                    ...products,
+                    stock
+                }
+                dispatch(fetchProductByIdSuccess(productWithQty))
             })
             .catch(error => {
                 const msg = error.message
@@ -91,8 +106,17 @@ export const fetchProductByName = (search) => {
         let api = backendUrl + 'products/search/?search=' + search
         axios.get(api)
             .then(response => {
-                const Products = response.data
-                dispatch(fetchProductsByNameSuccess(Products))
+                const products = response.data
+                //TODO: generate random price
+
+                const productWithQty = products.map(product => {
+                    const stock = product.stock || generateRandomInt(100) + 1;
+                    return {
+                        ...product,
+                        stock
+                    }
+                })
+                dispatch(fetchProductsByNameSuccess(productWithQty))
             })
             .catch(error => {
                 const msg = error.message
@@ -109,7 +133,7 @@ const addProductSuccess = (product_id) => {
     }
 }
 
-const addStockSucces = () => {
+const addStockSuccess = () => {
     return {
         type: PRODUCT_ACTIONS.ADD_STOCK
     }
@@ -119,8 +143,8 @@ export const addPRODUCT = (product) => {
     return (dispatch) => {
         dispatch(actionProductsRequest())
         let api = backendUrl + 'products'
-        console.log(`Adding PRODUCT to: ${api}`)
-        console.log(product, '<------ add product')
+        //console.log(`Adding PRODUCT to: ${api}`)
+        //console.log(product, '<------ add product')
         axios.post(api, product)
             .then(response => {
                 dispatch(addProductSuccess(response.data.product_id))
@@ -136,12 +160,12 @@ export const addStock = (product) => {
     return dispatch => {
         dispatch(actionProductsRequest())
         let api = backendUrl + 'stock'
-        console.log(`Adding STOCK to: ${api}`)
-        console.log(product)
+        //console.log(`Adding STOCK to: ${api}`)
+        //console.log(product)
         axios.post(api, product)
             .then(response => {
                 console.log(response.data, '---data stock')
-                dispatch(addStockSucces())
+                dispatch(addStockSuccess())
             })
             .catch(console.error)
     }
@@ -159,7 +183,7 @@ export const deleteProduct = (Product) => {
     return (dispatch) => {
         dispatch(actionProductsRequest())
         let api = backendUrl + 'Product/' + Product.id
-        console.log(`deleting Diet with id ${Product.id} to: ${api}`)
+        // console.log(`deleting Diet with id ${Product.id} to: ${api}`)
         axios.delete(api, Product)
             .then(response => {
                 dispatch(deleteProductSuccess(Product.id))
@@ -183,7 +207,7 @@ export const updateProduct = (Product) => {
     return (dispatch) => {
         dispatch(actionProductsRequest())
         let api = backendUrl + 'Product/'
-        console.log(`updating Product with id ${Product.id} to: ${api}`)
+        //console.log(`updating Product with id ${Product.id} to: ${api}`)
         axios.put(api, Product)
             .then(response => {
                 dispatch(updateProductSuccess(Product.id))
@@ -208,7 +232,7 @@ export const fetchProductByCategory = (category) => {
         axios(api)
             .then(response => {
                 const products = response.data
-                dispatch(fetchProductsCategorySucces(products))
+                dispatch(fetchProductsCategorySuccess(products))
             })
             .catch(error => {
                 const msg = error.message
