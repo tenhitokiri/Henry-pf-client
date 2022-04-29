@@ -11,7 +11,7 @@ export const addToWL = (payload, userId) => {
                 product_id: payload.product_id,
                 seller_id: payload.seller_id,
             }
-            axios.post(`${backendUrl}wishList/`, backendData)
+            axios.post(`${backendUrl}wishlist/`, backendData)
                 .then(res => {
                     //console.log(res.data, '<--- add to wish list')
                     dispatch(addToWLSuccess(payload))
@@ -34,20 +34,16 @@ export const removeFromWL = (payload, userId) => {
                 target: payload.product_id,
                 seller_id: payload.seller_id,
             }
-            console.log(payload, '<--- payload data to remove from wish list')
+            //console.log(payload, '<--- payload data to remove from wish list')
             console.log(backendData, '<--- backend data to remove from wish list')
-
-            /* 
-            axios.delete(`${backendUrl}wishList/`, backendData)
+            axios.delete(`${backendUrl}wishlist/`, { data: backendData })
                 .then(res => {
-                    console.log(res.data, '<--- remove wish list item')
+                    //console.log(res.data, '<--- remove wish list item')
                     dispatch(removeFromWLSuccess(payload))
-
                 }).catch(err => {
                     //console.log(err)
                     dispatch(setWishListItemsFailure(err))
                 })
-            */
         }
         dispatch(removeFromWLSuccess(payload))
     }
@@ -59,9 +55,33 @@ export const removeFromWLSuccess = (payload) => {
         payload
     }
 }
-export const emptyWL = () => {
+
+export const emptyWLSuccess = () => {
     return {
         type: WISH_LIST_ACTIONS.EMPTY_WISH_LIST
+    }
+}
+export const emptyWL = (payload, userId) => {
+    return dispatch => {
+        dispatch(setWishListItemsRequest())
+        if (userId) {
+            const backendData = {
+                user_id: userId,
+                target: "all",
+                seller_id: payload.seller_id,
+            }
+            //console.log(payload, '<--- payload data to remove from wish list')
+            //console.log(backendData, '<--- backend data to remove from wish list')
+            axios.delete(`${backendUrl}wishlist/`, { data: backendData })
+                .then(res => {
+                    console.log(res.data, '<--- remove wish list item')
+                    dispatch(emptyWLSuccess(payload))
+                }).catch(err => {
+                    //console.log(err)
+                    dispatch(setWishListItemsFailure(err))
+                })
+        }
+        dispatch(emptyWLSuccess(payload))
     }
 }
 const fetchWLItemsRequest = () => {
