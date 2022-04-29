@@ -9,6 +9,7 @@
     border-radius: 4px 0 0 4px;
     width: 325px;
 }
+
 .container button {
     font-family: 'Work Sans', sans-serif;
     font-weight: 500;
@@ -22,14 +23,15 @@
     transition: 0.2s;
 }
 
-.suggestions{
+.suggestions {
     position: absolute;
+    width: 345px;
     background-color: #fff;
     border: 1px solid #ccc;
     border-top: none;
     z-index: 1;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 0 15px;
+
 }
 
 .suggestions ul {
@@ -38,29 +40,49 @@
     margin: 5px 0;
 }
 
+.liSuggestions {
+    padding: 0 15px;
+    color: var(--fontSeccondary);
+    font-size: 0.95em;
+    transition: 0.3s;
+}
+
+.liSuggestions:hover {
+
+    cursor: pointer;
+    margin: 0px;
+    color: var(--fontPrimary);
+    background-color: var(--background);
+}
+
 
 .container button:hover {
     background-color: #dcb003;
 }
+
 @media screen and (max-width: 1200px) {
     .container input {
         width: 275px;
     }
 }
+
 @media screen and (max-width: 1100px) {
     .container input {
         width: 200px;
     }
 }
+
 @media screen and (max-width: 800px) {
     .container {
         width: 100%;
         float: left;
     }
+
     .container input {
         width: 70%;
     }
 }
+
 @media screen and (max-width: 650px) {
     .container input {
         width: 60%;

@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
 import ItemsOrdered from './ItemsOrdered/ItemsOrdered';
 import styles from './Panels.module.css'
-import { useSelector } from 'react-redux';
-
-const UserPanel = () => {
-    const data = useSelector(state => state.loggin.loggin)
 
 
-    const auth = useSelector(state => state.loggin.verify.permission)
-    console.log(auth)
+const UserPanel = ({ name, email }) => {
     const [info, setInfo] = useState('myAccountInfo')
 
     const updateInfo = (e) => {
@@ -17,7 +12,6 @@ const UserPanel = () => {
 
     return (
         <>
-            <h1>{console.log('<-------dataUser')}</h1>
             <div className={styles.pageTitleWrapper}>
                 {
                     info === 'myAccountInfo' ? (
@@ -30,6 +24,7 @@ const UserPanel = () => {
                 }
             </div>
             <div className={styles.container}>
+
                 <div className={styles.menu}>
                     <div className={styles.menuWrapper}>
                         <ul>
@@ -70,7 +65,7 @@ const UserPanel = () => {
                                             <span>Contact Information</span>
                                         </span>
                                         <div className={styles.blockContent}>
-                                            <p>Jon Doe<br /> jondoe@gmail.com<br /></p>
+                                            <p>{name}<br /> {email}<br /></p>
                                         </div>
                                     </div>
                                     <div className={styles.boxUserType}>
