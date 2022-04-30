@@ -13,6 +13,7 @@ import ModalOptions from './ModalOptions'
 import { FormatMoney } from 'format-money-js';
 
 const ProductDetail = () => {
+
     let {
         product_id,
         name,
@@ -22,12 +23,8 @@ const ProductDetail = () => {
         stock,
         category_name,
         description,
-        price,
         sellers
     } = useSelector(state => state.products.foundProducts)
-
-
-
     const dispatch = useDispatch();
     const { id } = useParams()
     const related = useSelector(state => state.products.products).filter(e => { return e.category_name === category_name })
@@ -47,7 +44,7 @@ const ProductDetail = () => {
 
     //inventoryQty = inventoryQty || generateRandomInt(100) + 1;
     const image = images || 'https://via.placeholder.com/150'
-    // const price = featured_seller?.stock?.unit_price;
+    const price = featured_seller?.stock?.unit_price;
     const seller_id = featured_seller?.user_id
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(price)) || price

@@ -7,21 +7,26 @@ import { addToCart, removeFromCart } from '../../redux'
 const ModalOptions = ({ modalOptions, product_id, name, image, rating }) => {
     const [count, setCount] = useState(0);
     const dispatch = useDispatch()
-    const buyingOptions = useSelector(state => state.products.foundProducts.sellers).sort((a, b) => orderBy(a.stock.unit_price, b.stock.unit_price))
+    const buyingOptions = useSelector(state => state.products.foundProducts.sellers).sort((a, b) => orderBy(a.stock.unit_price, b.stock.unit_price)).filter(e => { return e.stock.quantity > 0 })
 
-    console.log(buyingOptions, '<----buyingSort')
+    //console.log(buyingOptions, '<----buyingSort')
 
     const addCart = (element) => {
         if (element) {
-            console.log(element, '<------ soy element')
+            // console.log(element, '<------ soy element')
             if (count !== 0) {
                 const payload = {
                     product_id, name,
-                    inventoryQty: element.stock.quantity, price: element.stock.unit_price,
+                    quantity: element.stock.quantity, price: element.stock.unit_price,
                     image,
+                    seller_id: element.user_id,
                     rating, itemsToBuy: count
                 }
-                console.log(payload, '<-----payloadCart')
+
+                // product_id, name,
+                //     stock, price,
+                //     image, rating, seller_id
+                // console.log(payload, '<-----payloadCart')
                 dispatch(addToCart(payload))
             } else {
                 dispatch(removeFromCart({ product_id }))
@@ -40,7 +45,7 @@ const ModalOptions = ({ modalOptions, product_id, name, image, rating }) => {
                 {
                     buyingOptions.map(element => (
                         <div key={element.user_id} className={styles.optionSeller}>
-                            <span className={styles.sellerName}>sold by: <b>{element.user_id}</b></span>
+                            <span className={styles.sellerName}>sold by: <b>{element.name}</b></span>
                             <div className={styles.cardSeller}>
                                 <div>${element.stock.unit_price}</div>
                                 <div>avaible units: {element.stock.quantity}</div>
