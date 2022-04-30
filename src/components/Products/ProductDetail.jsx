@@ -13,9 +13,21 @@ import ModalOptions from './ModalOptions'
 import { FormatMoney } from 'format-money-js';
 
 const ProductDetail = () => {
+
+    let {
+        product_id,
+        name,
+        rating,
+        images,
+        featured_seller,
+        stock,
+        category_name,
+        description,
+        sellers
+    } = useSelector(state => state.products.foundProducts)
     const dispatch = useDispatch();
     const { id } = useParams()
-    const related = useSelector(state => state.products.products)
+    const related = useSelector(state => state.products.products).filter(e => { return e.category_name === category_name })
     const loading = useSelector(state => state.products.loading)
     const error = useSelector(state => state.products.error)
     const favoriteProducts = useSelector(state => state.wishList.wishListItems)
@@ -28,16 +40,7 @@ const ProductDetail = () => {
         dispatch(fetchProductById(id))
     }, [render])
 
-    let {
-        product_id,
-        name,
-        rating,
-        images,
-        featured_seller,
-        stock,
-        description,
-        sellers
-    } = useSelector(state => state.products.foundProducts)
+
 
     //inventoryQty = inventoryQty || generateRandomInt(100) + 1;
     const image = images || 'https://via.placeholder.com/150'
@@ -115,7 +118,7 @@ const ProductDetail = () => {
                 {
                     name &&
                     <div className={styles.content}>
-                        <div className={styles.category} >category</div>
+                        <div className={styles.category} >category: {category_name}</div>
                         <div className={styles.title}>{name}</div>
                         {
                             rating &&

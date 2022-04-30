@@ -11,7 +11,7 @@ const ProductCarrousel = ({ id, image, name, rating, price }) => {
     return (
         <div className={styles.carrousel}>
             <Link className={styles.detailLink} to={`/product/${id}`}>
-                <img className={styles.img} src={image} alt={name} />
+                <img className={styles.img} src={image[0]} alt={name} />
                 <div className={styles.name}>{name.substring(0, 16)}</div>
                 <div className={styles.rate}>
                     {

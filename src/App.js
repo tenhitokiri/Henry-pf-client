@@ -61,6 +61,7 @@ function App() {
 
   useEffect(() => {
     if (user_id) {
+      console.log(user_id, '<user cart')
       dispatch(postCartToDB(cartList, user_id))
     }
   }, [cartList]) // eslint-disable-line react-hooks/exhaustive-deps

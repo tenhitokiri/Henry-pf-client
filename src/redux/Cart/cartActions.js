@@ -104,17 +104,17 @@ export const postCartToDB = (cartItems, userId) => {
                 buyer_id: userId,
                 products: backendItems
             }
-            //console.log(backendData, '<--- backend data to add to cart')
-            //* 
+            console.log(backendData, '<--- backend data to add to cart')
+
             axios.post(`${backendUrl}cart/`, backendData)
                 .then(res => {
-                    console.log(res.data, '<--- data added to Cart Backend')
+                    // console.log(res.data, '<--- data added to Cart Backend')
                     dispatch(setCartItemsFromDBSuccess(res.data))
 
                 }).catch(err => {
                     dispatch(setCartItemsFailure(err))
                 })
-            //*/
+
         }
     }
 }
