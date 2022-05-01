@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchProductById } from '../../redux/Products/productActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faAngleRight, faAngleLeft, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import { faStar as starReg } from '@fortawesome/free-regular-svg-icons'
 import styles from './productDetail.module.css'
 import ProductCarrousel from '../Carrousel/ProductCarrousel'
@@ -11,6 +11,8 @@ import usePaginate from '../../hooks/usePaginate'
 import { addToCart, addToWL, removeFromWL, removeFromCart } from '../../redux'
 import ModalOptions from './ModalOptions'
 import { FormatMoney } from 'format-money-js';
+import * as Shareon from "shareon";
+import "shareon/css";
 
 const ProductDetail = () => {
 
@@ -31,7 +33,7 @@ const ProductDetail = () => {
     const loading = useSelector(state => state.products.loading)
     const error = useSelector(state => state.products.error)
     const favoriteProducts = useSelector(state => state.wishList.wishListItems)
-    const { prevPage, nextPage, items } = usePaginate(related, 10)
+    const { prevPage, nextPage, items } = usePaginate(related, 5)
     const [render, setRender] = useState(false)
     const [modalOptions, setModalOptions] = useState(false)
     const user_id = useSelector(state => state.loggin.loggin.id)
@@ -100,11 +102,12 @@ const ProductDetail = () => {
 
     const isFavorite = (id) => {
         const isFav = favoriteProducts && favoriteProducts.find(item => item.product_id === id)
-        return isFav ? (<button className={styles.wish} onClick={removeWL}>Delete From wishlist</button>)
-            : (<button className={styles.wish} onClick={addWL}>Add to wishlist</button>
+        return isFav ? (<button className={styles.buttons} onClick={removeWL}>Delete From wishlist</button>)
+            : (<button className={styles.buttons} onClick={addWL}>Add to wishlist</button>
             )
     }
 
+    const sampleText = 'El vendedor no incluyó una descripción del producto.' 
 
     return loading ? (
         <div className='App-container'>
@@ -114,73 +117,90 @@ const ProductDetail = () => {
         <div>{error}</div>
     ) :
         (
-            <div className={styles.background}>
-                {
-                    name &&
-                    <div className={styles.content}>
-                        <div className={styles.category} >category: {category_name}</div>
-                        <div className={styles.title}>{name}</div>
-                        {
-                            rating &&
-                            <div className={styles.rate}>
-                                {
-                                    [...Array(star)].map((e, index) => {
-                                        return <FontAwesomeIcon key={index} icon={faStar} />
-                                    })
-                                }
-                                {
-                                    [...Array(5 - star)].map((e, index) => {
-                                        return <FontAwesomeIcon key={index.toString() + 'b'} icon={starReg} />
-                                    })
-                                }
-                            </div>
-                        }
-                        <div className={styles.detail}>
-                            {
-                                <img className={styles.img} src={images[0]} alt='' />
-                            }
-                            <div className={styles.contentPSD}>
-                                <div className={styles.price}>{prodPrice}</div>
-                                <div className={styles.stock}>{stock} available</div>
-                                <div className={styles.description}>{description}</div>
-                            </div>
-                            <div className={styles.add}>
-                                <div className={styles.box}>
-                                    <button className={styles.decrement} onClick={decrement}>-</button>
-                                    <div className={styles.counter}>{counter}</div>
-                                    <button className={styles.increment} onClick={increment}>+</button>
+            <>
+                <div className={styles.categoryContainer} >
+                    <div className={styles.category} >Category - {category_name}</div>
+                </div>
+                <div className={styles.container}>
+                    {
+                        name &&
+                        <div className={styles.content}>
+                            <div className={styles.contentHeader}>
+                                <div className={styles.contentHeaderLeft}>
+                                    <div className={styles.title}>{name}</div>
+                                    {
+                                        rating &&
+                                        <div className={styles.rate}>
+                                            {
+                                                [...Array(star)].map((e, index) => {
+                                                    return <FontAwesomeIcon key={index} icon={faStar} />
+                                                })
+                                            }
+                                            {
+                                                [...Array(5 - star)].map((e, index) => {
+                                                    return <FontAwesomeIcon key={index.toString() + 'b'} icon={starReg} />
+                                                })
+                                            }
+                                        </div>
+                                    }
                                 </div>
-                                <button className={styles.cart} onClick={addCart}>Add to cart</button>
+                                <div className={styles.contentHeaderRight}>
+                                    {Shareon.init()}
+                                    <div className="shareon">
+                                        <a className="facebook"></a>
+                                        <a className="twitter"></a>
+                                        <a class="whatsapp"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.detail}>
+                                {
+                                    <img className={styles.img} src={images[0]} alt='' />
+                                }
+                                <div className={styles.contentPSD}>
+                                    <div className={styles.price}>{prodPrice}</div>
+                                    <div className={styles.stock}>{stock} available</div>
+                                    <div className={styles.description}>{description? {description} : sampleText}</div>
+                                </div>
+                                <div className={styles.add}>
+                                    <div className={styles.box}>
+                                        <button className={styles.decrement} onClick={decrement}><FontAwesomeIcon icon={faCircleMinus} /></button>
+                                        <div className={styles.counter}>{counter}</div>
+                                        <button className={styles.increment} onClick={increment}><FontAwesomeIcon icon={faCirclePlus} /></button>
+                                    </div>
+                                    <button className={styles.buttons} onClick={addCart}>Add to cart</button>
 
-                                {isFavorite(product_id)}
-                                <button className={styles.options} onClick={(e) => { setModalOptions(true) }}>See all buying options</button>
+                                    {isFavorite(product_id)}
+                                    <button className={styles.buttonOptions} onClick={(e) => { setModalOptions(true) }}>See all buying options</button>
+                                </div>
                             </div>
                         </div>
+                    }
+                    <div className={styles.relatedTitle}>
+                        <span>Related Products</span>
                     </div>
-                }
-                <div className={styles.related}>
-                    <FontAwesomeIcon className={styles.prev} onClick={prevPage} icon={faAngleLeft} />
-                    <div className={styles.carrousel} onClick={onClick}>
-                        {
-                            items ? items.map((e, i) => (
-                                <ProductCarrousel key={e.name + 'asd' + i} id={e.product_id} image={e.images} name={e.name} rating={e.rating} price={e.price} />
-                            ))
-                                : <span>loading...</span>
-                        }
+                    <div className={styles.related}>
+                        <div className={styles.carrousel} onClick={onClick}>
+                            {
+                                items ? items.map((e, i) => (
+                                    <ProductCarrousel key={e.name + 'asd' + i} id={e.product_id} image={e.images} name={e.name} rating={e.rating} price={e.price} />
+                                ))
+                                    : <span>loading...</span>
+                            }
+                        </div>
                     </div>
-                    <FontAwesomeIcon className={styles.next} onClick={nextPage} icon={faAngleRight} />
+                    {
+                        modalOptions &&
+                        <ModalOptions
+                            modalOptions={setModalOptions}
+                            product_id={product_id}
+                            name={name}
+                            image={images}
+                            rating={rating}
+                        />
+                    }
                 </div>
-                {
-                    modalOptions &&
-                    <ModalOptions
-                        modalOptions={setModalOptions}
-                        product_id={product_id}
-                        name={name}
-                        image={images}
-                        rating={rating}
-                    />
-                }
-            </div>
+            </>
         )
 }
 
