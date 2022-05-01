@@ -40,15 +40,17 @@ export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount
                             Order Total: <span>{prodPrice}</span>
                         </div>
                         <button className={`${styles.buttonSuccess}`}>Proceed to Checkout</button>
+                        <button className={`${styles.buttonSecondary} ${styles.continue}`}>Empty Cart !</button>
+                        <button className={`${styles.buttonSuccess} ${styles.continue}`}>Continue Shopping</button>
                     </div>
                     : null
             }
             <div className={styles.productList}>
                 {listMarkup}
-                {
+                {/*
                     listMarkup.length > 0 ? <button className={`${styles.buttonSuccess} ${styles.continue}`}>Continue Shopping</button> :
                         <div></div>
-                }
+        */}
             </div>
         </div>
 

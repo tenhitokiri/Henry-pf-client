@@ -78,6 +78,14 @@ const fetchCartItemsSuccess = (cart) => {
     }
 }
 
+const removeFromCartSuccess = (payload) => {
+    return {
+        type: CART_ACTIONS.REMOVE_FROM_CART,
+        payload
+    }
+}
+
+
 //------------------------------------------------------
 // Exported Functions
 //------------------------------------------------------
@@ -92,7 +100,6 @@ export const postCartToDB = (cartItems, userId) => {
     return dispatch => {
         dispatch(setCartItemsRequest())
         if (userId) {
-            console.log(cartItems, '<--- payload data to add to cart');
             const backendItems = cartItems.map(product => {
                 return {
                     product_id: product.product_id,
@@ -104,17 +111,12 @@ export const postCartToDB = (cartItems, userId) => {
                 buyer_id: userId,
                 products: backendItems
             }
-            //console.log(backendData, '<--- backend data to add to cart')
-            //* 
             axios.post(`${backendUrl}cart/`, backendData)
                 .then(res => {
-                    console.log(res.data, '<--- data added to Cart Backend')
                     dispatch(setCartItemsFromDBSuccess(res.data))
-
                 }).catch(err => {
                     dispatch(setCartItemsFailure(err))
                 })
-            //*/
         }
     }
 }
@@ -160,21 +162,32 @@ export const getCartItems = (userId) => {
         }
         if (userId) {
             console.log(`saving local cart items from user: ${userId} to redux`);
-            dispatch(setCartItemsSuccess(cart));
-            /* 
-                        return axios.get(`${backendUrl}cart/?id=${userId}`)
-                            .then(response => {
-                                const cart = response.data;
-                                console.log(cart, "<--- cart from db");
-                                dispatch(setCartItemsFromDBSuccess(cart));
-                                localStorage.setItem('cart', cart);
-                                localStorage.setItem('savedCartItems', true);
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                dispatch(setCartItemsFailure(error));
-                            });
-             */
+            return axios.get(`${backendUrl}cart/?id=${userId}`)
+                .then(response => {
+                    let cart = response.data;
+                    cart = cart.map(item => {
+                        return {
+                            product_id: item.product_id,
+                            name: item.product.name,
+                            stock: item.product.stock,
+                            price: item.product.price,
+                            image: item.product.images[0],
+                            rating: item.product.rating,
+                            itemsToBuy: item.quantity,
+                            seller_id: item.seller_id,
+                        }
+                    })
+                    console.log(cart, "<--- cart from db");
+                    dispatch(setCartItemsSuccess(cart));
+
+                    //dispatch(getCartItemsFromDBSuccess(cart));
+                    //localStorage.setItem('cart', cart);
+                    //localStorage.setItem('savedCartItems', true);
+                })
+                .catch(error => {
+                    console.log(error);
+                    dispatch(setCartItemsFailure(error));
+                });
         }
     };
 }
@@ -186,12 +199,18 @@ export const updateCartItem = (payload) => {
     }
 }
 
-export const removeFromCart = (payload) => {
-    return {
-        type: CART_ACTIONS.REMOVE_FROM_CART,
-        payload
-    }
+export const removeFromCart = (cartItem, userId) => {
+    return dispatch => {
+        dispatch(fetchCartItemsRequest());
+        return axios.delete(`${backendUrl}cart/`, { body: { id: cartItem.id } })
+            .then(response => {
+                dispatch(removeFromCartSuccess(cartItem));
+                dispatch(fetchCartItems(userId));
+            })
+            .catch(error => dispatch(fetchCartItemsFailure(error)));
+    };
 }
+//removeFromCartSuccess
 
 export const emptyCart = () => {
     return {
