@@ -77,8 +77,11 @@ const ProductList = ({ productList }) => {
             break;
     }
 
-    const pages = filteredProducts.length ? Math.round(filteredProducts.length / PRODUCTS_PER_PAGE) : 0
-
+    let pages = filteredProducts.length ? Math.round(filteredProducts.length / PRODUCTS_PER_PAGE) : 0
+    if(pages === 0) {
+        pages = 'No items founded'
+    }
+    
     return (
         <div className={styles.container}>
             <div className={styles.menuList}>
@@ -106,12 +109,18 @@ const ProductList = ({ productList }) => {
             </div>
 
             <div className={styles.productsContainer}>
-                <Pagination
-                    data={filteredProducts}
-                    RenderComponent={ProductCard}
-                    pageLimit={pages}
-                    dataLimit={PRODUCTS_PER_PAGE}
-                />
+                {
+                    pages > 0? (
+                        <Pagination
+                            data={filteredProducts}
+                            RenderComponent={ProductCard}
+                            pageLimit={pages}
+                            dataLimit={PRODUCTS_PER_PAGE}
+                        />
+                    ) : (
+                        <div className={styles.noResults}>Your search returned no results.</div>
+                    )
+                }
             </div>
         </div>
     )

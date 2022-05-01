@@ -3,8 +3,7 @@
     margin-top: 20px;
     background-color: var(--background);
 }
-
-.conteiner {
+.container {
     margin: 0 auto;
     width: 100%;
     max-width: 1300px;
@@ -12,7 +11,6 @@
     height: 41px;
     align-items: center;
 }
-
 .link {
     position: relative;
     color: var(--fontSeccondary);
@@ -21,7 +19,6 @@
     text-decoration: none;
     cursor: pointer;
 }
-
 .link:before {
     content: "";
     height: 3px;
@@ -31,16 +28,13 @@
     bottom: 140%;
     transition: 0.4s ease-out;
 }
-
 .link:hover::before {
     width: 100%;
 }
-
 .link:hover {
     color: var(--fontPrimary);
     transition: 0.16s ease-out;
 }
-
 .label {
     position: relative;
     color: var(--fontSeccondary);
@@ -49,7 +43,6 @@
     text-decoration: none;
     cursor: pointer;
 }
-
 .label:before {
     content: "";
     height: 3px;
@@ -59,16 +52,13 @@
     bottom: 140%;
     transition: 0.4s ease-out;
 }
-
 .label:hover::before {
     width: 100%;
 }
-
 .label:hover {
     color: var(--fontPrimary);
     transition: 0.16s ease-out;
 }
-
 .ul {
     z-index: 1;
     position: absolute;
@@ -80,7 +70,6 @@
     animation-name: slide;
     animation-duration: 0.3s;
     animation-timing-function: ease-in-out;
-
 }
 
 @keyframes slide {
@@ -107,11 +96,9 @@
     height: 100%;
     list-style: none;
 }
-
 .li:hover {
     color: var(--fontPrimary);
 }
-
 
 @media screen and (max-width: 1000px) {
     .background {
@@ -126,9 +113,10 @@
         position: relative;
         top: 3px;
         width: 100%;
+        margin-top: 10px;
     }
-
-    .conteiner {
+    .container {
         justify-content: center;
+        margin-top: 10px;
     }
 }
