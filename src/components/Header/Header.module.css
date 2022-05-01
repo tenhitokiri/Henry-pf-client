@@ -114,14 +114,23 @@
 .logoutContainer {
     float: left;
 }
+.loginUserMobile {
+    display: none;
+    float: right;
+    padding: 10px 15px 0 0;
+    font-weight: 500;
+}
+
 @media screen and (max-width: 650px) {
     .container {
         flex-direction: column;
+        padding-top: 10px;
     }
     .logoContainer {
         width: 100%;
         float: left;
         text-align: center;
+        margin-bottom: 8px;
     }
     .logo {
         float: none;
@@ -132,5 +141,18 @@
     }
     .iconsContainer {
         display: none;
+    }
+    .loginUserMobile {
+        display: block;
+    }
+    .logoutContainer {
+        float: right;
+        text-align: right;
+    }
+    .btnLogout {
+        padding: 0;
+        font-size: 1rem;
+        height: 28px;
+        margin-top: 5px;
     }
 }
