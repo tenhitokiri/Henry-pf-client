@@ -224,6 +224,16 @@
     margin-left: 5px;
     font-size: 0.9rem;
 }
+.noResults {
+    float: left;
+    text-align: left;
+    width: calc(100% - 40px);
+    height: auto;
+    padding: 15px;
+    background-color: #EDF1F2;
+    margin-left: 40px;
+    border-left: 4px solid black;
+}
 
 @media screen and (max-width: 1000px) {
     .container {
@@ -258,5 +268,10 @@
     .shareon {
         min-width: 13px;
         padding: 6px 10px;
+    }
+    .noResults {
+        width: 70%;
+        margin-left: 0;
+        margin-top: 50px;
     }
 }
