@@ -54,11 +54,14 @@ export default function Login() {
         password: '',
     })
 
+    //--------------msj alert to modal
+    const [alert, setAlert] = useState('')
+
     function handleSubmit(e) {
         e.preventDefault();
         console.log(e.target, 'event login')
-        if (Object.values(errors).length > 0) return alert('Please fill in the entire form');
-        else if (!post.email || !post.password) return alert('Please fill in the entire form :/');
+        if (Object.values(errors).length > 0) return setAlert('Please fill in the entire form :/');
+        else if (!post.email || !post.password) return setAlert('Please fill in the entire form :/');
         else {
             dispatch(signIn(post))
         }
@@ -141,6 +144,10 @@ export default function Login() {
             {
                 error === '403' &&
                 <ModalLoginFailure msgError={'you need validate your account first'} />
+            }
+            {
+                alert !== '' &&
+                <ModalLoginFailure msgError={alert} />
             }
         </div>
 
