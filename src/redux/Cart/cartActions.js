@@ -204,12 +204,20 @@ export const updateCartItem = (payload) => {
 export const removeFromCart = (cartItem, userId) => {
     return dispatch => {
         dispatch(fetchCartItemsRequest());
-        return axios.delete(`${backendUrl}cart/`, { body: { id: cartItem.id } })
-            .then(response => {
-                dispatch(removeFromCartSuccess(cartItem));
-                dispatch(fetchCartItems(userId));
-            })
-            .catch(error => dispatch(fetchCartItemsFailure(error)));
+        const backendData = {
+            buyer_id: userId,
+            product_id: cartItem.product_id,
+            seller_id: cartItem.seller_id
+        }
+        console.log(backendData, "<--- backendData");
+        /* 
+                return axios.delete(`${backendUrl}cart/`, { body: { id: cartItem.id } })
+                    .then(response => {
+                        dispatch(removeFromCartSuccess(cartItem));
+                        dispatch(fetchCartItems(userId));
+                    })
+                    .catch(error => dispatch(fetchCartItemsFailure(error)));
+         */
     };
 }
 //removeFromCartSuccess
