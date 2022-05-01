@@ -45,7 +45,7 @@ const ModalOptions = ({ modalOptions, product_id, name, image, rating }) => {
                 {
                     buyingOptions.map(element => (
                         <div key={element.user_id} className={styles.optionSeller}>
-                            <span className={styles.sellerName}>sold by: <b>{element.name}</b></span>
+                            <span className={styles.sellerName}>Sold by:&nbsp;<b> {element.name}</b></span>
                             <div className={styles.cardSeller}>
                                 <div>${element.stock.unit_price}</div>
                                 <div>avaible units: {element.stock.quantity}</div>
