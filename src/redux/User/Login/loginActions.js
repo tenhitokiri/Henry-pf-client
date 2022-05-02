@@ -1,8 +1,7 @@
 import LOGIN_ACTIONS from './loginTypes';
 import axios from 'axios';
-
-import { backendUrl } from '../../../env';
-
+import { backendUrl } from '../../../env.js';
+import jwt from 'jwt-decode'
 
 const actionLoginRequest = () => {
     return {
@@ -24,7 +23,7 @@ const actionLoginFailure = (error) => {
     }
 }
 // ------------------------------------
-export const addLOGIN = (Customer) => {
+/* export const addLOGIN = (Customer) => {
     return (dispatch) => {
         dispatch(actionLoginRequest())
         let api = backendUrl + 'auth/register'
@@ -40,7 +39,7 @@ export const addLOGIN = (Customer) => {
             })
     }
 }
-//--------------------------------------
+ *///--------------------------------------
 export const signIn = (Customers) => {
     return dispatch => {
         dispatch(actionLoginRequest())
@@ -81,5 +80,90 @@ export const loginFromLocalStorage = () => async (dispatch) => {
     if (token) {
         return dispatch(actionLoginSuccess(token))
 
+    }
+}
+
+
+//Request for action
+const actionVerifyRequest = () => {
+    return {
+        type: LOGIN_ACTIONS.ACTION_VERIFY_REQUEST
+    }
+}
+
+//Failure for action
+const actionVerifyFailure = (error) => {
+    return {
+        type: LOGIN_ACTIONS.ACTION_VERIFY_FAILURE,
+        payload: error
+    }
+}
+//success for fetching the token
+const fetchTokenSuccess = (Token) => {
+    return {
+        type: LOGIN_ACTIONS.FETCH_TOKEN_SUCCESS,
+        payload: Token
+    }
+}
+
+//succes permission
+const permissionRequest = () => {
+    return {
+        type: LOGIN_ACTIONS.PERMISSION_REQUEST
+    }
+}
+
+const permissionFailure = (e) => {
+    return {
+        type: LOGIN_ACTIONS.ACTION_VERIFY_FAILURE,
+        payload: e
+    }
+}
+
+const permissionSuccess = (payload) => {
+    return {
+        type: LOGIN_ACTIONS.PERMISSION_SUCCESS,
+        payload
+    }
+}
+
+//activar cuenta
+export const fetchToken = (tkn) => {
+    return dispatch => {
+        //dispatch(actionVerifyRequest())
+        let api = backendUrl + 'auth/verify/' + tkn
+        console.log(`fetchToken: ${api}`)
+        axios.get(api)
+            .then(response => {
+                const tken = response.data
+                dispatch(fetchTokenSuccess(tken))
+            })
+            .catch(error => {
+                const msg = error.message
+                dispatch(actionVerifyFailure(msg))
+            })
+    }
+}
+
+//permissions
+
+export const permission = (token) => {
+    return dispatch => {
+        dispatch(permissionRequest())
+        const data_user = jwt(token)
+        console.log(data_user, '<--- data user for permission');
+        let api = backendUrl + 'auth/is-verify'
+        axios.get(api, {
+            headers: {
+                'token': token
+            }
+        })
+            .then(response => {
+                dispatch(permissionSuccess(data_user))
+            })
+            .catch(error => {
+                const msg = error.message
+                dispatch(permissionFailure(msg))
+            })
     }
 }

@@ -18,10 +18,11 @@ const ProductCard = ({ product, favoriteProducts }) => {
         images, featured_seller, stock,
     } = product;
 
-    const user_id = useSelector(state => state.loggin.loggin.id)
+    const user_id = useSelector(state => state.login.login.id)
     const star = Math.floor(rating)
     const price = featured_seller?.stock?.unit_price;
     const seller_id = featured_seller?.user_id
+    const seller_name = featured_seller?.name
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(price)) || price
     const image = images?.[0] || 'https://via.placeholder.com/150'
@@ -32,8 +33,9 @@ const ProductCard = ({ product, favoriteProducts }) => {
         const payload = {
             product_id, name,
             stock, price,
-            image,
-            rating, itemsToBuy, seller_id
+            image, rating,
+            itemsToBuy, seller_id,
+            seller_name
         }
         dispatch(addToCart(payload, user_id))
     }
@@ -96,11 +98,11 @@ const ProductCard = ({ product, favoriteProducts }) => {
                 </Link>
             </div>
             <div className={styles.cardBody}>
-                
-                    <div className={styles.title}>
-                        <Link to={`/product/${product_id}`}>{name.length > 40 ? (name.substring(0, 40) + "...") : name}</Link>
-                    </div>
-                
+
+                <div className={styles.title}>
+                    <Link to={`/product/${product_id}`}>{name.length > 40 ? (name.substring(0, 40) + "...") : name}</Link>
+                </div>
+
                 <div className={styles.rate}>
                     {
                         [...Array(star)].map((e, index) => {
@@ -120,7 +122,7 @@ const ProductCard = ({ product, favoriteProducts }) => {
             </div>
             <div className={styles.cardFooter}>
                 <div>
-                    <Buttons initialCount={0} value={1} max={stock} itemsToBuy={itemsToBuy} />
+                    <Buttons initialCount={0} value={1} max={stock} />
                     <button className={`${styles.buttonSuccess}`} onClick={addCart}>Add to cart</button>
                 </div>
             </div>

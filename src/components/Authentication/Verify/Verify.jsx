@@ -1,19 +1,13 @@
-import { React, useEffect } from 'react';
+import { React } from 'react';
 import { useDispatch } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchToken } from '../../../redux/User/Verify/verifyActions';
+import { fetchToken } from '../../../redux/';
 
 export default function Verify() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     let { id } = useParams();
-
-// <<<<<<< HEAD
-//     function handleOnClick(e){
-//         // e.preventDefault();
-//         console.log('entre al handle') 
-// =======
     function handleOnClick(e) {
         e.preventDefault();
         dispatch(fetchToken(id));

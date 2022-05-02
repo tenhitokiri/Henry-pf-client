@@ -7,7 +7,7 @@ import ProductGetAll from './components/Products/ProductGetAll';
 import ProductForm from './components/Products/ProductForm';
 import ProductDetail from './components/Products/ProductDetail';
 import ProductSearch from './components/Products/ProductSearch';
-import AddCategory from './components/Admin/Categories/AddCategogory'
+import AddCategory from './components/Admin/Categories/AddCategory'
 import Route404 from './components/NotFound/Route404';
 import Nav from './components/Nav/Nav';
 import Cart from './components/Cart/Cart';
@@ -16,25 +16,20 @@ import Register from './components/Authentication/Register/Register'
 import Login from './components/Authentication/Login/Login'
 import Verify from './components/Authentication/Verify/Verify'
 import PasswordRecover from './components/Authentication/PasswordRecover'
-import NeedLogginOrRegister from './components/Authentication/NeedLogginOrRegister'
+import NeedLoginOrRegister from './components/Authentication/NeedLoginOrRegister'
 import './App.css';
 import Panels from './components/User/Panels/Panels';
 import { fetchDetailCategories, fetchProducts, getCartItems, fetchWLItems, postCartToDB } from './redux';
 import WishList from './components/WishList/WishList';
 import { useDispatch, useSelector } from 'react-redux';
 import { permission, loginFromLocalStorage } from './redux'
-//import jwt from 'jwt-decode';
 import MPConf from './components/MercadoPago/MPConf';
-
-
-// >>>>>>> ecae7777926a998a88797d8038a14395528a281d
 
 function App() {
 
   const dispatch = useDispatch()
-  const user_id = useSelector(state => state.loggin.loggin.id)
+  const user_id = useSelector(state => state.login.login.id)
   const cartList = useSelector(state => state.cart.cartItems)
-  const savedCart = useSelector(state => state.cart.savedOnDB)
 
   useEffect(() => {
     dispatch(fetchDetailCategories())
@@ -83,7 +78,7 @@ function App() {
           <Route path='/wishlist' element={<WishList />} />
           <Route path='/admin/add-category' element={<AddCategory />} />
           <Route path='/panels' element={<Panels />} />
-          <Route path='/need-authenticated' element={<NeedLogginOrRegister />} />
+          <Route path='/need-authenticated' element={<NeedLoginOrRegister />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path='/passwordRecover' element={<PasswordRecover />} />

@@ -47,7 +47,6 @@ export default function SearchBar() {
     useEffect(() => {
         setProducts(productList)
     }, [productList])
-
     return (
         <div className={styles.container}>
             <form onSubmit={onSubmit}>

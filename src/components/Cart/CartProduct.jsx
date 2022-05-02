@@ -1,6 +1,6 @@
 import React from 'react'
 import useCounter from '../../hooks/UseCounter';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateCartItem, removeFromCart } from '../../redux'
 import { FormatMoney } from 'format-money-js';
 import styles from './Cart.module.css'
@@ -13,8 +13,11 @@ function CartProduct({ product }) {
     const {
         product_id, name,
         stock, price,
-        image, itemsToBuy
+        image, itemsToBuy, seller_id, seller_name,
     } = product
+
+    const user_id = useSelector(state => state.login.login.id)
+
 
     //const itemsToBuy = product.quantity;
 
@@ -39,9 +42,9 @@ function CartProduct({ product }) {
     }
     const removeCartItem = () => {
         const payload = {
-            product_id
+            product_id, seller_id
         }
-        dispatch(removeFromCart(payload))
+        dispatch(removeFromCart(payload, user_id))
     }
 
     const Buttons = ({ initialCount, value, max }) => {
@@ -80,8 +83,7 @@ function CartProduct({ product }) {
                     </Link>
                 </div>
                 <Link className={styles.link} to={`/product/${product_id}`}>
-
-                    <div className={styles.cardName}>{name}</div>
+                    <div className={styles.cardName}>{name}</div> from ({seller_id} {seller_name})
                 </Link>
             </div>
             <div className={styles.cardFooter}>
