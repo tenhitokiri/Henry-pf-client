@@ -45,8 +45,8 @@ const loginReducer = (state = loginState, action) => {
                     isAdmin: data.isAdmin,
                     isProvider: data.isProvider,
                     error: '',
-                    expiresAt: data.exp,
-                    issuedAt: data.iat,
+                    expiresAt: Date(data.exp),
+                    issuedAt: Date(data.iat),
                     permission: 'approved'
                 }
             }
@@ -119,8 +119,8 @@ const loginReducer = (state = loginState, action) => {
                     email: payload.email,
                     isAdmin: payload.isAdmin,
                     isProvider: payload.isProvider,
-                    expiresAt: payload.exp,
-                    issuedAt: payload.iat,
+                    expiresAt: Date(payload.exp),
+                    issuedAt: Date(payload.iat),
                     permission: 'approved'
                 }
             }
