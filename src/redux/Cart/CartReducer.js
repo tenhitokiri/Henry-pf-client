@@ -29,12 +29,8 @@ const cartReducer = (state = initCartState, action) => {
 
     case CART_ACTIONS.ADD_TO_CART:
       {
-        const {
-          price,
-          itemsToBuy
-        } = payload;
 
-        if (itemsToBuy === 0) return state
+        if (payload.itemsToBuy === 0) return state
         if (state.cartItems.length === 0) {
           localStorage.setItem('cart', JSON.stringify([payload]));
           localStorage.setItem('savedCartItems', true);
@@ -42,31 +38,31 @@ const cartReducer = (state = initCartState, action) => {
             ...state,
             savedOnDB: false,
             cartItems: [payload],
-            numberOfItems: parseInt(itemsToBuy),
-            totalPrice: parseFloat(price) * parseInt(itemsToBuy)
+            numberOfItems: parseInt(payload.itemsToBuy),
+            totalPrice: parseFloat(payload.price) * parseInt(payload.itemsToBuy)
           }
         }
         let oldQty = 0
         let oldPrice = 0.0
-        let newPrice = parseFloat(price) * parseFloat(itemsToBuy)
-        const updatedCartItems = state.cartItems.map(product => {
-          const {
-            product_id, name,
-            price, image, itemsToBuy
-          } = product
-          if (product_id === payload.product_id) {
-            oldQty = parseInt(itemsToBuy)
-            oldPrice = parseFloat(price) * parseFloat(oldQty)
-            const updatedProd = {
-              product_id, name,
-              inventoryQty: payload.inventoryQty,
-              price, image, itemsToBuy: payload.itemsToBuy
+        let newPrice = parseFloat(payload.price) * parseFloat(payload.itemsToBuy)
+        let found = false
+        let updatedCartItems = state.cartItems.map(e => {
+          if (e.product_id === payload && e.seller_id === payload.seller_id) {
+            oldQty = parseInt(payload.itemsToBuy)
+            oldPrice = parseFloat(payload.price) * parseFloat(oldQty)
+            found = true
+            return {
+              ...e,
+              itemsToBuy: (parseInt(payload.itemsToBuy) + parseInt(e.itemsToBuy)) > parseInt(payload.stock) ?
+                parseInt(payload.stock) :
+                (parseInt(payload.itemsToBuy) + parseInt(e.itemsToBuy)),
+              unit_price: parseFloat(payload.price)
             }
-            return updatedProd
           }
-          return product
-        }
-        )
+          return e
+        })
+
+        if (!found) updatedCartItems = [...state.cartItems, payload]
         const newTotal = parseFloat(state.totalPrice) + parseFloat(newPrice) - parseFloat(oldPrice)
         const newQuantity = parseInt(state.numberOfItems) + parseInt(payload.itemsToBuy) - parseInt(oldQty)
         if (oldQty === 0) {
@@ -96,25 +92,21 @@ const cartReducer = (state = initCartState, action) => {
         let oldQty = 0
         let oldPrice = 0.0
         let newPrice = parseFloat(payload.price) * parseFloat(payload.itemsToBuy)
-        const updatedCartItems = state.cartItems.map(product => {
-          const {
-            product_id, name,
-            inventoryQty,
-            price, image, itemsToBuy
-          } = product
-          if (product_id === payload.product_id) {
-            oldQty = parseInt(itemsToBuy)
-            oldPrice = parseFloat(price) * parseFloat(oldQty)
-            const updatedProd = {
-              product_id, name,
-              inventoryQty,
-              price, image, itemsToBuy: payload.itemsToBuy
+        let updatedCartItems = state.cartItems.map(e => {
+          if (e.product_id === payload && e.seller_id === payload.seller_id) {
+            oldQty = parseInt(payload.itemsToBuy)
+            oldPrice = parseFloat(payload.price) * parseFloat(oldQty)
+            return {
+              ...e,
+              itemsToBuy: (parseInt(payload.itemsToBuy) + parseInt(e.itemsToBuy)) > parseInt(payload.stock) ?
+                parseInt(payload.stock) :
+                (parseInt(payload.itemsToBuy) + parseInt(payload.itemsToBuy)),
+              unit_price: parseFloat(payload.price)
             }
-            return updatedProd
           }
-          return product
-        }
-        )
+          return e
+        })
+
         const newTotal = parseFloat(state.totalPrice) + parseFloat(newPrice) - parseFloat(oldPrice)
         const newQuantity = parseInt(state.numberOfItems) + parseInt(payload.itemsToBuy) - parseInt(oldQty)
         if (oldQty === 0) {
