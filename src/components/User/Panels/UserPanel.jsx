@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ItemsOrdered from './ItemsOrdered/ItemsOrdered';
 import styles from './Panels.module.css'
 import { useNavigate } from 'react-router-dom';
-
+import { isActive, isInactive } from './utils/utilsAdmin';
 
 const UserPanel = ({ name, email }) => {
     const [info, setInfo] = useState('myAccountInfo')

@@ -3,11 +3,13 @@
     display: flex;
     flex-direction: column;
 }
+
 .categoryContainer {
     width: 100%;
     height: auto;
     background-color: #EDF1F2;
 }
+
 .category {
     max-width: 1300px;
     height: auto;
@@ -17,20 +19,24 @@
     font-size: 0.9rem;
     margin-bottom: 20px;
 }
+
 .content {
     margin: 0 auto;
     width: 100%;
     max-width: 1300px;
 }
+
 .detail {
     width: 100%;
     display: flex;
     margin-top: 1.2vw;
     justify-content: space-between;
 }
+
 .img {
     display: none;
 }
+
 .img:first-child {
     object-fit: contain;
     width: 370px;
@@ -39,9 +45,11 @@
 
     transition: 00.2s;
 }
+
 .img:first-child:hover {
     transform: scale(1.08);
 }
+
 .contentPSD {
     display: flex;
     width: 100%;
@@ -49,14 +57,17 @@
     align-items: flex-start;
     margin: 0 2vw;
 }
+
 .price {
     font-size: 1.4rem;
     font-weight: 500;
 }
+
 .stock {
     margin-top: 10px;
     color: #02354B;
 }
+
 .description {
     display: flex;
     margin-top: 10px;
@@ -64,6 +75,7 @@
     width: 100%;
     text-align: justify;
 }
+
 .contentHeader {
     width: 100%;
     height: auto;
@@ -71,59 +83,72 @@
     border-bottom: 2px solid #EDF1F2;
     margin-bottom: 20px;
 }
+
 .contentHeaderLeft {
     float: left;
     width: 70%;
 }
+
 .contentHeaderRight {
     float: right;
     width: 25%;
     text-align: right;
 }
+
 .title {
     font-size: 1.4rem;
     text-align: left;
 }
+
 .rate {
     display: flex;
     color: var(--background);
     margin-top: 20px;
     height: 30px;
 }
+
 .rate svg {
     width: 16px;
 }
+
 .related {
     display: flex;
     position: static;
     align-items: center;
     justify-content: center;
 }
+
 .carrousel {
     width: 100%;
     max-width: 1300px;
     display: flex;
 }
+
 .prev {
     height: 3vw;
     width: 3vw;
     transition: 0.16s;
 }
+
 .prev:hover {
     color: var(--background);
 }
+
 .next {
     height: 3vw;
     width: 3vw;
     transition: 0.16s;
 }
+
 .next:hover {
     color: var(--background);
 }
+
 .add {
     width: 150px;
     min-width: 150px;
 }
+
 .box {
     width: 65%;
     justify-content: center;
@@ -134,9 +159,11 @@
     margin: 0.5vw auto;
     border-radius: 3px;
 }
+
 .counter {
     width: 30%;
 }
+
 .decrement {
     height: 22px;
     background: none;
@@ -147,6 +174,7 @@
 
     transition: 0.2s;
 }
+
 .increment {
     height: 22px;
     background: none;
@@ -157,9 +185,12 @@
 
     transition: 0.2s;
 }
-.decrement:hover, .increment:hover {
+
+.decrement:hover,
+.increment:hover {
     color: black;
 }
+
 .buttons {
     width: 100%;
     padding: 8px 15px;
@@ -172,10 +203,12 @@
 
     transition: 0.2s;
 }
+
 .buttons:hover {
     background-color: #daaf05;
     box-shadow: 1px 1px 1px 1px #D0D9DC;
 }
+
 .buttonOptions {
     width: 100%;
     padding: 8px 15px;
@@ -189,10 +222,12 @@
 
     transition: 0.2s;
 }
+
 .buttonOptions:hover {
     background-color: #022939;
     box-shadow: 1px 1px 1px 1px #D0D9DC;
 }
+
 .relatedTitle {
     width: 100%;
     max-width: 1300px;
@@ -208,35 +243,46 @@
 }
 
 @media screen and (max-width: 1350px) {
-    .container, .categoryContainer {
+
+    .container,
+    .categoryContainer {
         width: 90%;
         padding: 0 5%;
     }
 }
+
 @media screen and (max-width: 850px) {
     .contentHeaderLeft {
         width: 60%;
     }
+
     .contentHeaderRight {
         width: 35%;
     }
+
     .detail {
         flex-direction: column;
         align-items: center;
     }
+
     .add {
         width: 75%;
     }
+
     .box {
         width: 45%;
     }
-    .buttons, .buttonOptions {
+
+    .buttons,
+    .buttonOptions {
         padding: 16px 15px;
         font-size: 1.1rem;
     }
+
     .relatedTitle {
         margin-top: 50px;
     }
+
     .img:first-child {
         width: 300px;
         height: 300px;
