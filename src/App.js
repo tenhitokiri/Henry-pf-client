@@ -32,6 +32,7 @@ function App() {
   const cartList = useSelector(state => state.cart.cartItems)
 
   useEffect(() => {
+    console.log(process.env, "Process")
     dispatch(fetchDetailCategories())
     dispatch(fetchProducts())
 
