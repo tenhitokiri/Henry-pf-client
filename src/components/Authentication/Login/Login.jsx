@@ -1,37 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
-import { signIn } from '../../../redux/User/Login/loginActions';
+import { signIn, loginGoogle } from '../../../redux/';
 import GoogleLogin from 'react-google-login';
-import { loginGoogle } from '../../../redux/User/Login/loginActions';
 import { CLIENT_ID_GOOGLE } from '../../../env';
-// import imgGoogle from '../../../assets/google.png'
-// import { faWindowRestore } from '@fortawesome/free-solid-svg-icons';
 import { mainPage } from '../../../env'
 import styles from './Login.module.css'
 import ModalLoginFailure from '../../Modal/ModalLoginFailure'
+import { ValidateEmail } from '../../../utils'
 
 function checkErrors(post) {
-
     let errors = {};
-
-    if (!post.email) {
+    if (!ValidateEmail(post.email)) {
         errors.email = 'Please provide an email'
     }
 
     if (!post.password) {
-        errors.password = 'Please provide a password'
+        errors.password = 'Please provide a password !!'
     }
 
     return errors;
 }
 
-
 export default function Login() {
 
     const [seePassword, setSeePassword] = useState(false);
-    const dependencyRedirect = useSelector(state => state.loggin.loggin.token)
-    const msjError = useSelector(state => state.loggin.loggin.error)
+    const dependencyRedirect = useSelector(state => state.login.login.token)
+    const msjError = useSelector(state => state.login.login.error)
     const [error, setError] = useState('')
 
     useEffect(() => {
@@ -47,7 +42,6 @@ export default function Login() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    //const tokenU = useSelector((state) => state.name)
     const [errors, setErrors] = useState({})
     const [post, setPost] = useState({
         email: '',
@@ -60,13 +54,11 @@ export default function Login() {
     function handleSubmit(e) {
         e.preventDefault();
         console.log(e.target, 'event login')
-        if (Object.values(errors).length > 0) return setAlert('Please fill in the entire form :/');
-        else if (!post.email || !post.password) return setAlert('Please fill in the entire form :/');
+        if ((!post.email || !post.password) || (Object.values(errors).length > 0)) return setAlert('Please fill in the entire form :/');
         else {
             dispatch(signIn(post))
         }
     }
-
     function handleInputChange(e) {
         setPost({
             ...post,
@@ -84,7 +76,6 @@ export default function Login() {
 
     const respuestaGoogle = (respuesta) => {
         console.log(respuesta, 'soy respuesta de google');
-        // console.log(respuesta.profileObj),'soy profileobj';
         let userData = {
             name: respuesta.profileObj.name,
             email: respuesta.profileObj.email,
@@ -130,9 +121,6 @@ export default function Login() {
                                 errors.password && (<p>{errors.password}</p>)
                             }
                         </div>
-
-                        {/* <Link to="/passwordRecover">Forgot your password?</Link> */}
-
                         <button className={styles.btn} type='submit'>Continue</button>
                     </form>
                 </div>
@@ -149,7 +137,7 @@ export default function Login() {
                 alert !== '' &&
                 <ModalLoginFailure msgError={alert} />
             }
-        </div>
+        </div >
 
     )
 }

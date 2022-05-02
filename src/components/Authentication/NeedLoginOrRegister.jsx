@@ -1,8 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import styles from './needLogginOrRegister.module.css'
+import styles from './needLoginOrRegister.module.css'
 
-const NeedLogginOrRegister = () => {
+const NeedLoginOrRegister = () => {
     const navigate = useNavigate()
     return (
         <div className={styles.background}>
@@ -28,4 +28,4 @@ const NeedLogginOrRegister = () => {
     )
 }
 
-export default NeedLogginOrRegister
+export default NeedLoginOrRegister

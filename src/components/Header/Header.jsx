@@ -11,7 +11,7 @@ import { fetchProducts, getCartItems } from '../../redux'
 import { mainPage } from '../../env'
 
 const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWishListItems }) => {
-    const user = useSelector(state => state.loggin.loggin.name)
+    const user = useSelector(state => state.login.login.name)
 
     useEffect(() => {
         if (numberOfProducts === 0) {
@@ -30,11 +30,11 @@ const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWis
             <div className={styles.loginUserMobile}>
                 {
                     user ? (<div className={styles.logoutContainer}> Hola {user} <input className={styles.btnLogout} type='submit' onClick={() => onLogOut()} value='Logout' /></div>) :
-                    <div className={styles.login}>
-                        <Link to='login' className={styles.loginLink}>Login in</Link>
-                        &nbsp; - &nbsp;
-                        <Link to='register' className={styles.registerLink}>Register</Link>
-                    </div>
+                        <div className={styles.login}>
+                            <Link to='login' className={styles.loginLink}>Login in</Link>
+                            &nbsp; - &nbsp;
+                            <Link to='register' className={styles.registerLink}>Register</Link>
+                        </div>
                 }
             </div>
             <div className={styles.container}>

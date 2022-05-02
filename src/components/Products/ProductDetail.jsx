@@ -13,9 +13,9 @@ import ModalOptions from './ModalOptions'
 import { FormatMoney } from 'format-money-js';
 import * as Shareon from "shareon";
 import "shareon/css";
+import useCounter from '../../hooks/UseCounter';
 
 const ProductDetail = () => {
-
     let {
         product_id,
         name,
@@ -36,21 +36,19 @@ const ProductDetail = () => {
     const { prevPage, nextPage, items } = usePaginate(related, 5)
     const [render, setRender] = useState(false)
     const [modalOptions, setModalOptions] = useState(false)
-    const user_id = useSelector(state => state.loggin.loggin.id)
+    const user_id = useSelector(state => state.login.login.id)
 
     useEffect(() => {
         dispatch(fetchProductById(id))
     }, [render])
 
-
-
-    //inventoryQty = inventoryQty || generateRandomInt(100) + 1;
     const image = images || 'https://via.placeholder.com/150'
     const price = featured_seller?.stock?.unit_price;
     const seller_id = featured_seller?.user_id
+    const seller_name = featured_seller?.name
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(price)) || price
-
+    const [count, add, remove, reset] = useCounter(0, 1, stock)
 
     if (rating) {
         var star = Math.floor(rating)
@@ -62,12 +60,12 @@ const ProductDetail = () => {
 
     const [counter, setCounter] = useState(0)
     const increment = () => {
-        setCounter(counter + 1)
+        add()
+        setCounter(count + 1 > stock ? stock : count + 1)
     }
     const decrement = () => {
-        if (counter > 0) {
-            setCounter(counter - 1)
-        }
+        remove()
+        setCounter(count - 1 < 0 ? 0 : count - 1)
     }
 
     const addCart = () => {
@@ -75,8 +73,11 @@ const ProductDetail = () => {
             const payload = {
                 product_id, name,
                 stock, price,
-                image, rating, seller_id
+                image, rating,
+                seller_id, seller_name,
+                itemsToBuy: counter
             }
+
             dispatch(addToCart(payload, user_id))
         } else {
             dispatch(removeFromCart({ product_id }))
@@ -107,7 +108,7 @@ const ProductDetail = () => {
             )
     }
 
-    const sampleText = 'El vendedor no incluyó una descripción del producto.' 
+    const sampleText = 'El vendedor no incluyó una descripción del producto.'
 
     return loading ? (
         <div className='App-container'>
@@ -160,7 +161,7 @@ const ProductDetail = () => {
                                 <div className={styles.contentPSD}>
                                     <div className={styles.price}>{prodPrice}</div>
                                     <div className={styles.stock}>{stock} available</div>
-                                    <div className={styles.description}>{description? {description} : sampleText}</div>
+                                    <div className={styles.description}>{description ? { description } : sampleText}</div>
                                 </div>
                                 <div className={styles.add}>
                                     <div className={styles.box}>

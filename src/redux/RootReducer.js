@@ -3,14 +3,14 @@ import productReducer from './Products/productReducer'
 import cartReducer from './Cart/CartReducer'
 import categoryReducer from './Categories/categoryReducer'
 import wishListReducer from './WishList/wLReducer'
-import logginsReducers from './User/Reducer'
+import loginReducers from './User/Reducer'
 
 const allReducers = combineReducers({
     products: productReducer,
     cart: cartReducer,
     categories: categoryReducer,
     wishList: wishListReducer,
-    loggin: logginsReducers
+    login: loginReducers
 })
 
 export default allReducers

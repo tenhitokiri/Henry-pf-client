@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Inputs from '../../Inputs/Inputs'
 import styles from './add-category.module.css'
@@ -6,11 +6,11 @@ import { postCategory } from '../../../redux'
 import ModalError from '../../Modal/ModalError'
 
 
-const AddCategogory = () => {
+const AddCategory = () => {
   const dispatch = useDispatch()
   const categories = useSelector(state => state.categories.categories_detail)
   const categoriesFathers = categories.filter(cat => !cat.parent_name)
-  const isAdmin = useSelector(state => state.loggin.loggin.isAdmin)
+  const isAdmin = useSelector(state => state.login.login.isAdmin)
 
 
   //reg exp
@@ -124,4 +124,4 @@ const AddCategogory = () => {
   )
 }
 
-export default AddCategogory
+export default AddCategory
