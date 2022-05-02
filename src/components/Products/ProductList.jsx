@@ -78,10 +78,10 @@ const ProductList = ({ productList }) => {
     }
 
     let pages = filteredProducts.length ? Math.round(filteredProducts.length / PRODUCTS_PER_PAGE) : 0
-    if(pages === 0) {
+    if (pages === 0) {
         pages = 'No items founded'
     }
-    
+
     return (
         <div className={styles.container}>
             <div className={styles.menuList}>
@@ -110,7 +110,7 @@ const ProductList = ({ productList }) => {
 
             <div className={styles.productsContainer}>
                 {
-                    pages > 0? (
+                    pages > 0 ? (
                         <Pagination
                             data={filteredProducts}
                             RenderComponent={ProductCard}
