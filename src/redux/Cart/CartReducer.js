@@ -133,10 +133,10 @@ const cartReducer = (state = initCartState, action) => {
 
     case CART_ACTIONS.REMOVE_FROM_CART:
       {
-        const productToRemove = state.cartItems.find(product => product.product_id === payload.product_id)
+        const productToRemove = state.cartItems.find(product => product.product_id === payload && product.seller_id === payload.seller_id)
         const { itemsToBuy, price } = productToRemove
         const newTotal = parseFloat(state.totalPrice) - parseFloat(itemsToBuy) * parseFloat(price)
-        const updatedCartItems = state.cartItems.filter(product => product.product_id !== payload.product_id)
+        const updatedCartItems = state.cartItems.filter(product => product.product_id === payload && product.seller_id === payload.seller_id)
         const newQuantity = parseInt(state.numberOfItems) - parseInt(itemsToBuy)
         localStorage.setItem('cart', JSON.stringify([...updatedCartItems]));
         localStorage.setItem('savedCartItems', true);
