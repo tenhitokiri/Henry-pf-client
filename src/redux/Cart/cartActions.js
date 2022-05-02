@@ -84,7 +84,19 @@ const removeFromCartSuccess = (payload) => {
         payload
     }
 }
+const emptyCartSuccess = (payload) => {
+    return {
+        type: CART_ACTIONS.EMPTY_CART,
+        payload
+    }
+}
 
+const updateCartItemSuccess = (payload) => {
+    return {
+        type: CART_ACTIONS.UPDATE_TO_CART,
+        payload
+    }
+}
 
 //------------------------------------------------------
 // Exported Functions
@@ -126,9 +138,10 @@ export const postCartToDB = (cartItems, userId) => {
 export const fetchCartItems = (userId) => {
     return (dispatch) => {
         dispatch(fetchCartItemsRequest());
-        return axios.get(`${backendUrl}/cart/${userId}`)
+        return axios.get(`${backendUrl}cart/?id=${userId}`)
             .then(response => {
                 const cart = response.data;
+                console.log(cart, '<--- cart from DB');
                 dispatch(fetchCartItemsSuccess(cart));
             })
             .catch(error => dispatch(fetchCartItemsFailure(error)));
@@ -194,6 +207,7 @@ export const getCartItems = (userId) => {
     };
 }
 
+
 export const updateCartItem = (payload) => {
     return {
         type: CART_ACTIONS.UPDATE_TO_CART,
@@ -204,29 +218,44 @@ export const updateCartItem = (payload) => {
 export const removeFromCart = (cartItem, userId) => {
     return dispatch => {
         dispatch(fetchCartItemsRequest());
+        if (!userId) {
+            return dispatch(removeFromCartSuccess(cartItem));
+        }
         const backendData = {
             buyer_id: userId,
-            product_id: cartItem.product_id,
+            target: cartItem.product_id,
             seller_id: cartItem.seller_id
         }
         console.log(backendData, "<--- backendData");
-        /* 
-                return axios.delete(`${backendUrl}cart/`, { body: { id: cartItem.id } })
+        return axios.delete(`${backendUrl}cart/`, { data: backendData })
+            .then(response => {
+                dispatch(removeFromCartSuccess(cartItem));
+                dispatch(fetchCartItems(userId));
+            })
+            .catch(error => dispatch(fetchCartItemsFailure(error)));
+    };
+}
+//removeFromCartSuccess
+
+export const emptyCart = (userId) => {
+    return dispatch => {
+        dispatch(fetchCartItemsRequest());
+        const backendData = {
+            buyer_id: userId,
+            target: "ALL",
+            seller_id: 1
+        }
+        console.log(backendData, "<--- backendData");
+        /*         return axios.delete(`${backendUrl}cart/`, { data: backendData })
                     .then(response => {
-                        dispatch(removeFromCartSuccess(cartItem));
+                        dispatch(emptyCartSuccess(cartItem));
                         dispatch(fetchCartItems(userId));
                     })
                     .catch(error => dispatch(fetchCartItemsFailure(error)));
          */
     };
 }
-//removeFromCartSuccess
 
-export const emptyCart = () => {
-    return {
-        type: CART_ACTIONS.EMPTY_CART
-    }
-}
 
 export const checkoutRequest = () => {
     return {

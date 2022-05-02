@@ -36,7 +36,7 @@ const ProductDetail = () => {
     const { prevPage, nextPage, items } = usePaginate(related, 5)
     const [render, setRender] = useState(false)
     const [modalOptions, setModalOptions] = useState(false)
-    const user_id = useSelector(state => state.loggin.loggin.id)
+    const user_id = useSelector(state => state.login.login.id)
 
     useEffect(() => {
         dispatch(fetchProductById(id))

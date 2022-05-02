@@ -1,15 +1,17 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { addToCart } from '../../redux'
+import { connect, useSelector } from 'react-redux'
+import { emptyCart } from '../../redux'
 import CartProduct from './CartProduct'
 import { FormatMoney } from 'format-money-js';
 import styles from './Cart.module.css'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
-export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount, addToCart, cartItems }) => {
+
+export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount, cartItems, emptyCart }) => {
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(totalPrice)) || totalPrice
-
+    const user_id = useSelector(state => state.login.login.id)
+    const navigate = useNavigate()
     const listMarkup = cartItems.length > 0 ? (cartItems.map(product => (
         <CartProduct key={product.id} product={product} />
     )))
@@ -22,6 +24,10 @@ export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount
                 </button>
             </NavLink>
         </div>)
+
+    const cleanCartItems = () => {
+        emptyCart(user_id)
+    }
 
     return (
         <div className={styles.container}>
@@ -40,17 +46,13 @@ export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount
                             Order Total: <span>{prodPrice}</span>
                         </div>
                         <button className={`${styles.buttonSuccess}`}>Proceed to Checkout</button>
-                        <button className={`${styles.buttonSecondary} ${styles.continue}`}>Empty Cart !</button>
-                        <button className={`${styles.buttonSuccess} ${styles.continue}`}>Continue Shopping</button>
+                        <button className={`${styles.buttonSecondary} ${styles.continue}`} onClick={cleanCartItems}>Empty Cart !</button>
+                        <button className={`${styles.buttonSuccess} ${styles.continue}`} onClick={() => { navigate('/products') }}>Continue Shopping</button>
                     </div>
                     : null
             }
             <div className={styles.productList}>
                 {listMarkup}
-                {/*
-                    listMarkup.length > 0 ? <button className={`${styles.buttonSuccess} ${styles.continue}`}>Continue Shopping</button> :
-                        <div></div>
-        */}
             </div>
         </div>
 
@@ -68,9 +70,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        addToCart: (number) => dispatch(addToCart(number))
+        emptyCart: (userId) => dispatch(emptyCart(userId))
     }
-
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Cart)
-//export default connect(mapStateToProps)(Cart)

@@ -18,7 +18,7 @@ const ProductCard = ({ product, favoriteProducts }) => {
         images, featured_seller, stock,
     } = product;
 
-    const user_id = useSelector(state => state.loggin.loggin.id)
+    const user_id = useSelector(state => state.login.login.id)
     const star = Math.floor(rating)
     const price = featured_seller?.stock?.unit_price;
     const seller_id = featured_seller?.user_id

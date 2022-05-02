@@ -1,20 +1,20 @@
 import LOGIN_ACTIONS from './loginTypes';
 import jwt from 'jwt-decode';
 
-
 const loginState = {
     loading: '',
     name: '',
-    id: '',
+    id: "",
     email: '',
-    isAdmin: '',
-    isProvider: '',
+    isAdmin: false,
+    isProvider: false,
     token: '',
     error: '',
     userGoogleData: [],
     userCredentials: [],
+    expiresAt: "",
+    issuedAt: "",
 }
-
 
 const loginReducer = (state = loginState, action) => {
     const { type, payload } = action
@@ -34,8 +34,6 @@ const loginReducer = (state = loginState, action) => {
         case LOGIN_ACTIONS.ACTION_LOGIN_SUCCESS:
             {
                 const data = jwt(payload)
-                // console.log(payload, "login success")
-                // console.log(data, "data")
                 window.localStorage.setItem('token', payload)
                 return {
                     ...state,
@@ -46,26 +44,85 @@ const loginReducer = (state = loginState, action) => {
                     email: data.email,
                     isAdmin: data.isAdmin,
                     isProvider: data.isProvider,
-                    error: false
+                    error: '',
+                    expiresAt: data.exp,
+                    issuedAt: data.iat,
+                    permission: 'approved'
                 }
             }
         case LOGIN_ACTIONS.ACTION_LOGIN_GOOGLE:
             const info = payload.data
             return {
                 ...state,
-                loading:false,
+                loading: false,
                 name: info.name,
-                id:info.user_id,
+                id: info.user_id,
                 email: info.email,
                 isAdmin: info.admin,
                 isProvider: info.provider,
                 userGoogleData: [...state.userGoogleData, payload]
-
             }
         case LOGIN_ACTIONS.ACTION_GET_CREDENTIALS:
             return {
                 ...state,
                 userCredentials: payload
+            }
+        case LOGIN_ACTIONS.ACTION_VERIFY_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: ''
+            }
+        case LOGIN_ACTIONS.ACTION_VERIFY_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: payload
+            }
+        case LOGIN_ACTIONS.FETCH_TOKEN_SUCCESS:
+            {
+                return {
+                    ...state,
+                    loading: false,
+                    token: payload,
+                    permission: 'approved',
+                    error: ''
+                }
+            }
+        case LOGIN_ACTIONS.PERMISSION_REQUEST:
+            {
+                return {
+                    ...state,
+                    loading: true,
+                    error: ''
+
+                }
+            }
+
+        case LOGIN_ACTIONS.PERMISSION_FAILURE:
+            {
+                return {
+                    ...state,
+                    loading: false,
+                    error: payload,
+                    permission: 'denied'
+                }
+            }
+        case LOGIN_ACTIONS.PERMISSION_SUCCESS:
+            {
+                return {
+                    ...state,
+                    loading: false,
+                    error: '',
+                    name: payload.name,
+                    id: payload.user_id,
+                    email: payload.email,
+                    isAdmin: payload.isAdmin,
+                    isProvider: payload.isProvider,
+                    expiresAt: payload.exp,
+                    issuedAt: payload.iat,
+                    permission: 'approved'
+                }
             }
         default: return state
     }

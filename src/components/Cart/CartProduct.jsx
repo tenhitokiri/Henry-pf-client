@@ -16,7 +16,7 @@ function CartProduct({ product }) {
         image, itemsToBuy, seller_id, seller_name,
     } = product
 
-    const user_id = useSelector(state => state.loggin.loggin.id)
+    const user_id = useSelector(state => state.login.login.id)
 
 
     //const itemsToBuy = product.quantity;

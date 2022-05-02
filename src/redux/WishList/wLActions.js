@@ -70,14 +70,11 @@ export const emptyWL = (payload, userId) => {
                 target: "all",
                 seller_id: payload.seller_id,
             }
-            //console.log(payload, '<--- payload data to remove from wish list')
-            //console.log(backendData, '<--- backend data to remove from wish list')
             axios.delete(`${backendUrl}wishlist/`, { data: backendData })
                 .then(res => {
                     console.log(res.data, '<--- remove wish list item')
                     dispatch(emptyWLSuccess(payload))
                 }).catch(err => {
-                    //console.log(err)
                     dispatch(setWishListItemsFailure(err))
                 })
         }

@@ -7,7 +7,7 @@ import { fetchProductByCategory, clearFilterCategory } from '../../redux'
 
 const Nav = () => {
     const categories = useSelector(state => state.categories.categories_detail)
-    const auth = useSelector(state => state.loggin.verify.permission)
+    const auth = useSelector(state => state.login.login.permission)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [toggle, setToggle] = useState(false)
@@ -44,12 +44,12 @@ const Nav = () => {
                     }
                 </label>
                 {
-                    auth === "aprobbed" ?
+                    auth === "approved" ?
                         <NavLink className={styles.link} to={'/add-product'}>Sell</NavLink> :
                         <NavLink className={styles.link} to={'/need-authenticated'}>Sell</NavLink>
                 }
                 {
-                    auth === "aprobbed" ?
+                    auth === "approved" ?
                         <NavLink className={styles.link} to={'/panels'}>User</NavLink> :
                         <NavLink className={styles.link} to={'/need-authenticated'}>User</NavLink>
                 }
