@@ -5,7 +5,7 @@ import ProviderPanel from './ProviderPanel'
 import UserPanel from './UserPanel'
 
 const Panels = () => {
-  const dataUser = useSelector(state => state.loggin.loggin)
+  const dataUser = useSelector(state => state.login.login)
   let actualUser = 'admin';  // 'admin' // user // provider // admin
   // if (dataUser.isAdmin) actualUser = 'admin';
   // if (dataUser.isProvider) actualUser = 'provider'

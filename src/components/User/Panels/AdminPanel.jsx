@@ -4,9 +4,20 @@ import styles from './Panels.module.css'
 import { backendUrl } from '../../../env'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
-import { setActive, setInactive, resetPass, isAdmin, isProvider, filterPro, sortPro, isSelected, fetchOrders } from './utils/utilsAdmin';
+import {
+    setActive,
+    setInactive,
+    resetPass,
+    isAdmin,
+    isProvider,
+    filterPro,
+    sortPro,
+    isSelected,
+    fetchOrders
+} from './utils/utilsAdmin';
 
 const AdminPanel = ({ name, email }) => {
+    console.log(name, email)
     const [info, setInfo] = useState('myAccountInfo')   //change panels
     const [users, setUsers] = useState(null)            //initial state users
     const [filter, setFilter] = useState([])            //users to map

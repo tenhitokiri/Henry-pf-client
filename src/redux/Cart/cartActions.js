@@ -123,11 +123,6 @@ export const postCartToDB = (cartItems, userId) => {
                 buyer_id: userId,
                 products: backendItems
             }
-<<<<<<< HEAD
-            //console.log(backendData, '<--- backend data to add to cart')
-            //* 
-=======
->>>>>>> 909f98564bbbd881457bbd392285fe3eb17a2d76
             axios.post(`${backendUrl}cart/`, backendData)
                 .then(res => {
                     console.log(res.data, '<--- data added to Cart Backend')
@@ -208,10 +203,6 @@ export const getCartItems = (userId) => {
                     console.log(error);
                     dispatch(setCartItemsFailure(error));
                 });
-<<<<<<< HEAD
-
-=======
->>>>>>> 909f98564bbbd881457bbd392285fe3eb17a2d76
         }
     };
 }
