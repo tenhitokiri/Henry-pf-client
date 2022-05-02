@@ -104,17 +104,17 @@ export const postCartToDB = (cartItems, userId) => {
                 buyer_id: userId,
                 products: backendItems
             }
-            console.log(backendData, '<--- backend data to add to cart')
-
+            //console.log(backendData, '<--- backend data to add to cart')
+            //* 
             axios.post(`${backendUrl}cart/`, backendData)
                 .then(res => {
-                    // console.log(res.data, '<--- data added to Cart Backend')
+                    console.log(res.data, '<--- data added to Cart Backend')
                     dispatch(setCartItemsFromDBSuccess(res.data))
 
                 }).catch(err => {
                     dispatch(setCartItemsFailure(err))
                 })
-
+            //*/
         }
     }
 }
@@ -160,21 +160,21 @@ export const getCartItems = (userId) => {
         }
         if (userId) {
             console.log(`saving local cart items from user: ${userId} to redux`);
-            dispatch(setCartItemsSuccess(cart));
-            /* 
-                        return axios.get(`${backendUrl}cart/?id=${userId}`)
-                            .then(response => {
-                                const cart = response.data;
-                                console.log(cart, "<--- cart from db");
-                                dispatch(setCartItemsFromDBSuccess(cart));
-                                localStorage.setItem('cart', cart);
-                                localStorage.setItem('savedCartItems', true);
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                dispatch(setCartItemsFailure(error));
-                            });
-             */
+            // dispatch(setCartItemsSuccess(cart));
+
+            return axios.get(`${backendUrl}cart/?id=${userId}`)
+                .then(response => {
+                    const cart = response.data;
+                    console.log(cart, "<--- cart from db");
+                    dispatch(setCartItemsFromDBSuccess(cart));
+                    localStorage.setItem('cart', cart);
+                    localStorage.setItem('savedCartItems', true);
+                })
+                .catch(error => {
+                    console.log(error);
+                    dispatch(setCartItemsFailure(error));
+                });
+
         }
     };
 }
