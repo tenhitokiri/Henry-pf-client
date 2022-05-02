@@ -9,24 +9,25 @@ const ProductCarrousel = ({ id, image, name, rating, price }) => {
     const star = Math.floor(rating)
 
     return (
-        <div className={styles.carrousel}>
+        <div className={styles.container}>
             <Link className={styles.detailLink} to={`/product/${id}`}>
-                <img className={styles.img} src={image[0]} alt={name} />
-                <div className={styles.name}>{name.substring(0, 16)}</div>
-                <div className={styles.rate}>
-                    {
-                        [...Array(star)].map((e, index) => {
-                            return <FontAwesomeIcon key={'faStar' + index} icon={faStar} />
-                        })
-                    }
-                    {
-                        [...Array(5 - star)].map((e, index) => {
-                            return <FontAwesomeIcon key={'starReg' + index} icon={starReg} />
-                        })
-                    }
+                <div className={styles.item}>
+                    <img className={styles.img} src={image[0]} alt={name} />
+                    <div className={styles.name}>{name.substring(0, 16)}</div>
+                    <div className={styles.rate}>
+                        {
+                            [...Array(star)].map((e, index) => {
+                                return <FontAwesomeIcon key={'faStar' + index} icon={faStar} />
+                            })
+                        }
+                        {
+                            [...Array(5 - star)].map((e, index) => {
+                                return <FontAwesomeIcon key={'starReg' + index} icon={starReg} />
+                            })
+                        }
+                    </div>
+                    <div className={styles.price}>{price}</div>
                 </div>
-                <div className={styles.price}>{price}</div>
-
             </Link>
         </div>
     )
