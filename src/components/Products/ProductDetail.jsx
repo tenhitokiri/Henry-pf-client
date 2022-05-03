@@ -161,7 +161,7 @@ const ProductDetail = () => {
                                 <div className={styles.contentPSD}>
                                     <div className={styles.price}>{prodPrice}</div>
                                     <div className={styles.stock}>{stock} available</div>
-                                    <div className={styles.description}>{description ? { description } : sampleText}</div>
+                                    <div className={styles.description}>{description ? description : sampleText}</div>
                                 </div>
                                 <div className={styles.add}>
                                     <div className={styles.box}>
