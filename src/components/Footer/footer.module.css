@@ -1,11 +1,11 @@
 .background {
     float: left;
-    margin-top: 50px;
     background-color: #EDF1F2;
     padding: 12px 0;
     position: relative;
     width: 100%;
 }
+
 .container {
     margin: 0 auto;
     width: 100%;
@@ -14,20 +14,24 @@
     justify-content: space-between;
     align-items: center;
 }
+
 .div {
     display: flex;
     justify-content: center;
 }
+
 .span {
     font-size: 14px;
     color: var(--fontSeccondary);
     margin-left: 1vw;
 }
+
 .span2 {
     font-size: 14px;
     padding-top: 5px;
     color: var(--fontSeccondary);
 }
+
 .img {
     width: 100px;
     margin-right: 1vw;

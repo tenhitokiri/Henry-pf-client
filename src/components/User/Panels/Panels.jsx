@@ -22,7 +22,7 @@ const Panels = () => {
       {
         typeUser === 'admin' ? (<AdminPanel name={dataUser.name} email={dataUser.email} />) :
           typeUser === 'provider' ? (<ProviderPanel name={dataUser.name} email={dataUser.email} />) :
-            typeUser === 'user' ? (<UserPanel name={dataUser.name} email={dataUser.email} />) : null
+            typeUser === 'user' ? (<UserPanel name={dataUser.name} email={dataUser.email} user_id={dataUser.id} />) : null
       }
     </>
   )

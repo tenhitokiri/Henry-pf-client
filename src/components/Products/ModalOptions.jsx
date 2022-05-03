@@ -23,6 +23,7 @@ const ModalOptions = ({ modalOptions, product_id, name, image }) => {
                 {
                     buyingOptions.map(element => (
                         <SellerOptions
+                            key={element.name}
                             product_id={product_id}
                             name={name}
                             image={image}
