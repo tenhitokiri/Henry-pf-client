@@ -24,6 +24,7 @@ import WishList from './components/WishList/WishList';
 import { useDispatch, useSelector } from 'react-redux';
 import { permission, loginFromLocalStorage } from './redux'
 import MPConf from './components/MercadoPago/MPConf';
+import AdminProductDetail from './components/User/Panels/AdminProductDetail';
 
 function App() {
 
@@ -79,6 +80,7 @@ function App() {
           <Route path='/wishlist' element={<WishList />} />
           <Route path='/admin/add-category' element={<AddCategory />} />
           <Route path='/panels' element={<Panels />} />
+          <Route path='/admin/product-detail' element={<AdminProductDetail />} />
           <Route path='/need-authenticated' element={<NeedLoginOrRegister />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />

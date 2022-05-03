@@ -67,11 +67,11 @@ function WishListProduct({ product, key }) {
         return (
             <div className={styles.buttonGroup}>
                 <div className={styles.buttonsStock}>
-                    <button className={`${styles.buttonRemove}`} onClick={remove} ><FontAwesomeIcon icon={faCircleMinus} /></button>
+                    <button className={`${styles.buttonRemove}`} onClick={remove} ><FontAwesomeIcon key={'faCircleMinus'} icon={faCircleMinus} /></button>
                     <span className={styles.badge} >{count}</span>
-                    <button className={`${styles.buttonAdd}`} onClick={add} ><FontAwesomeIcon icon={faCirclePlus} /></button>
+                    <button className={`${styles.buttonAdd}`} onClick={add} ><FontAwesomeIcon key={'faCirclePlus'} icon={faCirclePlus} /></button>
                 </div >
-                <button className={`${styles.buttonReset}`} onClick={removeWishListItem} ><FontAwesomeIcon icon={faCircleXmark} /></button>
+                <button className={`${styles.buttonReset}`} onClick={removeWishListItem} ><FontAwesomeIcon key={'faCircleXmark'} icon={faCircleXmark} /></button>
             </div >
         )
     }
@@ -80,12 +80,12 @@ function WishListProduct({ product, key }) {
         <div className={styles.cardItem} key={key}>
             <div className={styles.insideContainer}>
                 <div className={styles.cardHeader}>
-                    <Link className={styles.link} to={`/product/${product_id}`}>
+                    <Link key={product_id} className={styles.link} to={`/product/${product_id}`}>
 
                         <img src={image} alt={product_id} className={styles.img} />
                     </Link>
                 </div>
-                <Link className={styles.link} to={`/product/${product_id}`}>
+                <Link key={product_id.toString() + 'b'} className={styles.link} to={`/product/${product_id}`}>
 
                     <div className={styles.cardName}>{name}</div>
                 </Link>

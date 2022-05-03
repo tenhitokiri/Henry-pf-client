@@ -150,7 +150,7 @@ const ProductDetail = () => {
                                     <div className="shareon">
                                         <a className="facebook"></a>
                                         <a className="twitter"></a>
-                                        <a class="whatsapp"></a>
+                                        <a className="whatsapp"></a>
                                     </div>
                                 </div>
                             </div>

@@ -12,6 +12,17 @@
     transition: all 0.16s;
 }
 
+@keyframes slide {
+    0% {
+        transform: translateX(500px);
+    }
+
+
+    100% {
+        transform: translateX(0px);
+    }
+}
+
 .optionSeller:hover {
     color: var(--fontPrimary);
     box-shadow: 5px 5px 5px 0px var(--fontSeccondary);
@@ -32,7 +43,6 @@
     padding-bottom: 1vh;
     width: 80%;
     margin: 10px auto;
-
 }
 
 .contentCount {
@@ -46,7 +56,6 @@
     width: 20px;
     height: 20px;
     cursor: pointer;
-
     transition: 00.2s;
 }
 
@@ -70,7 +79,6 @@
     cursor: pointer;
     padding: 5px 8px;
     text-transform: capitalize;
-
     transition: 00.2s;
 }
 
