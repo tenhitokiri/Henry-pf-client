@@ -47,7 +47,7 @@ const cartReducer = (state = initCartState, action) => {
         let newPrice = parseFloat(payload.price) * parseFloat(payload.itemsToBuy)
         let found = false
         let updatedCartItems = state.cartItems.map(e => {
-          if (e.product_id === payload && e.seller_id === payload.seller_id) {
+          if (e.product_id === payload.product_id && e.seller_id === payload.seller_id) {
             oldQty = parseInt(payload.itemsToBuy)
             oldPrice = parseFloat(payload.price) * parseFloat(oldQty)
             found = true
@@ -93,7 +93,7 @@ const cartReducer = (state = initCartState, action) => {
         let oldPrice = 0.0
         let newPrice = parseFloat(payload.price) * parseFloat(payload.itemsToBuy)
         let updatedCartItems = state.cartItems.map(e => {
-          if (e.product_id === payload && e.seller_id === payload.seller_id) {
+          if (e.product_id === payload.product_id && e.seller_id === payload.seller_id) {
             oldQty = parseInt(payload.itemsToBuy)
             oldPrice = parseFloat(payload.price) * parseFloat(oldQty)
             return {
@@ -133,7 +133,7 @@ const cartReducer = (state = initCartState, action) => {
 
     case CART_ACTIONS.REMOVE_FROM_CART:
       {
-        const productToRemove = state.cartItems.find(product => product.product_id === payload && product.seller_id === payload.seller_id)
+        const productToRemove = state.cartItems.find(product => product.product_id === payload.product_id && product.seller_id === payload.seller_id)
         const { itemsToBuy, price } = productToRemove
         const newTotal = parseFloat(state.totalPrice) - parseFloat(itemsToBuy) * parseFloat(price)
         const updatedCartItems = state.cartItems.filter(product => product.product_id === payload && product.seller_id === payload.seller_id)

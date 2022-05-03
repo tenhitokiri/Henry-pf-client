@@ -150,7 +150,7 @@ const ProductDetail = () => {
                                     <div className="shareon">
                                         <a className="facebook"></a>
                                         <a className="twitter"></a>
-                                        <a class="whatsapp"></a>
+                                        <a className="whatsapp"></a>
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +161,7 @@ const ProductDetail = () => {
                                 <div className={styles.contentPSD}>
                                     <div className={styles.price}>{prodPrice}</div>
                                     <div className={styles.stock}>{stock} available</div>
-                                    <div className={styles.description}>{description ? { description } : sampleText}</div>
+                                    <div className={styles.description}>{description ? description : sampleText}</div>
                                 </div>
                                 <div className={styles.add}>
                                     <div className={styles.box}>

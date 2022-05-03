@@ -32,7 +32,6 @@ function App() {
   const cartList = useSelector(state => state.cart.cartItems)
 
   useEffect(() => {
-    console.log(process.env, "Process")
     dispatch(fetchDetailCategories())
     dispatch(fetchProducts())
 
@@ -57,8 +56,10 @@ function App() {
 
   useEffect(() => {
     if (user_id) {
+      console.log("debe mandar a la DB");
       dispatch(postCartToDB(cartList, user_id))
     }
+    console.log("guardando cart en state");
   }, [cartList]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
