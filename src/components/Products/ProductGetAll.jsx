@@ -21,7 +21,7 @@ const ProductListAll = ({ fetchProducts, productList, loading, error, numberOfPr
     ) : error ? (
         <div>{error}</div>
     ) : (
-        <ProductList productList={productList} />
+        <ProductList productList={activeProducts} />
     )
 
     return (
