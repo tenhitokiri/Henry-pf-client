@@ -13,7 +13,7 @@ const SellerOptions = (
     const user_id = useSelector(state => state.login.login.id)
     const dispatch = useDispatch()
     const [count, setCount] = useState(0);
-    console.log(seller, 'seller detail')
+    //console.log(seller, 'seller detail')
     const addCart = () => {
         if (count !== 0) {
             const payload = {
@@ -23,7 +23,7 @@ const SellerOptions = (
                 seller_id: seller.user_id, seller_name: seller.name,
                 itemsToBuy: count
             }
-
+            console.log(payload, 'payload from modal');
             dispatch(addToCart(payload, user_id))
         } else {
             dispatch(removeFromCart({ product_id }))
