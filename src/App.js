@@ -57,10 +57,10 @@ function App() {
 
   useEffect(() => {
     if (user_id) {
-      console.log("debe mandar a la DB");
+      //console.log("debe mandar a la DB");
       dispatch(postCartToDB(cartList, user_id))
     }
-    console.log("guardando cart en state");
+    //console.log("guardando cart en state");
   }, [cartList]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

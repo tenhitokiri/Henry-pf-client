@@ -254,8 +254,11 @@ export const emptyCart = (userId) => {
             seller_id: 1
         }
         console.log(backendData, "<--- backendData");
-        return axios.delete(`${backendUrl}cart/all/`, userId)
+        const url = `${backendUrl}cart/all/${userId}`;
+        console.log(url, "<--- url");
+        return axios.delete(url)
             .then(response => {
+                console.log(response.data, "<--- response");
                 dispatch(emptyCartSuccess());
             })
             .catch(error => dispatch(fetchCartItemsFailure(error)));

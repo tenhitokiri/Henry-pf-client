@@ -29,7 +29,7 @@ const cartReducer = (state = initCartState, action) => {
 
     case CART_ACTIONS.ADD_TO_CART:
       {
-
+        console.log(payload, "<--- payload from add to cart action>")
         if (payload.itemsToBuy === 0) return state
         if (state.cartItems.length === 0) {
           localStorage.setItem('cart', JSON.stringify([payload]));
@@ -46,36 +46,43 @@ const cartReducer = (state = initCartState, action) => {
         let oldPrice = 0.0
         let newPrice = parseFloat(payload.price) * parseFloat(payload.itemsToBuy)
         let found = false
-        let updatedCartItems = state.cartItems.map(e => {
-          if (e.product_id === payload.product_id && e.seller_id === payload.seller_id) {
+        let updatedCartItems = state.cartItems.map(cartItem => {
+          if (cartItem.product_id === payload.product_id && cartItem.seller_id === payload.seller_id) {
+            console.log(cartItem, "<--- item found>")
             oldQty = parseInt(payload.itemsToBuy)
             oldPrice = parseFloat(payload.price) * parseFloat(oldQty)
             found = true
             return {
-              ...e,
-              itemsToBuy: (parseInt(payload.itemsToBuy) + parseInt(e.itemsToBuy)) > parseInt(payload.stock) ?
+              ...cartItem,
+              itemsToBuy: (parseInt(payload.itemsToBuy) + parseInt(cartItem.itemsToBuy)) > parseInt(payload.stock) ?
                 parseInt(payload.stock) :
-                (parseInt(payload.itemsToBuy) + parseInt(e.itemsToBuy)),
+                (parseInt(payload.itemsToBuy) + parseInt(cartItem.itemsToBuy)),
               unit_price: parseFloat(payload.price)
             }
           }
-          return e
+          return cartItem
         })
 
-        if (!found) updatedCartItems = [...state.cartItems, payload]
+        if (!found) {
+          console.log("no cart items found")
+          updatedCartItems = [...state.cartItems, payload]
+        }
         const newTotal = parseFloat(state.totalPrice) + parseFloat(newPrice) - parseFloat(oldPrice)
         const newQuantity = parseInt(state.numberOfItems) + parseInt(payload.itemsToBuy) - parseInt(oldQty)
-        if (oldQty === 0) {
-          localStorage.setItem('cart', JSON.stringify([...updatedCartItems, payload]));
-          localStorage.setItem('savedCartItems', true);
-          return {
-            ...state,
-            savedOnDB: false,
-            cartItems: [...updatedCartItems, payload],
-            numberOfItems: newQuantity,
-            totalPrice: newTotal
-          }
-        }
+        /* 
+                if (oldQty === 0) {
+                  localStorage.setItem('cart', JSON.stringify([...updatedCartItems, payload]));
+                  localStorage.setItem('savedCartItems', true);
+                  return {
+                    ...state,
+                    savedOnDB: false,
+                    cartItems: [...updatedCartItems, payload],
+                    numberOfItems: newQuantity,
+                    totalPrice: newTotal
+                  }
+                }
+        
+         */
         localStorage.setItem('cart', JSON.stringify([...updatedCartItems]));
         localStorage.setItem('savedCartItems', true);
         return {
