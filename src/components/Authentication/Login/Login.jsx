@@ -90,17 +90,15 @@ export default function Login() {
             <h2 className={styles.loginTitle}>Sign in here</h2>
             <div className={styles.login}>
                 <Link to='/register'><span className={styles.noAccount}>No account? Sign up!</span></Link>
+                <br /><br />
                 <div className={styles.left}>
                     <GoogleLogin
                         clientId={CLIENT_ID_GOOGLE}
-                        buttonText="Log in with Google"
+                        buttonText="Sign in with Google"
                         onSuccess={respuestaGoogle}
                         onFailure={respuestaGoogle}
                         cookiePolicy="single_host_origin"
                 />
-                    <div className={styles.noPasswordBox}>
-                        <Link to='/PasswordRecover'className={styles.noPassword} ><span >Forgot your password?</span></Link>
-                    </div>
                 </div>
                 <div className={styles.center}>
                     <div className={styles.or}>Or</div>
@@ -121,17 +119,18 @@ export default function Login() {
                                 errors.password && (<p>{errors.password}</p>)
                             }
                         </div>
+                        <Link to='/PasswordRecover'className={styles.noPassword} ><span >Forgot your password?</span></Link>
                         <button className={styles.btn} type='submit'>Continue</button>
                     </form>
                 </div>
             </div>
             {
                 error === '401' &&
-                <ModalLoginFailure msgError={'the password or email is invalid'} />
+                <ModalLoginFailure msgError={'The password or email is invalid'} />
             }
             {
                 error === '403' &&
-                <ModalLoginFailure msgError={'you need validate your account first'} />
+                <ModalLoginFailure msgError={'You need validate your account first'} />
             }
             {
                 alert !== '' &&
