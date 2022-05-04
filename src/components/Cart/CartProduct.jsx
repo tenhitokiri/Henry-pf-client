@@ -26,9 +26,8 @@ function CartProduct({ product }) {
         inventoryQty = stock
     }
 
-
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
-    const prodPrice = formatMoney.from(parseInt(price)) || price
+    const prodPrice = formatMoney.from(parseFloat(price)) || price
 
     let newCount = itemsToBuy
     const dispatch = useDispatch()
