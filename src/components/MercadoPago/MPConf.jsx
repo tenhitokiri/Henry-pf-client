@@ -5,6 +5,8 @@ import { emptyCart } from '../../redux'
 import axios from 'axios';
 import { mainPage, backendUrl } from '../../env';
 import { useDispatch } from 'react-redux';
+import styles from './MPConfig.module.css'
+import mercadopago from '../../assets/mercadopago.png'
 
 export default function MPConf() {
     const query = useLocation().search;
@@ -28,12 +30,10 @@ export default function MPConf() {
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
-        <>
-            <div>Youll be redirected...</div>
-            <p>X{collection_id}D</p>
-            <p>{status}</p>
-            <p>{collection_status}</p>
-            <p>buyer id  : {external_reference}</p>
-        </>
+        <div className={styles.container}>
+            <img src={mercadopago} width='200' /><br />
+            <strong>Transaction Status: {status}</strong>
+            <p>You'll be redirected...</p>
+        </div>
     )
 }
