@@ -23,6 +23,8 @@ const AdminPanel = ({ name, email, id }) => {
     const [users, setUsers] = useState(null)            //initial state users
     const [filter, setFilter] = useState([])            //users to map
     const [orders, setOrders] = useState([])
+
+    console.log(users, 'users-------')
     //--------------------------------------------------------------------------
     const products = useSelector(state => state.products.products) //all products
     const [filterProducts, setFilterProducts] = useState(products)
@@ -180,7 +182,7 @@ const AdminPanel = ({ name, email, id }) => {
                                             {
                                                 filterProducts.length > 0 ? (
                                                     filterProducts.map(e => (
-                                                        <tr>
+                                                        <tr key={e.product_id}>
                                                             <td>
                                                                 <span>Product Title: </span>
                                                                 <Link to={'/product/' + e.product_id}>

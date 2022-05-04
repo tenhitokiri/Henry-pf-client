@@ -7,9 +7,9 @@ import UserPanel from './UserPanel'
 const Panels = () => {
   const dataUser = useSelector(state => state.login.login)
   let actualUser = '';  // 'admin' // user // provider // admin
-  if (dataUser.isProvider) actualUser = 'provider'
+  if (dataUser.isProvider === 'true') actualUser = 'provider'
   if (dataUser.isAdmin) actualUser = 'admin';
-  if (!dataUser.isAdmin && !dataUser.isProvider) actualUser = 'user';
+  if (!dataUser.isAdmin && dataUser.isProvider !== 'true') actualUser = 'user';
 
   const [typeUser, setTypeUser] = useState()
 

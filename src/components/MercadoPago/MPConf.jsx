@@ -16,7 +16,6 @@ export default function MPConf() {
     useEffect(() => {
         axios.post(`${backendUrl}mp_confirmation/?external_reference=${external_reference}`)
             .then(res => {
-                console.log(res.data, 'vaciando carrito de mierda')
                 dispatch(emptyCart(external_reference))
             }
             )

@@ -9,6 +9,7 @@ import styles from './Login.module.css'
 import ModalLoginFailure from '../../Modal/ModalLoginFailure'
 import { ValidateEmail } from '../../../utils'
 
+
 function checkErrors(post) {
     let errors = {};
     if (!ValidateEmail(post.email)) {
@@ -84,7 +85,6 @@ export default function Login() {
         };
         console.log(userData, 'soy user data de google');
         localStorage.setItem("user", JSON.stringify(userData));
-        navigate("/");
         return dispatch(loginGoogle(userData));
     };
 

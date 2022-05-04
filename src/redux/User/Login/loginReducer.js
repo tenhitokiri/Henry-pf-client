@@ -60,6 +60,7 @@ const loginReducer = (state = loginState, action) => {
                 email: info.email,
                 isAdmin: info.admin,
                 isProvider: info.provider,
+                permission: 'approved',
                 userGoogleData: [...state.userGoogleData, payload]
             }
         case LOGIN_ACTIONS.ACTION_GET_CREDENTIALS:
