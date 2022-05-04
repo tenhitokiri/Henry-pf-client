@@ -24,7 +24,6 @@ const Nav = () => {
         dispatch(clearFilterCategory())
     }
 
-
     return (
         <div className={styles.background}>
             <div className={styles.container} >

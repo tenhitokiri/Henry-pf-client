@@ -1,3 +1,4 @@
+import CATEGORY_ACTIONS from '../Categories/categoryTypes'
 import CART_ACTIONS from './cartTypes'
 
 const initCartState = {
@@ -229,7 +230,27 @@ const cartReducer = (state = initCartState, action) => {
         error: payload
       }
     }
-
+    case CART_ACTIONS.CHECKOUT_REQUEST:
+      {
+        return {
+          ...state,
+          isLoading: true
+        }
+      }
+    case CART_ACTIONS.CHECKOUT_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload
+      }
+    case CART_ACTIONS.CHECKOUT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: '',
+        cartItems: [],
+        totalPrice: 0.0
+      }
     default: return state
   }
 }

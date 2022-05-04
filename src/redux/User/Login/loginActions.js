@@ -2,7 +2,7 @@ import LOGIN_ACTIONS from './loginTypes';
 import axios from 'axios';
 import { backendUrl } from '../../../env.js';
 import jwt from 'jwt-decode'
-
+import { mainPage } from '../../../env.js';
 const actionLoginRequest = () => {
     return {
         type: LOGIN_ACTIONS.LOGIN_CUSTOMER_INFO
@@ -163,7 +163,11 @@ export const permission = (token) => {
             })
             .catch(error => {
                 const msg = error.message
+                window.localStorage.removeItem('token')
+                window.location.href = mainPage
                 dispatch(permissionFailure(msg))
             })
     }
 }
+
+
