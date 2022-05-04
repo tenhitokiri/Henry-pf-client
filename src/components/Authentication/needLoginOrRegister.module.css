@@ -31,7 +31,7 @@
     background-color: var(--background);
     border-radius: 5px;
     box-shadow: 1px 1px 10px 1px var(--fontSeccondary);
-    width: 30vw;
+    width: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -84,7 +84,6 @@
 }
 
 .buttonSignIn {
-    width: 5vw;
     height: 3vh;
     border: transparent;
     border-radius: 3px;
@@ -104,7 +103,6 @@
 }
 
 .buttonSignUp {
-    width: 5vw;
     height: 3vh;
     border: transparent;
     border-radius: 3px;
@@ -127,5 +125,16 @@
     100% {
         width: 100%;
         height: 100%;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .backgroundModal {
+        width: 70%;
+    }
+}
+@media screen and (max-width: 650px) {
+    .backgroundModal {
+        width: 95%;
     }
 }
