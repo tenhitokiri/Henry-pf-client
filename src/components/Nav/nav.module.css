@@ -118,5 +118,10 @@
     .container {
         justify-content: center;
         margin-top: 10px;
+        margin: 5px;
+    }
+    .link {
+        padding: 0 7px;
+        font-size: 1.1rem;
     }
 }

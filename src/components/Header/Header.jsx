@@ -31,11 +31,23 @@ const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWis
                 {
                     user ? (<div className={styles.logoutContainer}> Hola {user} <input className={styles.btnLogout} type='submit' onClick={() => onLogOut()} value='Logout' /></div>) :
                         <div className={styles.login}>
-                            <Link to='login' className={styles.loginLink}>Login in</Link>
-                            &nbsp; - &nbsp;
-                            <Link to='register' className={styles.registerLink}>Register</Link>
+                            <Link to='login' className={styles.loginLink}>Login in</Link> - <Link to='register' className={styles.registerLink}>Register</Link>
                         </div>
                 }
+                <div className={styles.icons}>
+                    <div className={styles.cart}>
+                        <Link to='/wishlist'>
+                            <FontAwesomeIcon className={styles.icon} icon={faHeart} size="2x" />
+                            {numberOfWishListItems > 0 && <span className={styles.cartItems}>{numberOfWishListItems}</span>}
+                        </Link>
+                    </div>
+                    <div className={styles.cart}>
+                        <Link to='/cart'>
+                            <FontAwesomeIcon className={styles.icon} icon={faCartArrowDown} size="2x" />
+                            {numberOfCartItems > 0 && <span className={styles.cartItems}>{numberOfCartItems}</span>}
+                        </Link>
+                    </div>
+                </div>
             </div>
             <div className={styles.container}>
                 <div className={styles.logoContainer}>
@@ -60,7 +72,11 @@ const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWis
                                 {numberOfCartItems > 0 && <span className={styles.cartItems}>{numberOfCartItems}</span>}
                             </Link>
                         </div>
-                        <FontAwesomeIcon className={styles.icon} icon={faUser} size="2x" />
+                        {
+                            user ? (<div></div>) : (
+                                <FontAwesomeIcon className={styles.icon} icon={faUser} size="2x" />
+                            )
+                        }
                     </div>
                     {
                         user ? (<div className={styles.logoutContainer}> Hola {user} <input className={styles.btnLogout} type='submit' onClick={() => onLogOut()} value='Logout' /></div>) :

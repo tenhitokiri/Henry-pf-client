@@ -124,7 +124,7 @@
 @media screen and (max-width: 650px) {
     .container {
         flex-direction: column;
-        padding-top: 10px;
+        padding-top: 0;
     }
     .logoContainer {
         width: 100%;
@@ -144,6 +144,8 @@
     }
     .loginUserMobile {
         display: block;
+        padding: 10px 15px 0 15px;
+        width: calc(100% - 30px);
     }
     .logoutContainer {
         float: right;
@@ -154,5 +156,11 @@
         font-size: 1rem;
         height: 28px;
         margin-top: 5px;
+    }
+    .login {
+        display: block;
+        justify-content: right;
+        align-items: right;
+        float: right;
     }
 }
