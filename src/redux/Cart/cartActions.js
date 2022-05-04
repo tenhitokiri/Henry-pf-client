@@ -118,7 +118,7 @@ export const postCartToDB = (cartItems, userId) => {
     return dispatch => {
         dispatch(setCartItemsRequest())
         if (userId && cartItems?.length > 0) {
-            console.log("solo pasa si el carrito no esta vacio y tiene un usuario");
+            //console.log("solo pasa si el carrito no esta vacio y tiene un usuario");
             const backendItems = cartItems.map(product => {
                 return {
                     product_id: product.product_id,
@@ -130,7 +130,7 @@ export const postCartToDB = (cartItems, userId) => {
                 buyer_id: userId,
                 products: backendItems
             }
-            console.log(backendData, "carrito para el backend");
+            //console.log(backendData, "carrito para el backend");
             axios.post(`${backendUrl}cart/`, backendData)
                 .then(res => {
                     console.log(res.data, '<--- data added to Cart Backend')
@@ -149,16 +149,15 @@ export const fetchCartItems = (userId) => {
         return axios.get(`${backendUrl}cart/?id=${userId}`)
             .then(response => {
                 const cart = response.data;
-                console.log(cart, '<--- cart from DB');
                 dispatch(fetchCartItemsSuccess(cart));
             })
             .catch(error => dispatch(fetchCartItemsFailure(error.data)));
     };
 }
+
 export const checkOutCart = (buyer) => {
     return dispatch => {
         dispatch(checkoutRequest())
-        console.log(buyer, 'buyer id-----')
         return axios.post(`${backendUrl}movement/prueba`, { buyer: buyer.toString() })
             .then(response => {
 
@@ -194,20 +193,23 @@ export const checkOutCart = (buyer) => {
 export const getCartItems = (userId) => {
     // console.log("getting CartItems")
     const savedCartItems = JSON.parse(localStorage.getItem('savedCartItems')) === true;
-    let cart = [];
+    let cartFromLocalStorage = [];
     if (savedCartItems) {
-        console.log("should find saved cart items");
-        cart = JSON.parse(localStorage.getItem('cart'));
+        //console.log("should find saved cart items");
+        cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
+        //console.log(cartFromLocalStorage, "cart from local storage");
     }
 
     return (dispatch) => {
         if (!userId && savedCartItems) {
-            console.log("saving local cart items to redux");
-            dispatch(setCartItemsSuccess(cart));
+            //console.log("saving local cart items to redux");
+            dispatch(setCartItemsSuccess(cartFromLocalStorage));
+            console.log(cartFromLocalStorage, `cart from local storage for Guest user`);
         }
         if (userId) {
-            console.log(`saving cart items in the database  from user: ${userId} to redux`);
-            return axios.get(`${backendUrl}cart/?id=${userId}`)
+            //console.log(`saving cart items in the database  from user: ${userId} to redux`);
+            //console.log(cartFromLocalStorage, `cart from local storage for user ${userId}`);
+            axios.get(`${backendUrl}cart/?id=${userId}`)
                 .then(response => {
                     let cart = response.data;
                     if (Array.isArray(cart) && cart.length > 0) {
@@ -223,21 +225,64 @@ export const getCartItems = (userId) => {
                                 seller_id: item.seller_id,
                             }
                         })
-                        console.log(cart, "<--- cart from db");
-                        dispatch(setCartItemsSuccess(cart));
-                        localStorage.setItem('cart', JSON.stringify(cart));
+                        //console.log(cart, "<--- cart from db");
+                        cartFromLocalStorage = [...cartFromLocalStorage, ...cart];
+                        //TODO: get rid of duplicate items
+                        const uniq = (list) => {
+                            var seen = {};
+                            return list.filter(function (item) {
+                                return seen.hasOwnProperty(item.seller_id + "" + item.product_id) ? false : (seen[item.seller_id + "" + item.product_id] = true);
+                            });
+                        }
+                        cartFromLocalStorage = uniq(cartFromLocalStorage);
+                        console.log(cartFromLocalStorage, "<--- cart from db after uniq");
+
+                        localStorage.setItem('cart', JSON.stringify(cartFromLocalStorage));
                         localStorage.setItem('savedCartItems', true);
+                        dispatch(setCartItemsSuccess(cartFromLocalStorage))
                     }
                     else {
-                        console.log(cart, "<--- cart from db");
-                        dispatch(setCartItemsSuccess([]))
+                        console.log(cartFromLocalStorage, "<--- cart from db");
                     }
+
                     //dispatch(getCartItemsFromDBSuccess(cart));
                 })
-                .catch(error => {
-                    console.log(error);
-                    dispatch(setCartItemsFailure(error));
-                });
+                .catch(err => {
+                    dispatch(setCartItemsFailure(err))
+                })
+
+            /*             return axios.get(`${backendUrl}cart/?id=${userId}`)
+                            .then(response => {
+                                let cart = response.data;
+                                if (Array.isArray(cart) && cart.length > 0) {
+                                    cart = cart.map(item => {
+                                        return {
+                                            product_id: item.product_id,
+                                            name: item.product.name,
+                                            stock: item.product.stock,
+                                            price: item.product.price,
+                                            image: item.product.images[0],
+                                            rating: item.product.rating,
+                                            itemsToBuy: item.quantity,
+                                            seller_id: item.seller_id,
+                                        }
+                                    })
+                                    console.log(cart, "<--- cart from db");
+                                    //cartFromLocalStorage = [...cartFromLocalStorage, ...cart];
+                                    localStorage.setItem('cart', JSON.stringify(cartFromLocalStorage));
+                                    localStorage.setItem('savedCartItems', true);
+                                    dispatch(setCartItemsSuccess(cartFromLocalStorage))
+                                }
+                                else {
+                                    console.log(cartFromLocalStorage, "<--- cart from db");
+                                }
+            
+                                //dispatch(getCartItemsFromDBSuccess(cart));
+                            })
+                            .catch(error => {
+                                console.log(error);
+                                dispatch(setCartItemsFailure(error));
+                            }); */
         }
     };
 }

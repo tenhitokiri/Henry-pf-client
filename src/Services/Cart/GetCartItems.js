@@ -1,7 +1,8 @@
+
+/* 
 import { setCartItems, fetchCartItems } from '../../redux/Cart/cartActions';
 import { backendUrl } from '../../env';
 import axios from 'axios';
-
 
 export const GetCartItems = (userId) => {
     const savedCartItems = localStorage.getItem('savedCartItems') === true;
@@ -19,7 +20,7 @@ export const GetCartItems = (userId) => {
                 console.log(error);
             });
     }
-
     return fetchCartItems(userId);
 }
 
+ */

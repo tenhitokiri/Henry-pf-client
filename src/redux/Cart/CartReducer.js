@@ -1,4 +1,3 @@
-import CATEGORY_ACTIONS from '../Categories/categoryTypes'
 import CART_ACTIONS from './cartTypes'
 
 const initCartState = {
@@ -30,7 +29,6 @@ const cartReducer = (state = initCartState, action) => {
 
     case CART_ACTIONS.ADD_TO_CART:
       {
-        console.log(payload, "<--- payload from add to cart action>")
         if (payload.itemsToBuy === 0) return state
         if (state.cartItems.length === 0) {
           localStorage.setItem('cart', JSON.stringify([payload]));
@@ -52,7 +50,6 @@ const cartReducer = (state = initCartState, action) => {
         let found = false
         let updatedCartItems = state.cartItems.map(cartItem => {
           if (cartItem.product_id === payload.product_id && cartItem.seller_id === payload.seller_id) {
-            console.log(cartItem, "<--- item found>")
             oldQty = parseInt(payload.itemsToBuy)
             oldPrice = parseFloat(payload.price) * parseFloat(oldQty)
             newQuantity = (parseInt(payload.itemsToBuy) + parseInt(cartItem.itemsToBuy)) > parseInt(payload.stock) ?
@@ -70,7 +67,6 @@ const cartReducer = (state = initCartState, action) => {
         })
 
         if (!found) {
-          console.log("no cart items found")
           updatedCartItems = [...state.cartItems, payload]
           newPrice = parseFloat(payload.price) * parseInt(payload.itemsToBuy)
           newTotalPrice = parseFloat(state.totalPrice) + parseFloat(newPrice)
@@ -79,8 +75,9 @@ const cartReducer = (state = initCartState, action) => {
         }
         else {
           newTotalPrice = parseFloat(state.totalPrice) + parseFloat(newPrice) - parseFloat(oldPrice)
+          newQuantity = parseInt(payload.itemsToBuy) + parseInt(state.numberOfItems)
+
         }
-        //const newQuantity = parseInt(state.numberOfItems) + parseInt(payload.itemsToBuy) - parseInt(oldQty)
         localStorage.setItem('cart', JSON.stringify([...updatedCartItems]));
         localStorage.setItem('savedCartItems', true);
         return {
@@ -97,14 +94,12 @@ const cartReducer = (state = initCartState, action) => {
         let oldQty = 0
         let oldPrice = 0.0
         let newPrice = parseFloat(payload.price) * parseFloat(payload.itemsToBuy)
-        //console.log(payload, "<--- payload to update>");
         let updatedCartItems = state.cartItems.map(e => {
           if (e.product_id === payload.product_id && e.seller_id === payload.seller_id) {
             oldQty = parseInt(e.itemsToBuy)
             oldPrice = parseFloat(e.price) * parseFloat(oldQty)
             const newQuantity = parseInt(payload.itemsToBuy) > e.stock ? e.stock : parseInt(payload.itemsToBuy)
             newPrice = parseFloat(payload.price) * newQuantity
-            console.log(newQuantity, "<--- new quantity>");
             return {
               ...e,
               itemsToBuy: newQuantity,
@@ -138,14 +133,9 @@ const cartReducer = (state = initCartState, action) => {
       {
         const productToRemove = state.cartItems.find(product => product.product_id === payload.product_id && product.seller_id === payload.seller_id)
         const { itemsToBuy, price } = productToRemove
-        console.log(state.cartItems, "<--- cart items>")
-        console.log(productToRemove, "<--- product to remove>")
         const newTotal = parseFloat(state.totalPrice) - parseFloat(itemsToBuy) * parseFloat(price)
-
         const updatedCartItems = state.cartItems.filter(product => !(product.product_id === payload.product_id && product.seller_id === payload.seller_id))
         const newQuantity = parseInt(state.numberOfItems) - parseInt(itemsToBuy)
-
-        console.log(updatedCartItems, "<--- updated cart items>");
         localStorage.setItem('cart', JSON.stringify([...updatedCartItems]));
         localStorage.setItem('savedCartItems', true);
         return {

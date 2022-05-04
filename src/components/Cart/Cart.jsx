@@ -30,6 +30,10 @@ export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount
         emptyCart(user_id)
     }
 
+    const handleChechOut = () => {
+        user_id ? dispatch(checkOutCart(user_id)) : navigate('/need-authenticated')
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.titlePage}>
@@ -46,7 +50,7 @@ export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount
                             <br /><br />
                             Order Total: <span>{prodPrice}</span>
                         </div>
-                        <button onClick={() => { dispatch(checkOutCart(user_id)) }} className={`${styles.buttonSuccess}`}>Proceed to Checkout</button>
+                        <button onClick={handleChechOut} className={`${styles.buttonSuccess}`}>Proceed to Checkout</button>
                         <button className={`${styles.buttonSecondary} ${styles.continue}`} onClick={cleanCartItems}>Empty Cart !</button>
                         <button className={`${styles.buttonSuccess} ${styles.continue}`} onClick={() => { navigate('/products') }}>Continue Shopping</button>
                     </div>

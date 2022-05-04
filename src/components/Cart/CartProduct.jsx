@@ -78,7 +78,7 @@ function CartProduct({ product }) {
                     </Link>
                 </div>
                 <Link className={styles.link} to={`/product/${product_id}`}>
-                    <div className={styles.cardName}>{name}</div> from ({seller_id} {seller_name})
+                    <div className={styles.cardName}>{name}</div> from ({seller_name})
                 </Link>
             </div>
             <div className={styles.cardFooter}>
