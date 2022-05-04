@@ -35,7 +35,8 @@ function CartProduct({ product }) {
         const payload = {
             product_id,
             price,
-            itemsToBuy: newCount
+            itemsToBuy: newCount,
+            seller_id
         }
         dispatch(updateCartItem(payload))
     }

@@ -146,7 +146,7 @@ export const fetchCartItems = (userId) => {
                 console.log(cart, '<--- cart from DB');
                 dispatch(fetchCartItemsSuccess(cart));
             })
-            .catch(error => dispatch(fetchCartItemsFailure(error)));
+            .catch(error => dispatch(fetchCartItemsFailure(error.data)));
     };
 }
 
@@ -248,6 +248,9 @@ export const removeFromCart = (cartItem, userId) => {
 export const emptyCart = (userId) => {
     return dispatch => {
         dispatch(fetchCartItemsRequest());
+        if (!userId) {
+            return dispatch(emptyCartSuccess());
+        }
         const backendData = {
             buyer_id: userId,
             target: "ALL",
