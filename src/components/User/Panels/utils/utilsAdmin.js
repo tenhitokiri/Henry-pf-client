@@ -12,7 +12,7 @@ export const isAdmin = (user_id) => {
 }
 //----------Seller privilege required by seller status
 export const isProvider = (user_id, value) => {
-    if (value === 'Enable') {
+    if (value === 'Enable' || value === 'Disable') {
         axios.patch(backendUrl + 'admin/giveProvider/' + user_id)
             .then(response => {
                 console.log(response.data)
