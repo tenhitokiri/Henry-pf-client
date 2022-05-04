@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ItemsOrdered from './ItemsOrdered/ItemsOrdered';
 import styles from './Panels.module.css'
 import { backendUrl } from '../../../env'
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import {
@@ -9,15 +10,15 @@ import {
     setInactive,
     resetPass,
     isAdmin,
-    isProvider,
+    sellerStatus,
     filterPro,
     sortPro,
     isSelected,
     fetchOrders
 } from './utils/utilsAdmin';
 
-const AdminPanel = ({ name, email }) => {
-    console.log(name, email)
+const AdminPanel = ({ name, email, id }) => {
+    const navigate = useNavigate()
     const [info, setInfo] = useState('myAccountInfo')   //change panels
     const [users, setUsers] = useState(null)            //initial state users
     const [filter, setFilter] = useState([])            //users to map
@@ -37,8 +38,8 @@ const AdminPanel = ({ name, email }) => {
         if (info === 'users') {
             axios(backendUrl + 'dashboard')
                 .then(response => {
-                    setUsers(response.data.filter(e => e.user_id !== 1))
-                    setFilter(response.data.filter(e => e.user_id !== 1))
+                    setUsers(response.data.filter(e => e.user_id !== 1 && e.user_id !== id))
+                    setFilter(response.data.filter(e => e.user_id !== 1 && e.user_id !== id))
                 })
                 .catch((e) => { return console.error })
         }
@@ -51,7 +52,7 @@ const AdminPanel = ({ name, email }) => {
     //------------filters users----------------------------
     const onFilter = ({ target }) => {
         const value = target.value.toLowerCase();
-        users.length > 0 && (value === 'admin' || value === 'provider') ? setFilter(users.filter(e => e[value])) : setFilter(users)
+        users.length > 0 && (value === 'admin') ? setFilter(users.filter(e => e[value])) : value === 'provider' ? setFilter(users.filter(e => e[value] === 'true')) : setFilter(users)
     }
     //------------ search a user
     const [input, setInput] = useState('')
@@ -102,6 +103,13 @@ const AdminPanel = ({ name, email }) => {
                                 )}
                             </li>
                             <li>
+                                {info === 'addCategory' ? (
+                                    <strong>Create category</strong>
+                                ) : (
+                                    <a name='addCategory' onClick={(e) => navigate('/admin/add-category')}>Create category</a>
+                                )}
+                            </li>
+                            <li>
                                 {info === 'users' ? (
                                     <strong>Users</strong>
                                 ) : (
@@ -132,7 +140,7 @@ const AdminPanel = ({ name, email }) => {
                                             <span>Admin user</span>
                                         </span>
                                         <div className={styles.blockContent}>
-                                            <p><a href='#'>Do you want to Sell?</a></p>
+                                            <p><a href='#'></a>welcome super admin</p>
                                         </div>
                                     </div>
                                 </div>
@@ -175,9 +183,9 @@ const AdminPanel = ({ name, email }) => {
                                                         <tr>
                                                             <td>
                                                                 <span>Product Title: </span>
-                                                                <a href='#' name='itemsOrdered' onClick={e => setInfo(e.target.name)}>
+                                                                <Link to={'/product/' + e.product_id}>
                                                                     {e.name}
-                                                                </a>
+                                                                </Link>
                                                             </td>
                                                             <td><span>Date: </span>{e.added.slice(0, 10)}</td>
                                                             <td><span>&nbsp;</span>&nbsp;</td>
@@ -255,14 +263,16 @@ const AdminPanel = ({ name, email }) => {
                         <div className={styles.info}>
                             <form>
                                 <div className={styles.filters}>
+                                    Search user by name/email: &nbsp;
                                     <input
                                         onChange={onSearch}
                                         onKeyUp={onSearch}
                                         onBlur={onSearch}
                                         type='text'
-                                        placeholder='search user by name/email'
+                                        placeholder='Name/email'
                                         value={input}
                                     />
+                                    <div className={styles.br}><br /><br /></div>
                                     Filter by type: &nbsp;
                                     <select onChange={onFilter}>
                                         <option>User</option>
@@ -311,21 +321,18 @@ const AdminPanel = ({ name, email }) => {
                                                     </td>
                                                     <td><span>Provider?: </span>
                                                         {
-                                                            e.provider === true ?
-                                                                <input onChange={() => isProvider(e.user_id)} type='checkbox' value={e.provider} checked />
-                                                                :
-                                                                <input onChange={() => isProvider(e.user_id)} type='checkbox' value={e.provider} />
+                                                            sellerStatus(e.user_id, e.provider)
                                                         }
                                                     </td>
                                                     <td><span>Reset Password: </span><button onClick={() => resetPass(e.email)}>Reset</button></td>
                                                     <td>
                                                         <span>Status: </span>
-                                                        <p>{e.email}</p>
+                                                        <a>{e.email}</a>
                                                     </td>
                                                 </tr>
                                             )))
                                                 :
-                                                <p>no match</p>
+                                                <tr><td><span>no match</span></td></tr>
                                             }
                                             {/* END - BLOCK FOR EACH USER /////////////*/}
                                         </tbody>

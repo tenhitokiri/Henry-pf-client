@@ -112,7 +112,7 @@
     font-weight: 500;
     display: block !important;
 }
-.info select {
+.info select, .info input {
     font-family: 'Work Sans', sans-serif;
     font-weight: 500;
     font-size: 0.9rem;
@@ -120,6 +120,9 @@
     border: 1px solid #ccc;
     border-radius: 4px 0 0 4px;
     width: fit-content;
+}
+.info input {
+    margin-right: 10px;
 }
 .filters {
     float: right;
@@ -139,6 +142,9 @@
 }
 .info button:hover {
     background-color: #dcb003;
+}
+.br {
+    display: none;
 }
 @media screen and (max-width: 1000px) {
     .container {
@@ -172,5 +178,15 @@
         display: inline-block;
         margin-right: 5px;
         font-weight: 500;
+    }
+    .container tr {
+        border-bottom: 2px solid #CCC;
+        padding-bottom: 20px;
+    }
+    .br {
+        display: block;
+    }
+    .filters {
+        text-align: center;
     }
 }

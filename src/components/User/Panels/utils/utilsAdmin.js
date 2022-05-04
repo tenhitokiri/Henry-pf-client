@@ -10,13 +10,47 @@ export const isAdmin = (user_id) => {
         })
         .catch(e => { return console.error })
 }
-//----------Seller privilege
-export const isProvider = (user_id) => {
-    axios.patch(backendUrl + 'admin/giveProvider/' + user_id)
-        .then(response => {
-            console.log(response.data)
-        })
-        .catch(e => { return console.error })
+//----------Seller privilege required by seller status
+export const isProvider = (user_id, value) => {
+    if (value === 'Enable' || value === 'Disable') {
+        axios.patch(backendUrl + 'admin/giveProvider/' + user_id)
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(e => { return console.error })
+    }
+    if (value === 'Rejected') {
+        axios.patch(backendUrl + 'admin/giveProvider/' + user_id + '?rejected=a')
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(e => { return console.error })
+    }
+
+}
+//----------seller status require seller privilege
+export const sellerStatus = (user_id, status) => {
+    return (
+        status === 'true' ?
+            <select onChange={(e) => { isProvider(user_id, e.target.value) }}>
+                <option>Enable</option>
+                <option>Disable</option>
+            </select>
+            : status === 'false' ?
+                <select onChange={(e) => { isProvider(user_id, e.target.value) }}>
+                    <option>Disable</option>
+                </select>
+                : status === 'requested' ?
+                    <select onChange={(e) => { isProvider(user_id, e.target.value) }}>
+                        <option>Requested</option>
+                        <option>Enable</option>
+                        <option>Rejected</option>
+                    </select>
+                    ://status === 'rejected'
+                    <select onChange={(e) => { isProvider(user_id, e.target.value) }}>
+                        <option>Rejected</option>
+                    </select>
+    )
 }
 //-------------Ban user----
 export const setInactive = async (id) => {
@@ -92,8 +126,30 @@ export const isSelected = (element, product_id) => {
         )
     }
 }
-//-------------view products detail
-
+//-------------view sellers this product
+export const viewSeller = (product_id) => {
+    const api = backendUrl + 'product/' + '?product_id=' + product_id
+    axios(api)
+        .then(response => {
+            let sellers = response.data.sellers
+            return (
+                sellers.map(seller => (
+                    <>
+                        <tr key={seller.userId}>
+                            <td>name</td>
+                            <td>stock</td>
+                            <td>price</td>
+                        </tr>
+                        <tr key={seller.userId + 100000}>
+                            <td>{seller.name}</td>
+                            <td>{seller.stock.quantity}</td>
+                            <td>${seller.stock.unit_price}</td>
+                        </tr>
+                    </>
+                ))
+            )
+        })
+}
 //-------------orders
 export const fetchOrders = () => {
     axios(backendUrl + 'movement')

@@ -2,7 +2,7 @@ import LOGIN_ACTIONS from './loginTypes';
 import axios from 'axios';
 import { backendUrl } from '../../../env.js';
 import jwt from 'jwt-decode'
-
+import { mainPage } from '../../../env.js';
 const actionLoginRequest = () => {
     return {
         type: LOGIN_ACTIONS.LOGIN_CUSTOMER_INFO
@@ -120,7 +120,7 @@ const fetchTokenSuccess = (Token) => {
     }
 }
 
-//succes permission
+//success permission
 const permissionRequest = () => {
     return {
         type: LOGIN_ACTIONS.PERMISSION_REQUEST
@@ -155,6 +155,7 @@ export const fetchToken = (tkn) => {
             .catch(error => {
                 const msg = error.message
                 dispatch(actionVerifyFailure(msg))
+                localStorage.removeItem('token')
             })
     }
 }
@@ -173,11 +174,17 @@ export const permission = (token) => {
             }
         })
             .then(response => {
+                console.log(response.data, '<--- permission response>');
                 dispatch(permissionSuccess(data_user))
             })
             .catch(error => {
                 const msg = error.message
+                console.log(msg, '<--- permission error>');
+                window.localStorage.removeItem('token')
+                window.location.href = mainPage
                 dispatch(permissionFailure(msg))
             })
     }
 }
+
+

@@ -1,3 +1,4 @@
+import CATEGORY_ACTIONS from '../Categories/categoryTypes'
 import CART_ACTIONS from './cartTypes'
 
 const initCartState = {
@@ -29,7 +30,7 @@ const cartReducer = (state = initCartState, action) => {
 
     case CART_ACTIONS.ADD_TO_CART:
       {
-
+        console.log(payload, "<--- payload from add to cart action>")
         if (payload.itemsToBuy === 0) return state
         if (state.cartItems.length === 0) {
           localStorage.setItem('cart', JSON.stringify([payload]));
@@ -44,38 +45,42 @@ const cartReducer = (state = initCartState, action) => {
         }
         let oldQty = 0
         let oldPrice = 0.0
-        let newPrice = parseFloat(payload.price) * parseFloat(payload.itemsToBuy)
+        let newPrice = 0.0
+        let newQuantity = 0
+        let newTotalPrice = 0.0
+
         let found = false
-        let updatedCartItems = state.cartItems.map(e => {
-          if (e.product_id === payload && e.seller_id === payload.seller_id) {
+        let updatedCartItems = state.cartItems.map(cartItem => {
+          if (cartItem.product_id === payload.product_id && cartItem.seller_id === payload.seller_id) {
+            console.log(cartItem, "<--- item found>")
             oldQty = parseInt(payload.itemsToBuy)
             oldPrice = parseFloat(payload.price) * parseFloat(oldQty)
+            newQuantity = (parseInt(payload.itemsToBuy) + parseInt(cartItem.itemsToBuy)) > parseInt(payload.stock) ?
+              parseInt(payload.stock) :
+              (parseInt(payload.itemsToBuy) + parseInt(cartItem.itemsToBuy))
+            newPrice = parseFloat(payload.price) * newQuantity
             found = true
             return {
-              ...e,
-              itemsToBuy: (parseInt(payload.itemsToBuy) + parseInt(e.itemsToBuy)) > parseInt(payload.stock) ?
-                parseInt(payload.stock) :
-                (parseInt(payload.itemsToBuy) + parseInt(e.itemsToBuy)),
+              ...cartItem,
+              itemsToBuy: newQuantity,
               unit_price: parseFloat(payload.price)
             }
           }
-          return e
+          return cartItem
         })
 
-        if (!found) updatedCartItems = [...state.cartItems, payload]
-        const newTotal = parseFloat(state.totalPrice) + parseFloat(newPrice) - parseFloat(oldPrice)
-        const newQuantity = parseInt(state.numberOfItems) + parseInt(payload.itemsToBuy) - parseInt(oldQty)
-        if (oldQty === 0) {
-          localStorage.setItem('cart', JSON.stringify([...updatedCartItems, payload]));
-          localStorage.setItem('savedCartItems', true);
-          return {
-            ...state,
-            savedOnDB: false,
-            cartItems: [...updatedCartItems, payload],
-            numberOfItems: newQuantity,
-            totalPrice: newTotal
-          }
+        if (!found) {
+          console.log("no cart items found")
+          updatedCartItems = [...state.cartItems, payload]
+          newPrice = parseFloat(payload.price) * parseInt(payload.itemsToBuy)
+          newTotalPrice = parseFloat(state.totalPrice) + parseFloat(newPrice)
+          newQuantity = parseInt(payload.itemsToBuy) + parseInt(state.numberOfItems)
+
         }
+        else {
+          newTotalPrice = parseFloat(state.totalPrice) + parseFloat(newPrice) - parseFloat(oldPrice)
+        }
+        //const newQuantity = parseInt(state.numberOfItems) + parseInt(payload.itemsToBuy) - parseInt(oldQty)
         localStorage.setItem('cart', JSON.stringify([...updatedCartItems]));
         localStorage.setItem('savedCartItems', true);
         return {
@@ -83,7 +88,7 @@ const cartReducer = (state = initCartState, action) => {
           savedOnDB: false,
           cartItems: updatedCartItems,
           numberOfItems: newQuantity,
-          totalPrice: newTotal
+          totalPrice: newTotalPrice
         }
       }
 
@@ -92,15 +97,17 @@ const cartReducer = (state = initCartState, action) => {
         let oldQty = 0
         let oldPrice = 0.0
         let newPrice = parseFloat(payload.price) * parseFloat(payload.itemsToBuy)
+        //console.log(payload, "<--- payload to update>");
         let updatedCartItems = state.cartItems.map(e => {
-          if (e.product_id === payload && e.seller_id === payload.seller_id) {
-            oldQty = parseInt(payload.itemsToBuy)
-            oldPrice = parseFloat(payload.price) * parseFloat(oldQty)
+          if (e.product_id === payload.product_id && e.seller_id === payload.seller_id) {
+            oldQty = parseInt(e.itemsToBuy)
+            oldPrice = parseFloat(e.price) * parseFloat(oldQty)
+            const newQuantity = parseInt(payload.itemsToBuy) > e.stock ? e.stock : parseInt(payload.itemsToBuy)
+            newPrice = parseFloat(payload.price) * newQuantity
+            console.log(newQuantity, "<--- new quantity>");
             return {
               ...e,
-              itemsToBuy: (parseInt(payload.itemsToBuy) + parseInt(e.itemsToBuy)) > parseInt(payload.stock) ?
-                parseInt(payload.stock) :
-                (parseInt(payload.itemsToBuy) + parseInt(payload.itemsToBuy)),
+              itemsToBuy: newQuantity,
               unit_price: parseFloat(payload.price)
             }
           }
@@ -109,16 +116,12 @@ const cartReducer = (state = initCartState, action) => {
 
         const newTotal = parseFloat(state.totalPrice) + parseFloat(newPrice) - parseFloat(oldPrice)
         const newQuantity = parseInt(state.numberOfItems) + parseInt(payload.itemsToBuy) - parseInt(oldQty)
-        if (oldQty === 0) {
-          localStorage.setItem('cart', JSON.stringify([...updatedCartItems, payload]));
-          localStorage.setItem('savedDBCartItems', true);
-          return {
-            ...state,
-            savedOnDB: false,
-            cartItems: [...updatedCartItems, payload],
-            numberOfItems: newQuantity,
-            totalPrice: newTotal
-          }
+
+        if (payload.itemsToBuy === 0) {
+          updatedCartItems = updatedCartItems.filter(e => {
+            return e.product_id !== payload.product_id && e.seller_id !== payload.seller_id
+          })
+
         }
         localStorage.setItem('cart', JSON.stringify([...updatedCartItems]));
         localStorage.setItem('savedCartItems', true);
@@ -133,11 +136,16 @@ const cartReducer = (state = initCartState, action) => {
 
     case CART_ACTIONS.REMOVE_FROM_CART:
       {
-        const productToRemove = state.cartItems.find(product => product.product_id === payload && product.seller_id === payload.seller_id)
+        const productToRemove = state.cartItems.find(product => product.product_id === payload.product_id && product.seller_id === payload.seller_id)
         const { itemsToBuy, price } = productToRemove
+        console.log(state.cartItems, "<--- cart items>")
+        console.log(productToRemove, "<--- product to remove>")
         const newTotal = parseFloat(state.totalPrice) - parseFloat(itemsToBuy) * parseFloat(price)
-        const updatedCartItems = state.cartItems.filter(product => product.product_id === payload && product.seller_id === payload.seller_id)
+
+        const updatedCartItems = state.cartItems.filter(product => !(product.product_id === payload.product_id && product.seller_id === payload.seller_id))
         const newQuantity = parseInt(state.numberOfItems) - parseInt(itemsToBuy)
+
+        console.log(updatedCartItems, "<--- updated cart items>");
         localStorage.setItem('cart', JSON.stringify([...updatedCartItems]));
         localStorage.setItem('savedCartItems', true);
         return {
@@ -157,7 +165,8 @@ const cartReducer = (state = initCartState, action) => {
           ...state,
           savedOnDB: false,
           cartItems: [],
-          numberOfItems: 0
+          numberOfItems: 0,
+          totalPrice: 0.0
         }
       }
 
@@ -222,7 +231,27 @@ const cartReducer = (state = initCartState, action) => {
         error: payload
       }
     }
-
+    case CART_ACTIONS.CHECKOUT_REQUEST:
+      {
+        return {
+          ...state,
+          isLoading: true
+        }
+      }
+    case CART_ACTIONS.CHECKOUT_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload
+      }
+    case CART_ACTIONS.CHECKOUT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: '',
+        cartItems: [],
+        totalPrice: 0.0
+      }
     default: return state
   }
 }

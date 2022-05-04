@@ -42,10 +42,16 @@ const addToCartSuccess = (payload) => {
     }
 }
 
-const checkoutSuccess = (cart) => {
+
+const checkoutRequest = () => {
+    return {
+        type: CART_ACTIONS.CHECKOUT_REQUEST
+    }
+}
+
+const checkoutSuccess = () => {
     return {
         type: CART_ACTIONS.CHECKOUT_SUCCESS,
-        payload: cart
     }
 }
 
@@ -111,7 +117,8 @@ export const addToCart = (payload) => {
 export const postCartToDB = (cartItems, userId) => {
     return dispatch => {
         dispatch(setCartItemsRequest())
-        if (userId) {
+        if (userId && cartItems?.length > 0) {
+            console.log("solo pasa si el carrito no esta vacio y tiene un usuario");
             const backendItems = cartItems.map(product => {
                 return {
                     product_id: product.product_id,
@@ -123,6 +130,7 @@ export const postCartToDB = (cartItems, userId) => {
                 buyer_id: userId,
                 products: backendItems
             }
+            console.log(backendData, "carrito para el backend");
             axios.post(`${backendUrl}cart/`, backendData)
                 .then(res => {
                     console.log(res.data, '<--- data added to Cart Backend')
@@ -144,22 +152,44 @@ export const fetchCartItems = (userId) => {
                 console.log(cart, '<--- cart from DB');
                 dispatch(fetchCartItemsSuccess(cart));
             })
-            .catch(error => dispatch(fetchCartItemsFailure(error)));
+            .catch(error => dispatch(fetchCartItemsFailure(error.data)));
     };
+}
+export const checkOutCart = (buyer) => {
+    return dispatch => {
+        dispatch(checkoutRequest())
+        console.log(buyer, 'buyer id-----')
+        return axios.post(`${backendUrl}movement/prueba`, { buyer: buyer.toString() })
+            .then(response => {
+
+                if (typeof (response.data) === 'string') {
+                    if (response.data.includes('mercadopago')) {
+                        window.location.href = response.data
+                        //dispatch(checkoutSuccess())
+                    } else {
+                        dispatch(checkoutFailure(response.data))
+                    }
+                } else {
+                    dispatch(checkOutCart(response.data))
+                }
+            })
+            .catch(e => { return console.error })
+    }
 }
 
-export const checkOutCart = (userId, external_reference) => {
-    return (dispatch) => {
-        dispatch(checkoutRequest());
-        return axios.post(`${backendUrl}/mp_confirmation/?external_reference=${external_reference}`)
-            .then(axios.delete(`${backendUrl}/cart/all/${external_reference}`, { body: { id: external_reference } })
-                .then((data) => {
-                    console.log("RESPONSE: ", data)
-                    dispatch(checkoutSuccess(data));
-                })
-                .catch(error => dispatch(checkoutFailure(error))));
-    };
-}
+
+// export const checkOutCart = (userId, external_reference) => {
+//     return (dispatch) => {
+//         dispatch(checkoutRequest());
+//         return axios.post(`${backendUrl}/mp_confirmation/?external_reference=${external_reference}`)
+//             .then(axios.delete(`${backendUrl}/cart/all/${external_reference}`, { body: { id: external_reference } })
+//                 .then((data) => {
+//                     console.log("RESPONSE: ", data)
+//                     dispatch(checkoutSuccess(data));
+//                 })
+//                 .catch(error => dispatch(checkoutFailure(error))));
+//     };
+// }
 
 export const getCartItems = (userId) => {
     // console.log("getting CartItems")
@@ -176,28 +206,33 @@ export const getCartItems = (userId) => {
             dispatch(setCartItemsSuccess(cart));
         }
         if (userId) {
-            console.log(`saving local cart items from user: ${userId} to redux`);
+            console.log(`saving cart items in the database  from user: ${userId} to redux`);
             return axios.get(`${backendUrl}cart/?id=${userId}`)
                 .then(response => {
                     let cart = response.data;
-                    cart = cart.map(item => {
-                        return {
-                            product_id: item.product_id,
-                            name: item.product.name,
-                            stock: item.product.stock,
-                            price: item.product.price,
-                            image: item.product.images[0],
-                            rating: item.product.rating,
-                            itemsToBuy: item.quantity,
-                            seller_id: item.seller_id,
-                        }
-                    })
-                    console.log(cart, "<--- cart from db");
-                    dispatch(setCartItemsSuccess(cart));
-
+                    if (Array.isArray(cart) && cart.length > 0) {
+                        cart = cart.map(item => {
+                            return {
+                                product_id: item.product_id,
+                                name: item.product.name,
+                                stock: item.product.stock,
+                                price: item.product.price,
+                                image: item.product.images[0],
+                                rating: item.product.rating,
+                                itemsToBuy: item.quantity,
+                                seller_id: item.seller_id,
+                            }
+                        })
+                        console.log(cart, "<--- cart from db");
+                        dispatch(setCartItemsSuccess(cart));
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        localStorage.setItem('savedCartItems', true);
+                    }
+                    else {
+                        console.log(cart, "<--- cart from db");
+                        dispatch(setCartItemsSuccess([]))
+                    }
                     //dispatch(getCartItemsFromDBSuccess(cart));
-                    //localStorage.setItem('cart', cart);
-                    //localStorage.setItem('savedCartItems', true);
                 })
                 .catch(error => {
                     console.log(error);
@@ -226,7 +261,8 @@ export const removeFromCart = (cartItem, userId) => {
             target: cartItem.product_id,
             seller_id: cartItem.seller_id
         }
-        console.log(backendData, "<--- backendData");
+        //console.log(backendData, "<--- backendData to delete");
+
         return axios.delete(`${backendUrl}cart/`, { data: backendData })
             .then(response => {
                 dispatch(removeFromCartSuccess(cartItem));
@@ -240,25 +276,25 @@ export const removeFromCart = (cartItem, userId) => {
 export const emptyCart = (userId) => {
     return dispatch => {
         dispatch(fetchCartItemsRequest());
+        if (!userId) {
+            return dispatch(emptyCartSuccess());
+        }
         const backendData = {
             buyer_id: userId,
             target: "ALL",
             seller_id: 1
         }
         console.log(backendData, "<--- backendData");
-        /*         return axios.delete(`${backendUrl}cart/`, { data: backendData })
-                    .then(response => {
-                        dispatch(emptyCartSuccess(cartItem));
-                        dispatch(fetchCartItems(userId));
-                    })
-                    .catch(error => dispatch(fetchCartItemsFailure(error)));
-         */
+        const url = `${backendUrl}cart/all/${userId}`;
+        console.log(url, "<--- url");
+        return axios.delete(url)
+            .then(response => {
+                console.log(response.data, "<--- response");
+                dispatch(emptyCartSuccess());
+            })
+            .catch(error => dispatch(fetchCartItemsFailure(error)));
+        // */
     };
 }
 
 
-export const checkoutRequest = () => {
-    return {
-        type: CART_ACTIONS.CHECKOUT_REQUEST
-    }
-}

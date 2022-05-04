@@ -1,6 +1,6 @@
 import React from 'react'
-import { connect, useSelector } from 'react-redux'
-import { emptyCart } from '../../redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
+import { emptyCart, checkOutCart } from '../../redux'
 import CartProduct from './CartProduct'
 import { FormatMoney } from 'format-money-js';
 import styles from './Cart.module.css'
@@ -8,6 +8,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 
 
 export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount, cartItems, emptyCart }) => {
+    const dispatch = useDispatch()
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(totalPrice)) || totalPrice
     const user_id = useSelector(state => state.login.login.id)
@@ -45,7 +46,7 @@ export const Cart = ({ numberOfItems, totalPrice, discountCoupon, discountAmount
                             <br /><br />
                             Order Total: <span>{prodPrice}</span>
                         </div>
-                        <button className={`${styles.buttonSuccess}`}>Proceed to Checkout</button>
+                        <button onClick={() => { dispatch(checkOutCart(user_id)) }} className={`${styles.buttonSuccess}`}>Proceed to Checkout</button>
                         <button className={`${styles.buttonSecondary} ${styles.continue}`} onClick={cleanCartItems}>Empty Cart !</button>
                         <button className={`${styles.buttonSuccess} ${styles.continue}`} onClick={() => { navigate('/products') }}>Continue Shopping</button>
                     </div>

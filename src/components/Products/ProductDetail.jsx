@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchProductById } from '../../redux/Products/productActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faAngleRight, faAngleLeft, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import { faStar as starReg } from '@fortawesome/free-regular-svg-icons'
 import styles from './productDetail.module.css'
 import ProductCarrousel from '../Carrousel/ProductCarrousel'
 import usePaginate from '../../hooks/usePaginate'
 import { addToCart, addToWL, removeFromWL, removeFromCart } from '../../redux'
 import ModalOptions from './ModalOptions'
+import SellProduct from './SellProduct'
 import { FormatMoney } from 'format-money-js';
 import * as Shareon from "shareon";
 import "shareon/css";
@@ -25,22 +26,28 @@ const ProductDetail = () => {
         stock,
         category_name,
         description,
-        sellers
-    } = useSelector(state => state.products.foundProducts);
+    } = useSelector(state => state.products.foundProducts)
     const dispatch = useDispatch();
     const { id } = useParams()
     const related = useSelector(state => state.products.products).filter(e => { return e.category_name === category_name })
     const loading = useSelector(state => state.products.loading)
     const error = useSelector(state => state.products.error)
+    const isProvider = useSelector(state => state.login.login.isProvider)
+
     const favoriteProducts = useSelector(state => state.wishList.wishListItems)
     const { prevPage, nextPage, items } = usePaginate(related, 5)
     const [render, setRender] = useState(false)
     const [modalOptions, setModalOptions] = useState(false)
+    const [sellerOptions, setSellerOptions] = useState(false)
     const user_id = useSelector(state => state.login.login.id)
 
     useEffect(() => {
         dispatch(fetchProductById(id))
     }, [render])
+
+    useEffect(() => {
+        Shareon.init()
+    });
 
     const image = images || 'https://via.placeholder.com/150'
     const price = featured_seller?.stock?.unit_price;
@@ -108,7 +115,7 @@ const ProductDetail = () => {
             )
     }
 
-    const sampleText = 'El vendedor no incluyó una descripción del producto.'
+    const sampleText = 'The seller did not include a product description.'
 
     return loading ? (
         <div className='App-container'>
@@ -146,11 +153,10 @@ const ProductDetail = () => {
                                     }
                                 </div>
                                 <div className={styles.contentHeaderRight}>
-                                    {Shareon.init()}
                                     <div className="shareon">
                                         <a className="facebook"></a>
                                         <a className="twitter"></a>
-                                        <a class="whatsapp"></a>
+                                        <a className="whatsapp"></a>
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +167,7 @@ const ProductDetail = () => {
                                 <div className={styles.contentPSD}>
                                     <div className={styles.price}>{prodPrice}</div>
                                     <div className={styles.stock}>{stock} available</div>
-                                    <div className={styles.description}>{description ? { description } : sampleText}</div>
+                                    <div className={styles.description}>{description ? description : sampleText}</div>
                                 </div>
                                 <div className={styles.add}>
                                     <div className={styles.box}>
@@ -173,11 +179,26 @@ const ProductDetail = () => {
 
                                     {isFavorite(product_id)}
                                     <button className={styles.buttonOptions} onClick={(e) => { setModalOptions(true) }}>See all buying options</button>
+                                    {isProvider === "true" && <button className={styles.buttonOptions} onClick={(e) => { setSellerOptions(!sellerOptions) }}>Sell This Product</button>}
+                                    <div className="sell"><form action=""></form></div>
                                 </div>
                             </div>
                         </div>
                     }
+                    {
+                        sellerOptions &&
+                        <div className={styles.relatedTitle}>
+                            <SellProduct
+                                setSellerOptions={setSellerOptions}
+                                product_id={product_id}
+                                name={name}
+                                image={images}
+                                rating={rating}
+                            />
+                        </div>
+                    }
                     <div className={styles.relatedTitle}>
+
                         <span>Related Products</span>
                     </div>
                     <div className={styles.related}>

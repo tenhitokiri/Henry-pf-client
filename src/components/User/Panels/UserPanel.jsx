@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
-import ItemsOrdered from './ItemsOrdered/ItemsOrdered';
-import styles from './Panels.module.css'
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isActive, isInactive } from './utils/utilsAdmin';
+import { useSelector } from 'react-redux';
+import styles from './Panels.module.css'
+import ItemsOrdered from './ItemsOrdered/ItemsOrdered';
+import ModalLoginFailure from '../../Modal/ModalLoginFailure'
+import { wantSell, myOrders, returnOrders } from './utils/utilsUser'
 
-const UserPanel = ({ name, email }) => {
+const UserPanel = ({ name, email, user_id }) => {
     const [info, setInfo] = useState('myAccountInfo')
+    const providerInfo = useSelector(state => state.login.login.isProvider)
+    const [wantSellError, setWantSellError] = useState(true)
+    const [orders, setOrders] = useState([])
     const navigate = useNavigate()
 
+    useEffect(() => {
+        info === 'myOrdersInfo' && myOrders(user_id, setOrders)
+    }, [info])
+
+    console.log(orders, 'orders--')
     const updateInfo = (e) => {
         setInfo(e.target.name);
     }
@@ -78,7 +88,14 @@ const UserPanel = ({ name, email }) => {
                                             <span>Buyer user</span>
                                         </span>
                                         <div className={styles.blockContent}>
-                                            <p><a href='#'>Do you want to Sell?</a></p>
+                                            {
+                                                providerInfo === 'requested' ?
+                                                    <p>request provider under evaluation</p>
+                                                    : <>
+                                                        <a href='#' onClick={wantSell(user_id, setWantSellError)}>Do you want to Sell?</a>
+                                                        {!wantSellError && <ModalLoginFailure msgError={'request sent :D'} />}
+                                                    </>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +116,8 @@ const UserPanel = ({ name, email }) => {
                                     </thead>
                                     <tbody>
                                         {/* START - BLOCK FOR EACH ORDER /////////////*/}
-                                        <tr>
+                                        {returnOrders(orders)}
+                                        {/* <tr>
                                             <td>
                                                 <span>Order: </span>
                                                 <a href='#' name='itemsOrdered' onClick={e => updateInfo(e)}>
@@ -112,7 +130,7 @@ const UserPanel = ({ name, email }) => {
                                             <td>
                                                 <span>Status: </span><a href='#' name='itemsOrdered' onClick={e => updateInfo(e)}>Pending</a>
                                             </td>
-                                        </tr>
+                                        </tr> */}
                                         {/* END - BLOCK FOR EACH ORDER /////////////*/}
                                     </tbody>
                                 </table>

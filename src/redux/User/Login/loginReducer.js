@@ -75,9 +75,18 @@ const loginReducer = (state = loginState, action) => {
             }
         case LOGIN_ACTIONS.ACTION_VERIFY_FAILURE:
             return {
-                ...state,
+                name: '',
+                id: "",
+                email: '',
+                isAdmin: false,
+                isProvider: false,
+                userGoogleData: [],
+                userCredentials: [],
+                expiresAt: "",
+                issuedAt: "",
                 loading: false,
-                error: payload
+                error: payload,
+                permission: 'denied'
             }
         case LOGIN_ACTIONS.FETCH_TOKEN_SUCCESS:
             {
