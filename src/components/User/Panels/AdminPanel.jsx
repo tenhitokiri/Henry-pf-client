@@ -263,14 +263,16 @@ const AdminPanel = ({ name, email, id }) => {
                         <div className={styles.info}>
                             <form>
                                 <div className={styles.filters}>
+                                    Search user by name/email: &nbsp;
                                     <input
                                         onChange={onSearch}
                                         onKeyUp={onSearch}
                                         onBlur={onSearch}
                                         type='text'
-                                        placeholder='search user by name/email'
+                                        placeholder='Name/email'
                                         value={input}
                                     />
+                                    <div className={styles.br}><br /><br /></div>
                                     Filter by type: &nbsp;
                                     <select onChange={onFilter}>
                                         <option>User</option>
