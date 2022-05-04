@@ -29,7 +29,7 @@ const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWis
         <>
             <div className={styles.loginUserMobile}>
                 {
-                    user ? (<div className={styles.logoutContainer}> Hola {user} <input className={styles.btnLogout} type='submit' onClick={() => onLogOut()} value='Logout' /></div>) :
+                    user ? (<div className={styles.logoutContainer}> Hola <Link to={'/panels'}>{user}</Link> <input className={styles.btnLogout} type='submit' onClick={() => onLogOut()} value='Logout' /></div>) :
                         <div className={styles.login}>
                             <Link to='login' className={styles.loginLink}>Login in</Link> - <Link to='register' className={styles.registerLink}>Register</Link>
                         </div>
@@ -79,7 +79,7 @@ const Header = ({ getCartItems, numberOfCartItems, numberOfProducts, numberOfWis
                         }
                     </div>
                     {
-                        user ? (<div className={styles.logoutContainer}> Hola {user} <input className={styles.btnLogout} type='submit' onClick={() => onLogOut()} value='Logout' /></div>) :
+                        user ? (<div className={styles.logoutContainer}> Hola <Link to={'/panels'}>{user}</Link> <input className={styles.btnLogout} type='submit' onClick={() => onLogOut()} value='Logout' /></div>) :
                             <div className={styles.login}>
                                 <Link to='login' className={styles.loginLink}>Login in</Link>
                                 <Link to='register' className={styles.registerLink}>Register</Link>
