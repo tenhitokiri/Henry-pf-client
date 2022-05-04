@@ -9,37 +9,32 @@ const actionLoginRequest = () => {
     }
 }
 
+
 const actionLoginSuccess = (Customers) => {
     return {
         type: LOGIN_ACTIONS.ACTION_LOGIN_SUCCESS,
         payload: Customers
     }
 }
-
 const actionLoginFailure = (error) => {
     return {
         type: LOGIN_ACTIONS.ACTION_LOGIN_FAILURE,
         payload: error
     }
 }
-// ------------------------------------
-/* export const addLOGIN = (Customer) => {
-    return (dispatch) => {
-        dispatch(actionLoginRequest())
-        let api = backendUrl + 'auth/register'
-        console.log(`Login a customer: ${api}`)
-        axios.post(api, Customer)
-            .then(response => {
-                console.log(response)
-                dispatch(actionLoginSuccess(response))
-            })
-            .catch(error => {
-                const msg = error.message
-                dispatch(actionLoginFailure(msg))
-            })
+
+const actionPasswordRecoverSuccess = (info) => {
+    return {
+        type: LOGIN_ACTIONS.PASSWORD_RECOVER_SUCCESS,
+        payload: info
     }
 }
- *///--------------------------------------
+const actionPasswordRecoverFailure = (error) => {
+    return {
+        type: LOGIN_ACTIONS.PASSWORD_RECOVER_FAILURE,
+        payload: error
+    }
+}
 export const signIn = (Customers) => {
     return dispatch => {
         dispatch(actionLoginRequest())
@@ -56,6 +51,24 @@ export const signIn = (Customers) => {
             })
     }
 }
+export const passwordRecover = (email) => {
+    return dispatch => {
+        dispatch(actionLoginRequest())
+        let api = backendUrl + 'auth/forgot'
+        axios.post(api, email)
+            .then(response => {
+                console.log(response, "email")
+                dispatch(actionPasswordRecoverSuccess(response.data))
+            })
+            .catch(error => {
+                console.log(error)
+                const msg = error.message
+                dispatch(actionPasswordRecoverFailure(msg))
+            })
+    }
+}
+
+
 
 export const getUserCredentials = () => {
     return async (dispatch) => {
@@ -68,7 +81,8 @@ export const getUserCredentials = () => {
 };
 
 export const loginGoogle = (userData) => async (dispatch) => {
-    const data = await axios.post("http://localhost:5000/auth/loginGoogle", userData);
+    let api = backendUrl + 'auth/loginGoogle'
+    const data = await axios.post(api, userData);
     return dispatch({
         type: LOGIN_ACTIONS.ACTION_LOGIN_GOOGLE,
         payload: data,
@@ -106,7 +120,7 @@ const fetchTokenSuccess = (Token) => {
     }
 }
 
-//succes permission
+//success permission
 const permissionRequest = () => {
     return {
         type: LOGIN_ACTIONS.PERMISSION_REQUEST
@@ -141,6 +155,7 @@ export const fetchToken = (tkn) => {
             .catch(error => {
                 const msg = error.message
                 dispatch(actionVerifyFailure(msg))
+                localStorage.removeItem('token')
             })
     }
 }
@@ -159,10 +174,12 @@ export const permission = (token) => {
             }
         })
             .then(response => {
+                console.log(response.data, '<--- permission response>');
                 dispatch(permissionSuccess(data_user))
             })
             .catch(error => {
                 const msg = error.message
+                console.log(msg, '<--- permission error>');
                 window.localStorage.removeItem('token')
                 window.location.href = mainPage
                 dispatch(permissionFailure(msg))
