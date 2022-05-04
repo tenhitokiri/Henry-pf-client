@@ -141,8 +141,10 @@ const cartReducer = (state = initCartState, action) => {
         console.log(state.cartItems, "<--- cart items>")
         console.log(productToRemove, "<--- product to remove>")
         const newTotal = parseFloat(state.totalPrice) - parseFloat(itemsToBuy) * parseFloat(price)
-        const updatedCartItems = state.cartItems.filter(product => (product.product_id !== payload.product_id && product.seller_id !== payload.seller_id))
+
+        const updatedCartItems = state.cartItems.filter(product => !(product.product_id === payload.product_id && product.seller_id === payload.seller_id))
         const newQuantity = parseInt(state.numberOfItems) - parseInt(itemsToBuy)
+
         console.log(updatedCartItems, "<--- updated cart items>");
         localStorage.setItem('cart', JSON.stringify([...updatedCartItems]));
         localStorage.setItem('savedCartItems', true);
