@@ -95,7 +95,7 @@ const ProductForm = () => {
         e.preventDefault();
         dispatch(addStock(stock))
         dispatch(fetchProducts())
-        navigate('/add-produc/done')
+        navigate('/add-product/done')
     }
     const onPrice = ({ target }) => {
         const { value } = target
@@ -131,7 +131,7 @@ const ProductForm = () => {
             <div className={styles.container} >
                 <form id='formOne' className={styles.form} autoComplete="off" onSubmit={onSubmit}>
                     <div className={styles.formContent}>
-                    <div className={styles.leftContainer}>
+                        <div className={styles.leftContainer}>
                             {
                                 !imageError && <img alt='' className={styles.img} src={data.imgOnScreen} />
                             }
@@ -152,7 +152,7 @@ const ProductForm = () => {
                         </div>
                         <div className={styles.rightContainer}>
                             <div className={styles.catName}>
-                            <span className={styles.labels}>Product Name</span>
+                                <span className={styles.labels}>Product Name</span>
                                 <Inputs
                                     error={nameError}
                                     setError={setNameError}

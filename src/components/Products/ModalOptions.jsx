@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import styles from './modalOptions.module.css'
 import { orderBy } from '../../utils'
 import SellerOptions from './SellerOptions'
@@ -7,10 +7,6 @@ import SellerOptions from './SellerOptions'
 const ModalOptions = ({ modalOptions, product_id, name, image }) => {
 
     const buyingOptions = useSelector(state => state.products.foundProducts.sellers).sort((a, b) => orderBy(a.stock.unit_price, b.stock.unit_price)).filter(e => { return e.stock.quantity > 0 })
-
-    //console.log(buyingOptions, '<----buyingSort')
-
-
 
     return (
         <div className={styles.backgroundModal}>
