@@ -125,7 +125,7 @@ export default function Register() {
                 </form>
                 <GoogleLogin
                         clientId={CLIENT_ID_GOOGLE}
-                        buttonText="Log in with Google"
+                        buttonText="Sign up with Google"
                         onSuccess={respuestaGoogle}
                         onFailure={respuestaGoogle}
                         cookiePolicy="single_host_origin"
