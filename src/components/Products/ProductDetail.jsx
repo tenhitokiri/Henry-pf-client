@@ -108,7 +108,7 @@ const ProductDetail = () => {
             )
     }
 
-    const sampleText = 'El vendedor no incluyó una descripción del producto.'
+    const sampleText = 'The seller did not include a product description.'
 
     return loading ? (
         <div className='App-container'>

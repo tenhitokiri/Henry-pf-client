@@ -29,7 +29,7 @@ const Nav = () => {
         <div className={styles.background}>
             <div className={styles.container} >
                 <NavLink className={styles.link} to={'/'}>Home</NavLink>
-                <NavLink className={styles.link} to={'/products'}>Featured Products</NavLink>
+                <NavLink className={styles.link} to={'/products'}>Products</NavLink>
                 <label className={styles.label} onClick={onClick}>Categories
                     {
                         toggle &&
