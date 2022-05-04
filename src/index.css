@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap');
 
+html {
+  height: 100%;
+}
+
+html, body {
+  min-height: 100% !important;
+  height: 100%;
+}
 
 :root {
   --background: #F9C801;

@@ -33,7 +33,7 @@ const Home = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             nextFtPagined()
-        }, 3000);
+        }, 8000);
         return () => {
             clearTimeout(timer);
         }
@@ -60,7 +60,7 @@ const Home = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             nextLtPagined()
-        }, 3000);
+        }, 8000);
         return () => {
             clearTimeout(timer);
         }

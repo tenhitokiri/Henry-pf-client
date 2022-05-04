@@ -42,10 +42,16 @@ const addToCartSuccess = (payload) => {
     }
 }
 
-const checkoutSuccess = (cart) => {
+
+const checkoutRequest = () => {
+    return {
+        type: CART_ACTIONS.CHECKOUT_REQUEST
+    }
+}
+
+const checkoutSuccess = () => {
     return {
         type: CART_ACTIONS.CHECKOUT_SUCCESS,
-        payload: cart
     }
 }
 
@@ -149,19 +155,41 @@ export const fetchCartItems = (userId) => {
             .catch(error => dispatch(fetchCartItemsFailure(error.data)));
     };
 }
+export const checkOutCart = (buyer) => {
+    return dispatch => {
+        dispatch(checkoutRequest())
+        console.log(buyer, 'buyer id-----')
+        return axios.post(`${backendUrl}movement/prueba`, { buyer: buyer.toString() })
+            .then(response => {
 
-export const checkOutCart = (userId, external_reference) => {
-    return (dispatch) => {
-        dispatch(checkoutRequest());
-        return axios.post(`${backendUrl}/mp_confirmation/?external_reference=${external_reference}`)
-            .then(axios.delete(`${backendUrl}/cart/all/${external_reference}`, { body: { id: external_reference } })
-                .then((data) => {
-                    console.log("RESPONSE: ", data)
-                    dispatch(checkoutSuccess(data));
-                })
-                .catch(error => dispatch(checkoutFailure(error))));
-    };
+                if (typeof (response.data) === 'string') {
+                    if (response.data.includes('mercadopago')) {
+                        window.location.href = response.data
+                        //dispatch(checkoutSuccess())
+                    } else {
+                        dispatch(checkoutFailure(response.data))
+                    }
+                } else {
+                    dispatch(checkOutCart(response.data))
+                }
+            })
+            .catch(e => { return console.error })
+    }
 }
+
+
+// export const checkOutCart = (userId, external_reference) => {
+//     return (dispatch) => {
+//         dispatch(checkoutRequest());
+//         return axios.post(`${backendUrl}/mp_confirmation/?external_reference=${external_reference}`)
+//             .then(axios.delete(`${backendUrl}/cart/all/${external_reference}`, { body: { id: external_reference } })
+//                 .then((data) => {
+//                     console.log("RESPONSE: ", data)
+//                     dispatch(checkoutSuccess(data));
+//                 })
+//                 .catch(error => dispatch(checkoutFailure(error))));
+//     };
+// }
 
 export const getCartItems = (userId) => {
     // console.log("getting CartItems")
@@ -270,8 +298,3 @@ export const emptyCart = (userId) => {
 }
 
 
-export const checkoutRequest = () => {
-    return {
-        type: CART_ACTIONS.CHECKOUT_REQUEST
-    }
-}

@@ -1,8 +1,10 @@
 // import axios from 'axios';
 import React, { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router';
-import { checkOutCart } from '../../redux'
-
+import { useLocation } from 'react-router';
+import { emptyCart } from '../../redux'
+import axios from 'axios';
+import { mainPage, backendUrl } from '../../env';
+import { useDispatch } from 'react-redux';
 
 export default function MPConf() {
     const query = useLocation().search;
@@ -10,44 +12,28 @@ export default function MPConf() {
     const collection_status = new URLSearchParams(query).get("collection_status");
     const status = new URLSearchParams(query).get("status");
     const external_reference = new URLSearchParams(query).get("external_reference");
-
-    const navigate = useNavigate();
-
+    const dispatch = useDispatch()
     useEffect(() => {
-        checkOutCart();
-
-        /* const deleteCart = async () => {
-
-            //await axios.post(`http://localhost:5000/mp_confirmation/?external_reference=${external_reference}`)
-
-            await axios.delete(`http://localhost:5000/cart/all/${external_reference}`, { body: { id: external_reference } })
-                .then((data) => {
-                    console.log("RESPONSE: ", data)
-                })
-        }
-
-        deleteCart()
-            .then()
-            .catch(console.log)
- */
+        axios.post(`${backendUrl}mp_confirmation/?external_reference=${external_reference}`)
+            .then(res => {
+                console.log(res.data, 'vaciando carrito de mierda')
+                dispatch(emptyCart(external_reference))
+            }
+            )
+            .catch(e => console.error)
 
         setTimeout(() => {
-            navigate('/')
+            window.location.href = mainPage
         }, 5000)
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
-
-
             <div>Youll be redirected...</div>
-
             <p>X{collection_id}D</p>
             <p>{status}</p>
             <p>{collection_status}</p>
             <p>buyer id  : {external_reference}</p>
-
-
         </>
     )
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ItemsOrdered from './ItemsOrdered/ItemsOrdered';
 import styles from './Panels.module.css'
 import { backendUrl } from '../../../env'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import {
@@ -17,7 +17,8 @@ import {
     fetchOrders
 } from './utils/utilsAdmin';
 
-const AdminPanel = ({ name, email }) => {
+const AdminPanel = ({ name, email, id }) => {
+    const navigate = useNavigate()
     const [info, setInfo] = useState('myAccountInfo')   //change panels
     const [users, setUsers] = useState(null)            //initial state users
     const [filter, setFilter] = useState([])            //users to map
@@ -37,8 +38,8 @@ const AdminPanel = ({ name, email }) => {
         if (info === 'users') {
             axios(backendUrl + 'dashboard')
                 .then(response => {
-                    setUsers(response.data.filter(e => e.user_id !== 1))
-                    setFilter(response.data.filter(e => e.user_id !== 1))
+                    setUsers(response.data.filter(e => e.user_id !== 1 && e.user_id !== id))
+                    setFilter(response.data.filter(e => e.user_id !== 1 && e.user_id !== id))
                 })
                 .catch((e) => { return console.error })
         }
@@ -102,6 +103,13 @@ const AdminPanel = ({ name, email }) => {
                                 )}
                             </li>
                             <li>
+                                {info === 'addCategory' ? (
+                                    <strong>Create category</strong>
+                                ) : (
+                                    <a name='addCategory' onClick={(e) => navigate('/admin/add-category')}>Create category</a>
+                                )}
+                            </li>
+                            <li>
                                 {info === 'users' ? (
                                     <strong>Users</strong>
                                 ) : (
@@ -132,7 +140,7 @@ const AdminPanel = ({ name, email }) => {
                                             <span>Admin user</span>
                                         </span>
                                         <div className={styles.blockContent}>
-                                            <p><a href='#'>Do you want to Sell?</a></p>
+                                            <p><a href='#'></a>welcome super admin</p>
                                         </div>
                                     </div>
                                 </div>
@@ -175,7 +183,7 @@ const AdminPanel = ({ name, email }) => {
                                                         <tr>
                                                             <td>
                                                                 <span>Product Title: </span>
-                                                                <Link to={'/admin/product-detail'}>
+                                                                <Link to={'/product/' + e.product_id}>
                                                                     {e.name}
                                                                 </Link>
                                                             </td>
@@ -255,14 +263,16 @@ const AdminPanel = ({ name, email }) => {
                         <div className={styles.info}>
                             <form>
                                 <div className={styles.filters}>
+                                    Search user by name/email: &nbsp;
                                     <input
                                         onChange={onSearch}
                                         onKeyUp={onSearch}
                                         onBlur={onSearch}
                                         type='text'
-                                        placeholder='search user by name/email'
+                                        placeholder='Name/email'
                                         value={input}
                                     />
+                                    <div className={styles.br}><br /><br /></div>
                                     Filter by type: &nbsp;
                                     <select onChange={onFilter}>
                                         <option>User</option>
