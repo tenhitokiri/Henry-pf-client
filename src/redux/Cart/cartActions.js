@@ -111,7 +111,8 @@ export const addToCart = (payload) => {
 export const postCartToDB = (cartItems, userId) => {
     return dispatch => {
         dispatch(setCartItemsRequest())
-        if (userId) {
+        if (userId && cartItems?.length > 0) {
+            console.log("solo pasa si el carrito no esta vacio y tiene un usuario");
             const backendItems = cartItems.map(product => {
                 return {
                     product_id: product.product_id,
@@ -123,6 +124,7 @@ export const postCartToDB = (cartItems, userId) => {
                 buyer_id: userId,
                 products: backendItems
             }
+            console.log(backendData, "carrito para el backend");
             axios.post(`${backendUrl}cart/`, backendData)
                 .then(res => {
                     console.log(res.data, '<--- data added to Cart Backend')
@@ -176,28 +178,33 @@ export const getCartItems = (userId) => {
             dispatch(setCartItemsSuccess(cart));
         }
         if (userId) {
-            console.log(`saving local cart items from user: ${userId} to redux`);
+            console.log(`saving cart items in the database  from user: ${userId} to redux`);
             return axios.get(`${backendUrl}cart/?id=${userId}`)
                 .then(response => {
                     let cart = response.data;
-                    cart = cart.map(item => {
-                        return {
-                            product_id: item.product_id,
-                            name: item.product.name,
-                            stock: item.product.stock,
-                            price: item.product.price,
-                            image: item.product.images[0],
-                            rating: item.product.rating,
-                            itemsToBuy: item.quantity,
-                            seller_id: item.seller_id,
-                        }
-                    })
-                    console.log(cart, "<--- cart from db");
-                    dispatch(setCartItemsSuccess(cart));
-
+                    if (Array.isArray(cart) && cart.length > 0) {
+                        cart = cart.map(item => {
+                            return {
+                                product_id: item.product_id,
+                                name: item.product.name,
+                                stock: item.product.stock,
+                                price: item.product.price,
+                                image: item.product.images[0],
+                                rating: item.product.rating,
+                                itemsToBuy: item.quantity,
+                                seller_id: item.seller_id,
+                            }
+                        })
+                        console.log(cart, "<--- cart from db");
+                        dispatch(setCartItemsSuccess(cart));
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        localStorage.setItem('savedCartItems', true);
+                    }
+                    else {
+                        console.log(cart, "<--- cart from db");
+                        dispatch(setCartItemsSuccess([]))
+                    }
                     //dispatch(getCartItemsFromDBSuccess(cart));
-                    //localStorage.setItem('cart', cart);
-                    //localStorage.setItem('savedCartItems', true);
                 })
                 .catch(error => {
                     console.log(error);
@@ -226,7 +233,8 @@ export const removeFromCart = (cartItem, userId) => {
             target: cartItem.product_id,
             seller_id: cartItem.seller_id
         }
-        console.log(backendData, "<--- backendData");
+        //console.log(backendData, "<--- backendData to delete");
+
         return axios.delete(`${backendUrl}cart/`, { data: backendData })
             .then(response => {
                 dispatch(removeFromCartSuccess(cartItem));
@@ -246,13 +254,15 @@ export const emptyCart = (userId) => {
             seller_id: 1
         }
         console.log(backendData, "<--- backendData");
-        /*         return axios.delete(`${backendUrl}cart/`, { data: backendData })
-                    .then(response => {
-                        dispatch(emptyCartSuccess(cartItem));
-                        dispatch(fetchCartItems(userId));
-                    })
-                    .catch(error => dispatch(fetchCartItemsFailure(error)));
-         */
+        const url = `${backendUrl}cart/all/${userId}`;
+        console.log(url, "<--- url");
+        return axios.delete(url)
+            .then(response => {
+                console.log(response.data, "<--- response");
+                dispatch(emptyCartSuccess());
+            })
+            .catch(error => dispatch(fetchCartItemsFailure(error)));
+        // */
     };
 }
 

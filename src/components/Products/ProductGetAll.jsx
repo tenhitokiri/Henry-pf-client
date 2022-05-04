@@ -11,6 +11,9 @@ const ProductListAll = ({ fetchProducts, productList, loading, error, numberOfPr
         }
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+    const activeProducts = productList.filter(product => product.approved)
+    //console.log(activeProducts, "<--- activeProducts");
+
     const productMarkup = loading ? (
         <div className='App-container'>
             <div className="loader"></div>
@@ -18,7 +21,7 @@ const ProductListAll = ({ fetchProducts, productList, loading, error, numberOfPr
     ) : error ? (
         <div>{error}</div>
     ) : (
-        <ProductList productList={productList} />
+        <ProductList productList={activeProducts} />
     )
 
     return (
