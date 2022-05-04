@@ -12,6 +12,12 @@ const wishListReducer = (state = initWishListState, action) => {
     switch (type) {
         case WISH_LIST_ACTIONS.ADD_TO_WISH_LIST:
             {
+                const {
+                    product_id, name,
+                    stock, price,
+                    image, rating, seller_id
+                } = payload
+
                 if (state.wishListItems.length === 0) {
                     localStorage.setItem('wishList', JSON.stringify([payload]));
                     localStorage.setItem('savedWishListItems', true);
@@ -21,39 +27,47 @@ const wishListReducer = (state = initWishListState, action) => {
                         numberOfItems: 1,
                     }
                 }
-                const foundWishListItem = state.wishListItems.find(item => item.product_id === payload.product_id);
-
-                if (foundWishListItem) {
-                    return state
+                let found = false
+                let updatedWishListItems = state.wishListItems.map(e => {
+                    if (e.product_id === product_id && e.seller_id === seller_id) {
+                        found = true
+                        return {
+                            ...e,
+                            itemsToBuy: (parseInt(e.itemsToBuy) + 1) > parseInt(stock) ?
+                                parseInt(stock) :
+                                (parseInt(e.itemsToBuy) + 1),
+                            unit_price: parseFloat(price)
+                        }
+                    }
+                    return e
+                })
+                if (!found) {
+                    updatedWishListItems = [...state.wishListItems, payload]
                 }
-                localStorage.setItem('wishList', JSON.stringify([...state.wishListItems, payload]));
+                localStorage.setItem('wishList', JSON.stringify(updatedWishListItems));
                 localStorage.setItem('savedWishListItems', true);
                 return {
                     ...state,
-                    wishListItems: [...state.wishListItems, payload],
-                    numberOfItems: state.numberOfItems + 1,
+                    wishListItems: updatedWishListItems,
+                    numberOfItems: updatedWishListItems.length,
                 }
             }
 
         case WISH_LIST_ACTIONS.UPDATE_TO_WISH_LIST:
             {
-                const updatedWishListItems = state.wishListItems.map(product => {
-                    const {
-                        product_id, name,
-                        inventoryQty,
-                        price, image,
-                    } = product
-                    if (product_id === payload.product_id) {
-                        const updatedProd = {
-                            product_id, name,
-                            inventoryQty,
-                            price, image, itemsToBuy: payload.itemsToBuy
+                const updatedWishListItems = state.wishListItems.map(e => {
+                    if (e.product_id === payload.product_id && e.seller_id === payload.seller_id) {
+                        return {
+                            ...e,
+                            itemsToBuy: (parseInt(e.itemsToBuy) + 1) > parseInt(payload.stock) ?
+                                parseInt(payload.stock) :
+                                (parseInt(e.itemsToBuy) + 1),
+                            unit_price: parseFloat(payload.price)
                         }
-                        return updatedProd
                     }
-                    return product
-                }
-                )
+                    return e
+                })
+
                 localStorage.setItem('wishList', JSON.stringify([...updatedWishListItems]));
                 localStorage.setItem('savedWishListItems', true);
                 return {
@@ -64,7 +78,7 @@ const wishListReducer = (state = initWishListState, action) => {
 
         case WISH_LIST_ACTIONS.REMOVE_FROM_WISH_LIST:
             {
-                const updatedWishListItems = state.wishListItems.filter(product => product.product_id !== payload.product_id)
+                const updatedWishListItems = state.wishListItems.filter(e => e.product_id === payload.product_id && e.seller_id === payload.seller_id)
                 localStorage.setItem('wishList', JSON.stringify([...updatedWishListItems]));
                 localStorage.setItem('savedWishListItems', true);
                 return {

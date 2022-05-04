@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 import { addToCart } from '../../redux'
 import WishListProduct from './WlProduct'
 import styles from './WishList.module.css'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 export const Wishlist = ({ numberOfWishListItems, wishListItems }) => {
     //const [cart, setCart] = useLocalStorage('cart', '');
+    const navigate = useNavigate()
 
     const listMarkup = wishListItems.length > 0 ? (wishListItems.map(product => (
         <WishListProduct key={product.id} product={product} />
@@ -33,7 +34,8 @@ export const Wishlist = ({ numberOfWishListItems, wishListItems }) => {
             <div className={styles.productList}>
                 {listMarkup}
                 {
-                    listMarkup.length > 0 ? <button className={`${styles.buttonSuccess} ${styles.continue}`}>Continue Shopping</button> :
+                    listMarkup.length > 0 ? <button className={`${styles.buttonSuccess} ${styles.continue}`} onClick={() => { navigate('/products') }}>Continue Shopping</button>
+                        :
                         <div></div>
                 }
             </div>

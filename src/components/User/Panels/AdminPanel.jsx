@@ -1,16 +1,64 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ItemsOrdered from './ItemsOrdered/ItemsOrdered';
 import styles from './Panels.module.css'
 import { backendUrl } from '../../../env'
+import { Link } from 'react-router-dom';
 import axios from 'axios'
+import { useSelector } from 'react-redux'
+import {
+    setActive,
+    setInactive,
+    resetPass,
+    isAdmin,
+    sellerStatus,
+    filterPro,
+    sortPro,
+    isSelected,
+    fetchOrders
+} from './utils/utilsAdmin';
 
 const AdminPanel = ({ name, email }) => {
-    const [info, setInfo] = useState('myAccountInfo')
-
-
-    const updateInfo = (e) => {
-        setInfo(e.target.name);
-        // axios(backendUrl + 'dashboard')
+    const [info, setInfo] = useState('myAccountInfo')   //change panels
+    const [users, setUsers] = useState(null)            //initial state users
+    const [filter, setFilter] = useState([])            //users to map
+    const [orders, setOrders] = useState([])
+    //--------------------------------------------------------------------------
+    const products = useSelector(state => state.products.products) //all products
+    const [filterProducts, setFilterProducts] = useState(products)
+    //--------------------------------------------------------------------------
+    //-----set users & filter initial state---- super_user = user_id:1
+    useEffect(() => {
+        if (info === 'createdOrders') {
+            setOrders(fetchOrders())
+        }
+        if (info === 'publishedProducts') {
+            setFilterProducts(products)
+        }
+        if (info === 'users') {
+            axios(backendUrl + 'dashboard')
+                .then(response => {
+                    setUsers(response.data.filter(e => e.user_id !== 1))
+                    setFilter(response.data.filter(e => e.user_id !== 1))
+                })
+                .catch((e) => { return console.error })
+        }
+    }, [info])
+    //------------Ban____Unban users---onChange select
+    const onActive = (event, user_id) => {
+        const { value } = event.target;
+        value === 'Active' ? setActive(user_id) : setInactive(user_id)
+    }
+    //------------filters users----------------------------
+    const onFilter = ({ target }) => {
+        const value = target.value.toLowerCase();
+        users.length > 0 && (value === 'admin') ? setFilter(users.filter(e => e[value])) : value === 'provider' ? setFilter(users.filter(e => e[value] === 'true')) : setFilter(users)
+    }
+    //------------ search a user
+    const [input, setInput] = useState('')
+    const onSearch = (event) => {
+        event.preventDefault();
+        setInput(event.target.value.toLowerCase())
+        input === '' ? setFilter(users) : setFilter(users.filter(e => e.name.toLowerCase().includes(input) || e.email === input))
     }
 
     return (
@@ -36,28 +84,28 @@ const AdminPanel = ({ name, email }) => {
                                 {info === 'myAccountInfo' ? (
                                     <strong>My Account</strong>
                                 ) : (
-                                    <a name='myAccountInfo' onClick={e => updateInfo(e)}>My Account</a>
+                                    <a name='myAccountInfo' onClick={e => setInfo(e.target.name)}>My Account</a>
                                 )}
                             </li>
                             <li>
                                 {info === 'publishedProducts' ? (
                                     <strong>Published Products</strong>
                                 ) : (
-                                    <a name='publishedProducts' onClick={e => updateInfo(e)}>Published Products</a>
+                                    <a name='publishedProducts' onClick={e => setInfo(e.target.name)}>Published Products</a>
                                 )}
                             </li>
                             <li>
                                 {info === 'createdOrders' ? (
                                     <strong>Created Orders</strong>
                                 ) : (
-                                    <a name='createdOrders' onClick={e => updateInfo(e)}>Created Orders</a>
+                                    <a name='createdOrders' onClick={e => setInfo(e.target.name)}>Created Orders</a>
                                 )}
                             </li>
                             <li>
                                 {info === 'users' ? (
                                     <strong>Users</strong>
                                 ) : (
-                                    <a name='users' onClick={e => updateInfo(e)}>Users</a>
+                                    <a name='users' onClick={e => setInfo(e.target.name)}>Users</a>
                                 )}
                             </li>
                         </ul>
@@ -95,11 +143,18 @@ const AdminPanel = ({ name, email }) => {
                             <div className={styles.tableWrapper}>
                                 <form>
                                     <div className={styles.filters}>
+                                        <select onChange={(e) => sortPro(e, filterProducts, setFilterProducts)}>
+                                            <option>Sort by</option>
+                                            <option>Name</option>
+                                            <option>Date</option>
+                                        </select>
+                                    </div>
+                                    <div className={styles.filters}>
                                         Filter by status: &nbsp;
-                                        <select>
+                                        <select onChange={(e) => filterPro(e, products, setFilterProducts)}>
+                                            <option>All</option>
                                             <option>Published</option>
                                             <option>Waiting approve</option>
-                                            <option>Waiting correction</option>
                                         </select>
                                     </div>
                                     <table className={styles.tableOrderItems}>
@@ -114,25 +169,29 @@ const AdminPanel = ({ name, email }) => {
                                         </thead>
                                         <tbody>
                                             {/* START - BLOCK FOR EACH PRODUCT /////////////*/}
-                                            <tr>
-                                                <td>
-                                                    <span>Product Title: </span>
-                                                    <a href='#' name='itemsOrdered' onClick={e => updateInfo(e)}>
-                                                        Laptop Lenovo IdeaPad 3 15"
-                                                    </a>
-                                                </td>
-                                                <td><span>Date: </span>4/19/22</td>
-                                                <td><span>&nbsp;</span>&nbsp;</td>
-                                                <td><span>Price: </span><span className={styles.price}>$550.00</span></td>
-                                                <td>
-                                                    <span>Status: </span>
-                                                    <select>
-                                                        <option>Published</option>
-                                                        <option>Waiting approve</option>
-                                                        <option>Waiting correction</option>
-                                                    </select>
-                                                </td>
-                                            </tr>
+                                            {
+                                                filterProducts.length > 0 ? (
+                                                    filterProducts.map(e => (
+                                                        <tr>
+                                                            <td>
+                                                                <span>Product Title: </span>
+                                                                <Link to={'/admin/product-detail'}>
+                                                                    {e.name}
+                                                                </Link>
+                                                            </td>
+                                                            <td><span>Date: </span>{e.added.slice(0, 10)}</td>
+                                                            <td><span>&nbsp;</span>&nbsp;</td>
+                                                            <td><span>Price: </span><span className={styles.price}>${e.featured_seller.stock.unit_price}</span></td>
+                                                            <td>
+                                                                <span>Status: </span>
+                                                                {isSelected(e, e.product_id)}
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                )
+                                                    :
+                                                    <tr><td><p>no matches</p></td></tr>
+                                            }
                                             {/* END - BLOCK FOR EACH PRODUCT /////////////*/}
                                         </tbody>
                                     </table>
@@ -167,7 +226,7 @@ const AdminPanel = ({ name, email }) => {
                                             <tr>
                                                 <td>
                                                     <span>Order: </span>
-                                                    <a href='#' name='itemsOrdered' onClick={e => updateInfo(e)}>
+                                                    <a href='#' name='itemsOrdered' onClick={e => setInfo(e.target.name)}>
                                                         11000000071
                                                     </a>
                                                 </td>
@@ -176,7 +235,7 @@ const AdminPanel = ({ name, email }) => {
                                                 <td><span>Order Total: </span><span className={styles.price}>$550.00</span></td>
                                                 <td>
                                                     <span>Status: </span>
-                                                    <a href='#' name='itemsOrdered' onClick={e => updateInfo(e)}>Processing</a>
+                                                    <a href='#' name='itemsOrdered' onClick={e => setInfo(e.target.name)}>Processing</a>
                                                 </td>
                                             </tr>
                                             {/* END - BLOCK FOR EACH ORDER /////////////*/}
@@ -189,15 +248,23 @@ const AdminPanel = ({ name, email }) => {
                         <div className={styles.info}>
                             <ItemsOrdered />
                             <div>
-                                <a href='#' name='createdOrders' onClick={e => updateInfo(e)}>Back to Created Orders</a>
+                                <a href='#' name='createdOrders' onClick={e => setInfo(e.target.name)}>Back to Created Orders</a>
                             </div>
                         </div>
                     ) : info === 'users' ? (
                         <div className={styles.info}>
                             <form>
                                 <div className={styles.filters}>
+                                    <input
+                                        onChange={onSearch}
+                                        onKeyUp={onSearch}
+                                        onBlur={onSearch}
+                                        type='text'
+                                        placeholder='search user by name/email'
+                                        value={input}
+                                    />
                                     Filter by type: &nbsp;
-                                    <select>
+                                    <select onChange={onFilter}>
                                         <option>User</option>
                                         <option>Provider</option>
                                         <option>Admin</option>
@@ -210,29 +277,53 @@ const AdminPanel = ({ name, email }) => {
                                                 <th>Username</th>
                                                 <th>Status</th>
                                                 <th>Admin?</th>
+                                                <th>Provider?</th>
                                                 <th>Reset Password</th>
-                                                <th>Status</th>
+                                                <th>Email</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {/* START - BLOCK FOR EACH USER /////////////*/}
-                                            <tr>
-                                                <td><span>Username: </span>Jon Doe</td>
-                                                <td><span>Status: </span>
-                                                    <select>
-                                                        <option>Active</option>
-                                                        <option>Inactive</option>
-                                                    </select>
-                                                </td>
-                                                <td><span>Admin?: </span>
-                                                    <input type='checkbox' value='isAdmin' />
-                                                </td>
-                                                <td><span>Reset Password: </span><button>Reset</button></td>
-                                                <td>
-                                                    <span>Status: </span>
-                                                    <a href='#' name='itemsOrdered' onClick={e => updateInfo(e)}>Processing</a>
-                                                </td>
-                                            </tr>
+                                            {filter.length > 0 ? (filter.map(e => (
+                                                <tr key={e.user_id}>
+                                                    <td><span>Username: </span>{e.name}</td>
+                                                    <td><span>Status: </span>
+                                                        {
+                                                            e.active ?
+                                                                <select onChange={(event) => onActive(event, e.user_id)}>
+                                                                    <option>Active</option>
+                                                                    <option >Inactive</option>
+                                                                </select>
+                                                                :
+                                                                <select onChange={(event) => onActive(event, e.user_id)}>
+                                                                    <option>Inactive</option>
+                                                                    <option>Active</option>
+                                                                </select>
+                                                        }
+                                                    </td>
+                                                    <td><span>Admin?: </span>
+                                                        {
+                                                            e.admin === true ?
+                                                                <input onChange={() => isAdmin(e.user_id)} type='checkbox' value={e.admin} checked />
+                                                                :
+                                                                <input onChange={() => isAdmin(e.user_id)} type='checkbox' value={e.admin} />
+                                                        }
+                                                    </td>
+                                                    <td><span>Provider?: </span>
+                                                        {
+                                                            sellerStatus(e.user_id, e.provider)
+                                                        }
+                                                    </td>
+                                                    <td><span>Reset Password: </span><button onClick={() => resetPass(e.email)}>Reset</button></td>
+                                                    <td>
+                                                        <span>Status: </span>
+                                                        <a>{e.email}</a>
+                                                    </td>
+                                                </tr>
+                                            )))
+                                                :
+                                                <tr><td><span>no match</span></td></tr>
+                                            }
                                             {/* END - BLOCK FOR EACH USER /////////////*/}
                                         </tbody>
                                     </table>

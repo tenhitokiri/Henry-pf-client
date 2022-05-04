@@ -33,7 +33,11 @@ export default function SearchBar() {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        dispatch(fetchProductByName(input))
+        const tmp = input
+        dispatch(fetchProductByName(tmp))
+        setInput("")
+        setSuggestions([])
+
         navigate('/find-product')
     }
 

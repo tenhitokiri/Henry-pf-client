@@ -13,7 +13,6 @@ const ProductList = ({ productList }) => {
 
     React.useEffect(() => {
         let listOfCategories = {}
-
         productList.length > 0 && categoryList.filter(category => {
             return productList.some(product => {
                 if (product.category_name === category.name) {
@@ -77,11 +76,11 @@ const ProductList = ({ productList }) => {
             break;
     }
 
-    let pages = filteredProducts.length ? Math.round(filteredProducts.length / PRODUCTS_PER_PAGE) : 0
-    if(pages === 0) {
-        pages = 'No items founded'
-    }
-    
+    let pages = filteredProducts.length ? Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE) : 1
+    /*     if (pages === 0) {
+            pages = 'No items founded'
+        }
+     */
     return (
         <div className={styles.container}>
             <div className={styles.menuList}>
@@ -110,7 +109,7 @@ const ProductList = ({ productList }) => {
 
             <div className={styles.productsContainer}>
                 {
-                    pages > 0? (
+                    pages >= 0 ? (
                         <Pagination
                             data={filteredProducts}
                             RenderComponent={ProductCard}

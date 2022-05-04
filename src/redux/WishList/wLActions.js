@@ -11,6 +11,7 @@ export const addToWL = (payload, userId) => {
                 product_id: payload.product_id,
                 seller_id: payload.seller_id,
             }
+            //console.log(backendData, "backendData")
             axios.post(`${backendUrl}wishlist/`, backendData)
                 .then(res => {
                     //console.log(res.data, '<--- add to wish list')

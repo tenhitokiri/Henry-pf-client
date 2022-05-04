@@ -37,6 +37,7 @@ const ProductCard = ({ product, favoriteProducts }) => {
             itemsToBuy, seller_id,
             seller_name
         }
+        console.log(payload, "<--- payload to cart")
         dispatch(addToCart(payload, user_id))
     }
 

@@ -17,11 +17,6 @@ export const addToCart = (cartList, item) => {
     const {
         itemsToBuy, inventoryQty
     } = item;
-    console.log("item");
-    console.log(item)
-    console.log(" cart");
-    console.log(cartList);
-    console.log("<------>");
     if (!cartList.cart) {
         cartList.cart = [item];
         console.log("filling list with 1 item");

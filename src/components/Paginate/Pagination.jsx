@@ -1,19 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import usePaginate from '../../hooks/usePaginate'
 import styles from './Paginate.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAnglesRight, faAnglesLeft, faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 
-const Pagination = ({ data, RenderComponent, pageLimit, dataLimit }) => {
+const Pagination = ({ data, RenderComponent, pageLimit, dataLimit, resetPage }) => {
     const [pages] = useState(Math.round(data.length / dataLimit));
     const [currentPage, setCurrentPage] = useState(1);
 
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [data])
+
     const goToNextPage = () => {
-        setCurrentPage((page) => page + 1);
+        currentPage < pageLimit && setCurrentPage((page) => page + 1);
+        if (items.indexOf(currentPage) === 9) {
+            nextPage()
+        }
     }
 
     const goToPreviousPage = () => {
         setCurrentPage((page) => page > 1 ? page - 1 : 1);
+        if (items.indexOf(currentPage) === 0) {
+            prevPage()
+        }
     }
 
     const changePage = (event) => {
