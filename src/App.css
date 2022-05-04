@@ -1,3 +1,7 @@
+#root, .App {
+  min-height: 100% !important;
+  height: 100%;
+}
 .App {
   text-align: center;
 }
@@ -8,8 +12,9 @@
 .wrapperMain {
   float: left;
   width: 100%;
-  height: auto;
   position: relative;
+  min-height: 100% !important;
+  height: auto;
 }
 .stickyHeader {
   position: sticky;

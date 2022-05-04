@@ -45,6 +45,10 @@ const ProductDetail = () => {
         dispatch(fetchProductById(id))
     }, [render])
 
+    useEffect(() => {
+        Shareon.init()
+    });
+
     const image = images || 'https://via.placeholder.com/150'
     const price = featured_seller?.stock?.unit_price;
     const seller_id = featured_seller?.user_id
@@ -149,7 +153,6 @@ const ProductDetail = () => {
                                     }
                                 </div>
                                 <div className={styles.contentHeaderRight}>
-                                    {Shareon.init()}
                                     <div className="shareon">
                                         <a className="facebook"></a>
                                         <a className="twitter"></a>

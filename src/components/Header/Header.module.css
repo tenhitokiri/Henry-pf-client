@@ -114,6 +114,16 @@
 .logoutContainer {
     float: left;
 }
+.logoutContainer a {
+    font-weight: 500;
+    text-decoration: none;
+    color: black;
+
+    transition: 00.2s;
+}
+.logoutContainer a:hover {
+    text-decoration: underline;
+}
 .loginUserMobile {
     display: none;
     float: right;
