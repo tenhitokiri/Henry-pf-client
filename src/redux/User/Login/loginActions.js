@@ -12,37 +12,32 @@ const actionLoginRequest = () => {
     }
 }
 
+
 const actionLoginSuccess = (Customers) => {
     return {
         type: LOGIN_ACTIONS.ACTION_LOGIN_SUCCESS,
         payload: Customers
     }
 }
-
 const actionLoginFailure = (error) => {
     return {
         type: LOGIN_ACTIONS.ACTION_LOGIN_FAILURE,
         payload: error
     }
 }
-// ------------------------------------
-/* export const addLOGIN = (Customer) => {
-    return (dispatch) => {
-        dispatch(actionLoginRequest())
-        let api = backendUrl + 'auth/register'
-        console.log(`Login a customer: ${api}`)
-        axios.post(api, Customer)
-            .then(response => {
-                console.log(response)
-                dispatch(actionLoginSuccess(response))
-            })
-            .catch(error => {
-                const msg = error.message
-                dispatch(actionLoginFailure(msg))
-            })
+
+const actionPasswordRecoverSuccess = (info) => {
+    return {
+        type: LOGIN_ACTIONS.PASSWORD_RECOVER_SUCCESS,
+        payload: info
     }
 }
- *///--------------------------------------
+const actionPasswordRecoverFailure = (error) => {
+    return {
+        type: LOGIN_ACTIONS.PASSWORD_RECOVER_FAILURE,
+        payload: error
+    }
+}
 export const signIn = (Customers) => {
     return dispatch => {
         dispatch(actionLoginRequest())
@@ -59,6 +54,24 @@ export const signIn = (Customers) => {
             })
     }
 }
+export const passwordRecover = (email) => {
+    return dispatch => {
+        dispatch(actionLoginRequest())
+        let api = backendUrl + 'auth/forgot'
+        axios.post(api, email)
+            .then(response => {
+                console.log(response, "email")
+                dispatch(actionPasswordRecoverSuccess(response.data))
+            })
+            .catch(error => {
+                console.log(error)
+                const msg = error.message
+                dispatch(actionPasswordRecoverFailure(msg))
+            })
+    }
+}
+
+
 
 export const getUserCredentials = () => {
     return async (dispatch) => {
@@ -157,7 +170,7 @@ export const permission = (token) => {
     return dispatch => {
         dispatch(permissionRequest())
         const data_user = jwt(token)
-        console.log(data_user, '<--- data user for permission');
+        //console.log(data_user, '<--- data user for permission');
         let api = backendUrl + 'auth/is-verify'
         if (!data_user.iss) {
             axios.get(api, {

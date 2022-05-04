@@ -25,7 +25,7 @@ function checkErrors(post) {
 
 export default function Login() {
 
-    const [seePassword, setSeePassword] = useState(false);
+    
     const dependencyRedirect = useSelector(state => state.login.login.token)
     const msjError = useSelector(state => state.login.login.error)
     const [error, setError] = useState('')
@@ -71,10 +71,7 @@ export default function Login() {
         }))
     }
 
-    const onClick = () => {
-        setSeePassword(!seePassword);
-    };
-
+    
     const respuestaGoogle = (respuesta) => {
         console.log(respuesta, 'soy respuesta de google');
         let userData = {
@@ -100,7 +97,10 @@ export default function Login() {
                         onSuccess={respuestaGoogle}
                         onFailure={respuestaGoogle}
                         cookiePolicy="single_host_origin"
-                    />
+                />
+                    <div className={styles.noPasswordBox}>
+                        <Link to='/PasswordRecover'className={styles.noPassword} ><span >Forgot your password?</span></Link>
+                    </div>
                 </div>
                 <div className={styles.center}>
                     <div className={styles.or}>Or</div>
