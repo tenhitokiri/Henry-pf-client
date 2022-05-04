@@ -3,6 +3,9 @@ import axios from 'axios';
 import { backendUrl } from '../../../env.js';
 import jwt from 'jwt-decode'
 import { mainPage } from '../../../env.js';
+
+//const jwtEncode = require("jsonwebtoken");
+
 const actionLoginRequest = () => {
     return {
         type: LOGIN_ACTIONS.LOGIN_CUSTOMER_INFO
@@ -81,11 +84,13 @@ export const getUserCredentials = () => {
 };
 
 export const loginGoogle = (userData) => async (dispatch) => {
-    let api = backendUrl + 'auth/loginGoogle'
-    const data = await axios.post(api, userData);
+
+    const data = await axios.post(`${backendUrl}auth/loginGoogle`, userData);
+    window.localStorage.setItem('token', data.data)
+    window.location.href = mainPage
     return dispatch({
         type: LOGIN_ACTIONS.ACTION_LOGIN_GOOGLE,
-        payload: data,
+        payload: data
     });
 };
 
@@ -93,7 +98,6 @@ export const loginFromLocalStorage = () => async (dispatch) => {
     const token = localStorage.getItem("token");
     if (token) {
         return dispatch(actionLoginSuccess(token))
-
     }
 }
 
@@ -168,22 +172,24 @@ export const permission = (token) => {
         const data_user = jwt(token)
         //console.log(data_user, '<--- data user for permission');
         let api = backendUrl + 'auth/is-verify'
-        axios.get(api, {
-            headers: {
-                'token': token
-            }
-        })
-            .then(response => {
-                //console.log(response.data, '<--- permission response>');
-                dispatch(permissionSuccess(data_user))
+        if (!data_user.iss) {
+            axios.get(api, {
+                headers: {
+                    'token': token
+                }
             })
-            .catch(error => {
-                const msg = error.message
-                console.log(msg, '<--- permission error>');
-                window.localStorage.removeItem('token')
-                window.location.href = mainPage
-                dispatch(permissionFailure(msg))
-            })
+                .then(response => {
+                    console.log(response.data, '<--- permission response>');
+                    dispatch(permissionSuccess(data_user))
+                })
+                .catch(error => {
+                    const msg = error.message
+                    console.log(msg, '<--- permission error>');
+                    window.localStorage.removeItem('token')
+                    window.location.href = mainPage
+                    dispatch(permissionFailure(msg))
+                })
+        }
     }
 }
 
