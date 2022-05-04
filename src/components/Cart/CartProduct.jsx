@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleMinus, faCircleXmark, faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
 
-
 function CartProduct({ product }) {
     const {
         product_id, name,
@@ -17,10 +16,6 @@ function CartProduct({ product }) {
     } = product
 
     const user_id = useSelector(state => state.login.login.id)
-
-
-    //const itemsToBuy = product.quantity;
-
     let inventoryQty = 'no';
     if (stock) {
         inventoryQty = stock
@@ -35,7 +30,8 @@ function CartProduct({ product }) {
         const payload = {
             product_id,
             price,
-            itemsToBuy: newCount
+            itemsToBuy: newCount,
+            seller_id
         }
         dispatch(updateCartItem(payload))
     }
