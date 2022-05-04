@@ -152,7 +152,7 @@ export const permission = (token) => {
     return dispatch => {
         dispatch(permissionRequest())
         const data_user = jwt(token)
-        console.log(data_user, '<--- data user for permission');
+        //console.log(data_user, '<--- data user for permission');
         let api = backendUrl + 'auth/is-verify'
         axios.get(api, {
             headers: {
@@ -160,7 +160,7 @@ export const permission = (token) => {
             }
         })
             .then(response => {
-                console.log(response.data, '<--- permission response>');
+                //console.log(response.data, '<--- permission response>');
                 dispatch(permissionSuccess(data_user))
             })
             .catch(error => {
