@@ -26,7 +26,7 @@ const ProductDetail = () => {
         category_name,
         description,
         sellers
-    } = useSelector(state => state.products.foundProducts)
+    } = useSelector(state => state.products.foundProducts);
     const dispatch = useDispatch();
     const { id } = useParams()
     const related = useSelector(state => state.products.products).filter(e => { return e.category_name === category_name })

@@ -124,6 +124,24 @@ const loginReducer = (state = loginState, action) => {
                     permission: 'approved'
                 }
             }
+
+        case LOGIN_ACTIONS.PASSWORD_RECOVER_SUCCESS:
+            {
+                return {
+                    ...state,
+                    loading:false,
+                    error:'',
+                    email:payload
+                }
+            } 
+        case LOGIN_ACTIONS.PASSWORD_RECOVER_FAILURE:
+            {
+                return {
+                    ...state,
+                    loading:false,
+                    error:payload
+                }
+            }       
         default: return state
     }
 }

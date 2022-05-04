@@ -34,6 +34,20 @@
 
 }
 
+.noPasswordBox {
+    /* border: 1px solid black; */
+    align-self: flex-start;
+    position: absolute;
+    margin-top:232px;
+}
+.noPassword {
+    text-decoration: none;
+    color:rgb(0, 36, 182);
+}
+.noPassword:hover {
+    text-decoration: underline;
+}
+
 .right {
     text-align: left;
 }
@@ -100,6 +114,7 @@
 
 .noAccount {
     position: absolute;
+    color:rgb(0, 36, 182);
 }
 
 .noAccount:hover {
