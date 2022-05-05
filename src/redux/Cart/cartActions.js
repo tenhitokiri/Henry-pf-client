@@ -223,6 +223,7 @@ export const getCartItems = (userId) => {
                                 rating: item.product.rating,
                                 itemsToBuy: item.quantity,
                                 seller_id: item.seller_id,
+                                seller_name: item.seller_name
                             }
                         })
                         //console.log(cart, "<--- cart from db");

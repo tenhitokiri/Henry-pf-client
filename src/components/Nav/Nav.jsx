@@ -24,6 +24,10 @@ const Nav = () => {
         dispatch(clearFilterCategory())
     }
 
+    console.log(auth.permission, ' permission---')
+    console.log(auth.isProvider, ' provider---')
+    console.log(auth, 'auth---')
+
     return (
         <div className={styles.background}>
             <div className={styles.container} >
@@ -43,7 +47,8 @@ const Nav = () => {
                     }
                 </label>
                 {
-                    auth.permission === "approved" && auth.isProvider === 'false' ?
+
+                    auth.permission === "approved" && auth.isProvider === 'true' ?
                         <NavLink className={styles.link} to={'/add-product'}>Sell</NavLink> :
                         <NavLink className={styles.link} to={'/need-provider'}>Sell</NavLink>
                 }

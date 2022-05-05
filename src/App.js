@@ -93,16 +93,20 @@ function App() {
             <Route path='/admin/add-category' element={<AddCategory />} />
           }
           {
-            (user.isAdmin || user.isProvider === 'true') &&
-            <>
-              <Route path='/add-product' element={<ProductForm />} />
-              <Route path='/add-product/done' element={<AddProductDone />} />
-            </>
-
+            (user.isProvider === 'true') ?
+              <>
+                <Route path='/add-product' element={<ProductForm />} />
+                <Route path='/add-product/done' element={<AddProductDone />} />
+              </>
+              :
+              <>
+                <Route path='/add-product' element={<NeedProvider />} />
+                <Route path='/add-product/done' element={<NeedProvider />} />
+              </>
           }
           {/*error */}
-          <Route path='/need-authenticated' element={<NeedLoginOrRegister />} />
           <Route path='/need-provider' element={<NeedProvider />} />
+          <Route path='/need-authenticated' element={<NeedLoginOrRegister />} />
           <Route path="*" element={<Route404 />} />
         </Routes>
       </div>

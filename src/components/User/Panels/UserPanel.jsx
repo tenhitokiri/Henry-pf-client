@@ -96,6 +96,10 @@ const UserPanel = ({ name, email, user_id }) => {
                                                         {!wantSellError && <ModalLoginFailure msgError={'request sent :D'} />}
                                                     </>
                                             }
+                                            {
+                                                providerInfo === 'rejected' &&
+                                                <p>your request has been declined </p>
+                                            }
                                         </div>
                                     </div>
                                 </div>
