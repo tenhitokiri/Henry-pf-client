@@ -1,16 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { Link as a } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ItemsOrdered from './ItemsOrdered/ItemsOrdered';
 import styles from './Panels.module.css'
 import { myOrders } from './utils/utilsUser'
 import { mySales } from './utils/utilsProvider'
 import ItemsOrderedShopping from './ItemsOrdered/ItemsOrderedShopping'
-const ProviderPanel = ({ id }) => {
+import { useSelector } from 'react-redux';
+
+
+const ProviderPanel = ({ id, name, email }) => {
     const [info, setInfo] = useState('myAccountInfo')
     const [orders, setOrders] = useState([])
     const [saveOrder, setSaveOrder] = useState([])
     const [sales, setSales] = useState([])
     const [salesSave, setSalesSave] = useState([])
+    const [myProducts, setMyProducts] = useState([])
+    const allProducts = useSelector(state => state.products.products)
+
+    let sellerProducts = allProducts.filter(product => {
+        return product.sellers.some(seller => seller.user_id === id)
+    })
+
+    sellerProducts = sellerProducts.map(product => {
+        const seller = product.sellers.find(seller => seller.user_id === id)
+        return {
+            id: product.product_id,
+            name: product.name,
+            price: seller.stock.unit_price,
+            quantity: seller.stock.quantity,
+            approved: product.approved,
+            category_name: product.category_name,
+        }
+    })
+
+    console.log(sellerProducts, "sellerProducts");
 
     const updateInfo = (e) => {
         setInfo(e.target.name);
@@ -18,7 +41,11 @@ const ProviderPanel = ({ id }) => {
 
     useEffect(() => {
         mySales(id, setSales)
-    }, [info])
+    }, [info === 'mySalesInfo']) // eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
+        setMyProducts(sellerProducts)
+    }, [info === 'publishedProducts']) // eslint-disable-line react-hooks/exhaustive-deps
 
     const getOrders = (e) => {
         setInfo(e.target.name)
@@ -90,7 +117,7 @@ const ProviderPanel = ({ id }) => {
                                             <span>Contact Information</span>
                                         </span>
                                         <div className={styles.blockContent}>
-                                            <p>Jon Doe<br /> jondoe@gmail.com<br /></p>
+                                            <p>{name}<br /> {email}<br /></p>
                                         </div>
                                     </div>
                                     <div className={styles.boxUserType}>
@@ -98,7 +125,7 @@ const ProviderPanel = ({ id }) => {
                                             <span>Provider user</span>
                                         </span>
                                         <div className={styles.blockContent}>
-                                            <p><a to='/add-product'>Public a new product</a></p>
+                                            <p><Link to='/add-product'>Public a new product</Link></p>
                                         </div>
                                     </div>
                                 </div>
@@ -198,8 +225,52 @@ const ProviderPanel = ({ id }) => {
                         </div>
                     ) : info === 'publishedProducts' ? (
                         <div className={styles.info}>
-                            Published Products info
+                            <div className={styles.tableWrapper}>
+                                <table className={styles.tableOrderItems}>
+                                    <thead>
+                                        <tr>
+                                            <th>Product Name</th>
+                                            <th>Category</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Approved</th>
+                                        </tr>
+                                        {/* 
+                                        return {
+            id: product.product_id,
+            name: product.name,
+            price: seller.stock.unit_price,
+            quantity: seller.stock.quantity,
+            approved: product.approved,
+            category_name: product.category_name,
+        }
+         */}                            </thead>
+                                    <tbody>
+                                        {/* START - BLOCK FOR EACH shopping /////////////*/}
+                                        {myProducts.length > 0 ? myProducts.map(product => (
+                                            <tr key={product.name}>
+                                                <td>
+                                                    <span>Name </span>
+                                                    <Link to={`/product/${product.id}`} >
+                                                        {product.name}
+                                                    </Link>
+                                                </td>
+                                                <td><span>Category </span>{product.category_name}</td>
+                                                <td><span>Price: </span>${product.price}</td>
+                                                <td><span>Quantity </span><span className={styles.price}>{product.quantity}</span></td>
+                                                <td>
+                                                    {console.log(product.type, 'map order')}
+                                                    <span>Status: </span>{product.approved ? 'approved' : "pending"}
+                                                </td>
+                                            </tr>
+                                        )) : <tr><td><span>Nothing here</span></td></tr>}
+
+                                        {/* END - BLOCK FOR EACH shpping/////////////*/}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+
                     ) : null
                 }
             </div>
