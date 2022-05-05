@@ -7,6 +7,9 @@
     animation-name: slide;
     animation-duration: 0.5s;
 }
+.background button {
+    margin-top: 10px;
+}
 
 /* @keyframes slide {
     0% {
@@ -35,7 +38,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30vh;
+    height: 40vh;
     margin: auto;
     animation-name: slide2;
     animation-duration: 0.5s;
