@@ -9,6 +9,15 @@ export const mySales = (user_id, setOrders) => {
         })
         .catch(e => console.error)
 }
+// --------------------My Products
+export const myProducts = (user_id, setOrders) => {
+    //https://hubazar.herokuapp.com/stock/?userId
+    axios(`${backendUrl}stock?userId=${user_id}`)
+        .then(response => {
+            setOrders(response.data)
+        })
+        .catch(e => console.error)
+}
 //-------------------change state saleOrder to sent
 export const sentSale = (sale_id) => {
     axios.patch(`${backendUrl}movement/status/?orderId=${sale_id}`)
