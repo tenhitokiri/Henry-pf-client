@@ -1,5 +1,5 @@
-export const backendUrl = process.env.NODE_ENV === "production" ? "https://hubazar.herokuapp.com/" : 'http://localhost:5000/'
-//export const backendUrl = "https://hubazar.herokuapp.com/"
+//export const backendUrl = process.env.NODE_ENV === "production" ? "https://hubazar.herokuapp.com/" : 'http://localhost:5000/'
+export const backendUrl = "https://hubazar.herokuapp.com/"
 export const mainPage = process.env.NODE_ENV === "production" ? "https://hubazar.vercel.app/" : 'http://localhost:3000/'
 export const PRODUCTS_PER_PAGE = 6
 

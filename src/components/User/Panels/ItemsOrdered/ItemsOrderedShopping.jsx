@@ -1,10 +1,10 @@
 import React from 'react'
 import styles from './ItemsOrdered.module.css'
-import { saleState } from '../utils/utilsProvider'
+import { shoppingState } from '../utils/utilsProvider'
 
-const ItemsOrdered = ({ order }) => {
-    const seller = order.buyer_name
-    const sellerEmail = order.buyer_email
+const ItemsOrderedShopping = ({ order }) => {
+    const seller = order.seller_name
+    const sellerEmail = order.seller_email
 
     return (
         <>
@@ -19,15 +19,15 @@ const ItemsOrdered = ({ order }) => {
                     </div>
                 </div>
                 <div className={styles.orderStatusInner}>
-                    {saleState(order.type, order.order_id)}
+                    {shoppingState(order.type, order.order_id)}
                 </div>
             </div>
             <div className={styles.orderDetailsItems}>
                 <div className={styles.tableWrapper}>
 
                     <div className={styles.sellerInfo}>
-                        <div>Buyer info</div>
-                        <div><span>Name: {seller}</span> <a href={`mailto:${sellerEmail}`}>Contact buyer</a></div>
+                        <div>Seller info</div>
+                        <div><span>Name: {seller}</span> <a href={`mailto:${sellerEmail}`}>Contact seller</a></div>
                     </div>
 
                     <table className={styles.tableOrderItems}>
@@ -82,4 +82,4 @@ const ItemsOrdered = ({ order }) => {
     )
 }
 
-export default ItemsOrdered
+export default ItemsOrderedShopping

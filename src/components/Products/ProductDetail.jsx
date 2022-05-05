@@ -22,8 +22,8 @@ const ProductDetail = () => {
         name,
         rating,
         images,
-        featured_seller,
         stock,
+        featured_seller,
         category_name,
         description,
     } = useSelector(state => state.products.foundProducts)
@@ -45,17 +45,27 @@ const ProductDetail = () => {
         dispatch(fetchProductById(id))
     }, [render])
 
+
+
     useEffect(() => {
         Shareon.init()
     });
 
     const image = images || 'https://via.placeholder.com/150'
     const price = featured_seller?.stock?.unit_price;
+    const fsStock = featured_seller?.stock?.quantity;
     const seller_id = featured_seller?.user_id
     const seller_name = featured_seller?.name
     const formatMoney = new FormatMoney({ decimals: 2, symbol: '$', grouping: true })
     const prodPrice = formatMoney.from(parseFloat(price)) || price
-    const [count, add, remove, reset] = useCounter(0, 1, stock)
+    const [count, add, remove, reset] = useCounter(0, 1, fsStock)
+
+
+    useEffect(() => {
+        reset()
+        setCounter(0)
+    }, [id])
+
 
     if (rating) {
         var star = Math.floor(rating)
@@ -68,7 +78,7 @@ const ProductDetail = () => {
     const [counter, setCounter] = useState(0)
     const increment = () => {
         add()
-        setCounter(count + 1 > stock ? stock : count + 1)
+        setCounter(count + 1 > fsStock ? fsStock : count + 1)
     }
     const decrement = () => {
         remove()
@@ -79,7 +89,7 @@ const ProductDetail = () => {
         if (counter !== 0) {
             const payload = {
                 product_id, name,
-                stock, price,
+                stock: fsStock, price,
                 image, rating,
                 seller_id, seller_name,
                 itemsToBuy: counter
@@ -94,7 +104,7 @@ const ProductDetail = () => {
     const addWL = () => {
         const payload = {
             product_id, name,
-            stock, price,
+            stock: fsStock, price,
             image, rating, seller_id
         }
         dispatch(addToWL(payload, user_id))
@@ -102,7 +112,7 @@ const ProductDetail = () => {
     const removeWL = () => {
         const payload = {
             product_id, name,
-            stock, price,
+            stock: fsStock, price,
             image, rating, seller_id
         }
         dispatch(removeFromWL(payload, user_id))
@@ -166,19 +176,19 @@ const ProductDetail = () => {
                                 }
                                 <div className={styles.contentPSD}>
                                     <div className={styles.price}>{prodPrice}</div>
-                                    <div className={styles.stock}>{stock} available</div>
+                                    <div className={styles.stock}>{fsStock} available (from {seller_name})</div>
                                     <div className={styles.description}>{description ? description : sampleText}</div>
                                 </div>
                                 <div className={styles.add}>
                                     <div className={styles.box}>
                                         <button className={styles.decrement} onClick={decrement}><FontAwesomeIcon icon={faCircleMinus} /></button>
-                                        <div className={styles.counter}>{counter}</div>
+                                        <div className={styles.counter}>{count}</div>
                                         <button className={styles.increment} onClick={increment}><FontAwesomeIcon icon={faCirclePlus} /></button>
                                     </div>
                                     <button className={styles.buttons} onClick={addCart}>Add to cart</button>
 
                                     {isFavorite(product_id)}
-                                    <button className={styles.buttonOptions} onClick={(e) => { setModalOptions(true) }}>See all buying options</button>
+                                    <button className={styles.buttonOptions} onClick={(e) => { setModalOptions(true) }}>{stock - fsStock} more options</button>
                                     {isProvider === "true" && <button className={styles.buttonOptions} onClick={(e) => { setSellerOptions(!sellerOptions) }}>Sell This Product</button>}
                                     <div className="sell"><form action=""></form></div>
                                 </div>
