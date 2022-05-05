@@ -80,9 +80,10 @@ const AddCategory = () => {
                 value={data.name}
               />
               {
-                !nameError ?
-                  <button className={styles.submit} type='submit'>add</button> :
+                nameError.length === 0 || data.name.length === 0 ?
                   <button className={styles.submitDisabled} type='submit' disabled>add</button>
+                  :
+                  <button className={styles.submit} type='submit'>add</button>
 
               }
             </div>
@@ -93,7 +94,7 @@ const AddCategory = () => {
               <select onChange={onFather}>
                 <option>select parent category</option>
                 {
-                  categoriesFathers.map(e => (<option value={e.name}>{e.name}</option>))
+                  categoriesFathers.map(e => (<option key={e.name} value={e.name}>{e.name}</option>))
                 }
               </select>
               <Inputs

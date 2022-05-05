@@ -25,12 +25,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { permission, loginFromLocalStorage } from './redux'
 import MPConf from './components/MercadoPago/MPConf';
 import AdminProductDetail from './components/User/Panels/AdminProductDetail';
+import NeedProvider from './components/Authentication/NeedProvider';
 
 function App() {
 
   const dispatch = useDispatch()
   const user_id = useSelector(state => state.login.login.id)
   const cartList = useSelector(state => state.cart.cartItems)
+  const user = useSelector(state => state.login.login)
 
   useEffect(() => {
     dispatch(fetchDetailCategories())
@@ -71,23 +73,36 @@ function App() {
           <Nav />
         </div>
         <Routes>
+          {/*guest / user */}
           <Route exact path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/verify/:id' element={<Verify />} />
           <Route path='/products' element={<ProductGetAll />} />
           <Route path='/product/:id' element={<ProductDetail />} />
-          <Route path='/add-product' element={<ProductForm />} />
-          <Route path='/add-product/done' element={<AddProductDone />} />
           <Route path='/find-product' element={<ProductSearch />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/wishlist' element={<WishList />} />
-          <Route path='/admin/add-category' element={<AddCategory />} />
+          {/* user */}
           <Route path='/panels' element={<Panels />} />
-          <Route path='/admin/product-detail' element={<AdminProductDetail />} />
-          <Route path='/need-authenticated' element={<NeedLoginOrRegister />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/passwordRecover' element={<PasswordRecover />} />
-          <Route path='/verify/:id' element={<Verify />} />
           <Route path="/mp_confirmation" element={<MPConf />} />
+          <Route path='/passwordRecover' element={<PasswordRecover />} />
+          {/*admin / provider*/}
+          {
+            user.isAdmin &&
+            <Route path='/admin/add-category' element={<AddCategory />} />
+          }
+          {
+            (user.isAdmin || user.isProvider === 'true') &&
+            <>
+              <Route path='/add-product' element={<ProductForm />} />
+              <Route path='/add-product/done' element={<AddProductDone />} />
+            </>
+
+          }
+          {/*error */}
+          <Route path='/need-authenticated' element={<NeedLoginOrRegister />} />
+          <Route path='/need-provider' element={<NeedProvider />} />
           <Route path="*" element={<Route404 />} />
         </Routes>
       </div>

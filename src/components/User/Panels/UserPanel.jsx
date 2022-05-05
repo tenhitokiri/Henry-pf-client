@@ -92,7 +92,7 @@ const UserPanel = ({ name, email, user_id }) => {
                                                 providerInfo === 'requested' ?
                                                     <p>request provider under evaluation</p>
                                                     : <>
-                                                        <a href='#' onClick={wantSell(user_id, setWantSellError)}>Do you want to Sell?</a>
+                                                        <a href='#' onClick={() => wantSell(user_id, setWantSellError)}>Do you want to Sell?</a>
                                                         {!wantSellError && <ModalLoginFailure msgError={'request sent :D'} />}
                                                     </>
                                             }

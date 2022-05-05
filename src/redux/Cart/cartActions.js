@@ -49,7 +49,7 @@ const checkoutRequest = () => {
     }
 }
 
-const checkoutSuccess = () => {
+export const checkoutSuccess = () => {
     return {
         type: CART_ACTIONS.CHECKOUT_SUCCESS,
     }
@@ -164,7 +164,7 @@ export const checkOutCart = (buyer) => {
                 if (typeof (response.data) === 'string') {
                     if (response.data.includes('mercadopago')) {
                         window.location.href = response.data
-                        //dispatch(checkoutSuccess())
+                        dispatch(checkoutSuccess())
                     } else {
                         dispatch(checkoutFailure(response.data))
                     }
