@@ -1,13 +1,19 @@
 import React from 'react'
-import img from '../../assets/404-unsplash.jpg'
+import { Link } from 'react-router-dom'
+import styles from './Route404.module.css'
+import image404 from '../../assets/image404.jpg'
 
 const Route_404 = () => {
     return (
-        <div>Route_404
-            <img src={img} alt="" />
-
+        <div className={styles.container}>
+            <div className={styles.left}>
+                <img src={image404} className={styles.img} />
+            </div>
+            <div className={styles.right}>
+                <p>The requested page does not exist.</p>
+                <Link className={styles.link} to={'/'}>Back to home</Link>
+            </div>
         </div>
-
     )
 }
 
