@@ -4,6 +4,9 @@
   <img src="./hubazar-home.jpg" />
 </p>
 
+## 📝Deployed Demo:
+<a href="https://hubazar.vercel.app/">Hubazar on Vercel</a>
+
 ## 📝Description:
 
 As a team work we created a marketplace using Javascript from scratch to build the App. To achieve this we work shoulder to shoulder in a group of 6 people applying Scrum as an agile methodology and practicing the GIT workflow thoroughly. In the team I worked as Frotend Developer and strengthened my knowledge developing components in Javascript, applying pure CSS styles, working with Node packages, deploying the App, among others.
